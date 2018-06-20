@@ -1,0 +1,9 @@
+[package]
+name = "libwebp-sys"
+version = "0.1.0"
+authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
+
+[dependencies]
+
+[build-dependencies]
+bindgen = "0.26.3"

@@ -1,0 +1,16 @@
+[package]
+name = "libwebp"
+version = "0.1.0"
+authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
+
+[dependencies]
+libwebp-sys = { path = "libwebp-sys" }
+
+[features]
+unstable = []
+
+[workspace]
+members = [
+  "libwebp-sys",
+  "libwebp-image",
+]

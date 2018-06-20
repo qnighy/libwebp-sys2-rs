@@ -1,0 +1,8 @@
+[package]
+name = "libwebp-image"
+version = "0.1.0"
+authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
+
+[dependencies]
+libwebp = { path = ".." }
+image = "0.19"
