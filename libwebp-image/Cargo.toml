@@ -4,5 +4,9 @@ version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 
 [dependencies]
-libwebp = { path = ".." }
+libwebp = { path = "..", default-features = false }
 image = "0.19"
+
+[features]
+default = ["libwebp-0.5"]
+"libwebp-0.5" = ["libwebp/0.5"]
