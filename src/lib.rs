@@ -34,7 +34,7 @@ impl<T: ?Sized> DerefMut for WebpBox<T> {
 unsafe impl<#[may_dangle] T: ?Sized> Drop for WebpBox<T> {
     fn drop(&mut self) {
         unsafe {
-            libwebp_sys::WebPFree(self.ptr.as_ptr() as *mut c_void);
+            WebPFree(self.ptr.as_ptr() as *mut c_void);
         }
     }
 }
@@ -43,9 +43,21 @@ unsafe impl<#[may_dangle] T: ?Sized> Drop for WebpBox<T> {
 impl<T: ?Sized> Drop for WebpBox<T> {
     fn drop(&mut self) {
         unsafe {
-            libwebp_sys::WebPFree(self.ptr.as_ptr() as *mut c_void);
+            WebPFree(self.ptr.as_ptr() as *mut c_void);
         }
     }
+}
+
+#[cfg(feature = "0.5")]
+use libwebp_sys::WebPFree;
+
+#[cfg(not(feature = "0.5"))]
+#[allow(non_snake_case)]
+unsafe fn WebPFree(ptr: *mut c_void) {
+    extern "C" {
+        fn free(ptr: *mut c_void);
+    }
+    free(ptr);
 }
 
 impl<T: fmt::Debug + ?Sized> fmt::Debug for WebpBox<T> {
@@ -220,7 +232,7 @@ impl WebpYuvBox {
 impl Drop for WebpYuvBox {
     fn drop(&mut self) {
         unsafe {
-            libwebp_sys::WebPFree(self.y.as_ptr() as *mut c_void);
+            WebPFree(self.y.as_ptr() as *mut c_void);
         }
     }
 }
