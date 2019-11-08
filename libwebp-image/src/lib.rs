@@ -4,8 +4,10 @@ extern crate libwebp;
 use std::io::{Read, Write};
 use std::ops::Deref;
 
-use image::{ColorType, DecodingResult, DynamicImage, ImageBuffer, ImageDecoder, ImageError,
-            ImageResult, Rgb, RgbImage, Rgba, RgbaImage};
+use image::{
+    ColorType, DecodingResult, DynamicImage, ImageBuffer, ImageDecoder, ImageError, ImageResult,
+    Rgb, RgbImage, Rgba, RgbaImage,
+};
 use libwebp::WebpBox;
 
 #[derive(Debug)]
@@ -61,7 +63,8 @@ impl<R: Read> WebpDecoder<R> {
                 }
                 WebpColor::RGB => libwebp::WebPDecodeRGB(&buf).map(|(w, h, b)| (w, h, w * 3, b)),
                 WebpColor::RGBA => libwebp::WebPDecodeRGBA(&buf).map(|(w, h, b)| (w, h, w * 4, b)),
-            }.map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+            }
+            .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
             self.data = Some(data);
         }
         let &(width, height, stride, ref buf) = self.data.as_ref().unwrap();
