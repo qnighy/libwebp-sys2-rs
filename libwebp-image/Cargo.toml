@@ -5,7 +5,7 @@ authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 
 [dependencies]
 libwebp = { path = "..", default-features = false }
-image = "0.19"
+image = "0.22"
 
 [features]
 default = ["libwebp-0.5"]
