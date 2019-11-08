@@ -1,0 +1,12 @@
+language: rust
+dist: bionic
+
+install:
+  # libwebp-dev: for libwebp
+  # llvm-4.0-dev libclang-4.0-dev clang-4.0: for bindgen
+- sudo apt-get install -y curl gcc pkg-config libssl-dev libwebp-dev llvm-4.0-dev libclang-4.0-dev clang-4.0
+- rustup component add rustfmt clippy
+build:
+- cargo build --locked --all --verbose
+- cargo test --locked --all --verbose
+- cargo fmt --all -- --check
