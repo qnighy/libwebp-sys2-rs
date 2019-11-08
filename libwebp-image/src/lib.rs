@@ -1,105 +1,162 @@
 extern crate image;
 extern crate libwebp;
 
-use std::io::{Read, Write};
+use std::io::{self, Read, Write};
 use std::ops::Deref;
 
 use image::{
-    ColorType, DecodingResult, DynamicImage, ImageBuffer, ImageDecoder, ImageError, ImageResult,
-    Rgb, RgbImage, Rgba, RgbaImage,
+    Bgr, Bgra, ColorType, DynamicImage, ImageBuffer, ImageDecoder, ImageError, ImageResult, Rgb,
+    RgbImage, Rgba, RgbaImage,
 };
 use libwebp::WebpBox;
 
 #[derive(Debug)]
+pub struct WebpReader<R: Read> {
+    reader: Reader<R>,
+    index: usize,
+}
+
+impl<R: Read> WebpReader<R> {
+    fn new(reader: Reader<R>) -> Self {
+        Self { reader, index: 0 }
+    }
+}
+
+impl<R: Read> Read for WebpReader<R> {
+    fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+        let (_, _, _, image_buf) = self.reader.data().unwrap();
+        let new_index = (self.index + buf.len()).min(image_buf.len());
+        let num_written = new_index - self.index;
+        buf[..num_written].copy_from_slice(&image_buf[self.index..new_index]);
+        self.index = new_index;
+        Ok(num_written)
+    }
+}
+
+#[derive(Debug)]
 pub struct WebpDecoder<R: Read> {
-    reader: R,
-    colortype: WebpColor,
-    data: Option<(u32, u32, u32, WebpBox<[u8]>)>,
-    rowidx: u32,
+    reader: Reader<R>,
 }
 
 #[derive(Debug)]
 enum WebpColor {
-    Luma,
     RGB,
     RGBA,
 }
 
 impl<R: Read> WebpDecoder<R> {
-    pub fn new(reader: R) -> Self {
-        Self {
-            reader,
-            colortype: WebpColor::RGBA,
-            data: None,
-            rowidx: 0,
-        }
+    pub fn new(reader: R) -> ImageResult<Self> {
+        Self::new_inner(reader, WebpColor::RGBA)
     }
 
-    pub fn new_rgba(reader: R) -> Self {
-        Self::new(reader)
+    pub fn new_rgba(reader: R) -> ImageResult<Self> {
+        Self::new_inner(reader, WebpColor::RGBA)
     }
 
-    pub fn new_rgb(reader: R) -> Self {
-        Self {
-            colortype: WebpColor::RGB,
-            ..Self::new(reader)
-        }
+    pub fn new_rgb(reader: R) -> ImageResult<Self> {
+        Self::new_inner(reader, WebpColor::RGB)
     }
 
-    pub fn new_grayscale(reader: R) -> Self {
-        Self {
-            colortype: WebpColor::Luma,
-            ..Self::new(reader)
-        }
-    }
-
-    fn get_data(&mut self) -> ImageResult<(u32, u32, u32, &[u8])> {
-        if self.data.is_none() {
-            let mut buf = Vec::new();
-            self.reader.read_to_end(&mut buf)?;
-            let data = match self.colortype {
-                WebpColor::Luma => {
-                    libwebp::WebPDecodeYUV(&buf).map(|(w, h, s, _, b)| (w, h, s, b.into_y()))
-                }
-                WebpColor::RGB => libwebp::WebPDecodeRGB(&buf).map(|(w, h, b)| (w, h, w * 3, b)),
-                WebpColor::RGBA => libwebp::WebPDecodeRGBA(&buf).map(|(w, h, b)| (w, h, w * 4, b)),
-            }
-            .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
-            self.data = Some(data);
-        }
-        let &(width, height, stride, ref buf) = self.data.as_ref().unwrap();
-        Ok((width, height, stride, buf))
+    fn new_inner(reader: R, colortype: WebpColor) -> ImageResult<Self> {
+        let mut reader = Reader::new(reader, colortype);
+        reader.read_info()?;
+        Ok(Self { reader })
     }
 }
 
-impl<R: Read> ImageDecoder for WebpDecoder<R> {
-    fn dimensions(&mut self) -> ImageResult<(u32, u32)> {
-        let (width, height, _, _) = self.get_data()?;
-        Ok((width, height))
+impl<'a, R: Read + 'a> ImageDecoder<'a> for WebpDecoder<R> {
+    type Reader = WebpReader<R>;
+
+    fn dimensions(&self) -> (u64, u64) {
+        let (w, h) = self.reader.info().unwrap();
+        (u64::from(w), u64::from(h))
     }
-    fn colortype(&mut self) -> ImageResult<ColorType> {
-        Ok(match self.colortype {
-            WebpColor::Luma => ColorType::Gray(8),
+    fn colortype(&self) -> ColorType {
+        match self.reader.colortype {
             WebpColor::RGB => ColorType::RGB(8),
             WebpColor::RGBA => ColorType::RGBA(8),
-        })
+        }
     }
-    fn row_len(&mut self) -> ImageResult<usize> {
-        let (_, _, stride, _) = self.get_data()?;
-        Ok(stride as usize)
+    fn into_reader(mut self) -> ImageResult<Self::Reader> {
+        self.reader.read_data()?;
+        Ok(WebpReader::new(self.reader))
     }
-    fn read_scanline(&mut self, writebuf: &mut [u8]) -> ImageResult<u32> {
-        let rowidx = self.rowidx;
-        self.rowidx += 1;
+}
 
-        let (_, _, stride, buf) = self.get_data()?;
-        let row_len = stride as usize;
-        writebuf.clone_from_slice(&buf[row_len * rowidx as usize..row_len * (rowidx as usize + 1)]);
-        Ok(rowidx)
+const READER_READ_UNIT: usize = 1024;
+
+#[derive(Debug)]
+struct Reader<R: Read> {
+    reader: R,
+    colortype: WebpColor,
+    buf: Vec<u8>,
+    info: Option<(u32, u32)>,
+    data: Option<(u32, u32, u32, WebpBox<[u8]>)>,
+    error: bool,
+}
+
+impl<R: Read> Reader<R> {
+    fn new(reader: R, colortype: WebpColor) -> Self {
+        Self {
+            reader,
+            colortype,
+            buf: Vec::new(),
+            info: None,
+            data: None,
+            error: false,
+        }
     }
-    fn read_image(&mut self) -> ImageResult<DecodingResult> {
-        let (_, _, _, buf) = self.get_data()?;
-        Ok(DecodingResult::U8(buf.to_vec()))
+
+    fn info(&self) -> Option<(u32, u32)> {
+        self.info
+    }
+
+    fn read_info(&mut self) -> io::Result<()> {
+        if self.info.is_some() {
+            return Ok(());
+        }
+        loop {
+            let read_len = self.read_into_buf(READER_READ_UNIT)?;
+            if let Ok(info) = libwebp::WebPGetInfo(&self.buf) {
+                self.info = Some(info);
+                return Ok(());
+            }
+            if read_len == 0 {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "Invalid webp header",
+                ));
+            }
+        }
+    }
+
+    fn data(&self) -> Option<(u32, u32, u32, &[u8])> {
+        let (w, h, s, ref buf) = *self.data.as_ref()?;
+        Some((w, h, s, buf))
+    }
+
+    fn read_data(&mut self) -> io::Result<()> {
+        self.read_info()?;
+        if self.data.is_some() {
+            return Ok(());
+        }
+
+        self.reader.read_to_end(&mut self.buf)?;
+        let data = match self.colortype {
+            WebpColor::RGB => libwebp::WebPDecodeRGB(&self.buf).map(|(w, h, b)| (w, h, w * 3, b)),
+            WebpColor::RGBA => libwebp::WebPDecodeRGBA(&self.buf).map(|(w, h, b)| (w, h, w * 4, b)),
+        }
+        .map_err(|_| io::Error::new(io::ErrorKind::InvalidInput, "Invalid webp data"))?;
+        self.data = Some(data);
+        Ok(())
+    }
+
+    fn read_into_buf(&mut self, by: usize) -> io::Result<usize> {
+        let old_len = self.buf.len();
+        self.buf.resize(old_len + by, 0);
+        let result = self.reader.read(&mut self.buf[old_len..]);
+        self.buf.resize(old_len + result.as_ref().unwrap_or(&0), 0);
+        result
     }
 }
 
@@ -139,6 +196,8 @@ pub fn webp_write<W: Write>(img: &DynamicImage, w: &mut W) -> ImageResult<()> {
     match img {
         &DynamicImage::ImageRgb8(ref img) => webp_write_rgb(img, w),
         &DynamicImage::ImageRgba8(ref img) => webp_write_rgba(img, w),
+        &DynamicImage::ImageBgr8(ref img) => webp_write_bgr(img, w),
+        &DynamicImage::ImageBgra8(ref img) => webp_write_bgra(img, w),
         &DynamicImage::ImageLuma8(_) => webp_write_rgb(&img.to_rgb(), w),
         &DynamicImage::ImageLumaA8(_) => webp_write_rgba(&img.to_rgba(), w),
     }
@@ -159,6 +218,26 @@ where
     C: Deref<Target = [u8]>,
 {
     let buf = libwebp::WebPEncodeRGB(&img, img.width(), img.height(), img.width() * 3, 75.0)
+        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+    w.write_all(&buf)?;
+    Ok(())
+}
+
+pub fn webp_write_bgra<W: Write, C>(img: &ImageBuffer<Bgra<u8>, C>, w: &mut W) -> ImageResult<()>
+where
+    C: Deref<Target = [u8]>,
+{
+    let buf = libwebp::WebPEncodeBGRA(&img, img.width(), img.height(), img.width() * 4, 75.0)
+        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+    w.write_all(&buf)?;
+    Ok(())
+}
+
+pub fn webp_write_bgr<W: Write, C>(img: &ImageBuffer<Bgr<u8>, C>, w: &mut W) -> ImageResult<()>
+where
+    C: Deref<Target = [u8]>,
+{
+    let buf = libwebp::WebPEncodeBGR(&img, img.width(), img.height(), img.width() * 3, 75.0)
         .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
     w.write_all(&buf)?;
     Ok(())
