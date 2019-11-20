@@ -6,4 +6,4 @@ authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 [dependencies]
 
 [build-dependencies]
-bindgen = "0.51.1"
+bindgen = "0.52.0"
