@@ -4,6 +4,14 @@ version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 
 [dependencies]
+cfg-if = "0.1.6"
+libc = "0.2.43"
+
+[features]
+default = ["bundled"]
+"0.5" = []
+"0.6" = ["0.5"]
+"bundled" = ["cc", "0.6"]
 
 [build-dependencies]
-bindgen = "0.52.0"
+cc = { version = "1.0.25", optional = true }

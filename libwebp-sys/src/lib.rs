@@ -1,13 +1,21 @@
-#![allow(non_upper_case_globals)]
-#![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
+#[macro_use]
+extern crate cfg_if;
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+extern crate libc;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
+pub use decode::*;
+pub use demux::*;
+pub use encode::*;
+pub use mux::*;
+pub use mux_types::*;
+
+mod decode;
+mod demux;
+mod encode;
+mod mux;
+mod mux_types;
+
+#[allow(non_snake_case)]
+pub fn WEBP_ABI_IS_INCOMPATIBLE(a: u16, b: u16) -> bool {
+    (a >> 8) != (b >> 8)
 }
