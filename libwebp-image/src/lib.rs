@@ -1,6 +1,7 @@
 use std::io::{self, Read, Write};
 use std::ops::Deref;
 
+use image::error::{DecodingError, EncodingError, ImageFormatHint};
 use image::{
     Bgr, Bgra, ColorType, DynamicImage, ImageBuffer, ImageDecoder, ImageError, ImageResult, Rgb,
     RgbImage, Rgba, RgbaImage,
@@ -64,14 +65,13 @@ impl<R: Read> WebpDecoder<R> {
 impl<'a, R: Read + 'a> ImageDecoder<'a> for WebpDecoder<R> {
     type Reader = WebpReader<R>;
 
-    fn dimensions(&self) -> (u64, u64) {
-        let (w, h) = self.reader.info().unwrap();
-        (u64::from(w), u64::from(h))
+    fn dimensions(&self) -> (u32, u32) {
+        self.reader.info().unwrap()
     }
-    fn colortype(&self) -> ColorType {
+    fn color_type(&self) -> ColorType {
         match self.reader.colortype {
-            WebpColor::RGB => ColorType::RGB(8),
-            WebpColor::RGBA => ColorType::RGBA(8),
+            WebpColor::RGB => ColorType::Rgb8,
+            WebpColor::RGBA => ColorType::Rgba8,
         }
     }
     fn into_reader(mut self) -> ImageResult<Self::Reader> {
@@ -179,13 +179,15 @@ pub fn webp_load_from_memory(buf: &[u8]) -> ImageResult<DynamicImage> {
 
 pub fn webp_load_rgba_from_memory(buf: &[u8]) -> ImageResult<RgbaImage> {
     let (width, height, buf) = libwebp::WebPDecodeRGBA(buf)
-        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+        .map_err(|_| DecodingError::new(ImageFormatHint::Unknown, "Webp Format Error".to_string()))
+        .map_err(ImageError::Decoding)?;
     Ok(ImageBuffer::from_raw(width, height, buf.to_vec()).unwrap())
 }
 
 pub fn webp_load_rgb_from_memory(buf: &[u8]) -> ImageResult<RgbImage> {
     let (width, height, buf) = libwebp::WebPDecodeRGB(buf)
-        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+        .map_err(|_| DecodingError::new(ImageFormatHint::Unknown, "Webp Format Error".to_string()))
+        .map_err(ImageError::Decoding)?;
     Ok(ImageBuffer::from_raw(width, height, buf.to_vec()).unwrap())
 }
 
@@ -197,6 +199,10 @@ pub fn webp_write<W: Write>(img: &DynamicImage, w: &mut W) -> ImageResult<()> {
         &DynamicImage::ImageBgra8(ref img) => webp_write_bgra(img, w),
         &DynamicImage::ImageLuma8(_) => webp_write_rgb(&img.to_rgb(), w),
         &DynamicImage::ImageLumaA8(_) => webp_write_rgba(&img.to_rgba(), w),
+        &DynamicImage::ImageRgb16(_) => webp_write_rgb(&img.to_rgb(), w),
+        &DynamicImage::ImageRgba16(_) => webp_write_rgba(&img.to_rgba(), w),
+        &DynamicImage::ImageLuma16(_) => webp_write_rgb(&img.to_rgb(), w),
+        &DynamicImage::ImageLumaA16(_) => webp_write_rgba(&img.to_rgba(), w),
     }
 }
 
@@ -205,7 +211,8 @@ where
     C: Deref<Target = [u8]>,
 {
     let buf = libwebp::WebPEncodeRGBA(&img, img.width(), img.height(), img.width() * 4, 75.0)
-        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+        .map_err(|_| EncodingError::new(ImageFormatHint::Unknown, "Webp Format Error".to_string()))
+        .map_err(ImageError::Encoding)?;
     w.write_all(&buf)?;
     Ok(())
 }
@@ -215,7 +222,8 @@ where
     C: Deref<Target = [u8]>,
 {
     let buf = libwebp::WebPEncodeRGB(&img, img.width(), img.height(), img.width() * 3, 75.0)
-        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+        .map_err(|_| EncodingError::new(ImageFormatHint::Unknown, "Webp Format Error".to_string()))
+        .map_err(ImageError::Encoding)?;
     w.write_all(&buf)?;
     Ok(())
 }
@@ -225,7 +233,8 @@ where
     C: Deref<Target = [u8]>,
 {
     let buf = libwebp::WebPEncodeBGRA(&img, img.width(), img.height(), img.width() * 4, 75.0)
-        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+        .map_err(|_| EncodingError::new(ImageFormatHint::Unknown, "Webp Format Error".to_string()))
+        .map_err(ImageError::Encoding)?;
     w.write_all(&buf)?;
     Ok(())
 }
@@ -235,7 +244,8 @@ where
     C: Deref<Target = [u8]>,
 {
     let buf = libwebp::WebPEncodeBGR(&img, img.width(), img.height(), img.width() * 3, 75.0)
-        .map_err(|_| ImageError::FormatError("Webp Format Error".to_string()))?;
+        .map_err(|_| EncodingError::new(ImageFormatHint::Unknown, "Webp Format Error".to_string()))
+        .map_err(ImageError::Encoding)?;
     w.write_all(&buf)?;
     Ok(())
 }
