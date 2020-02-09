@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 libwebp = { path = "..", default-features = false }
-image = "0.22"
+image = "0.23"
 
 [features]
 default = []
