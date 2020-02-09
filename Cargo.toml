@@ -4,11 +4,14 @@ version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 
 [dependencies]
-libwebp-sys = { path = "libwebp-sys" }
+libwebp-sys = { path = "libwebp-sys", default-features = false }
 
 [features]
-default = ["0.5"]
-"0.5" = []
+default = []
+"0.5" = ["libwebp-sys/0.5"]
+"0.6" = ["libwebp-sys/0.6", "0.5"]
+"1.1" = ["libwebp-sys/1.1", "0.6"]
+"bundled" = ["libwebp-sys/bundled", "1.1"]
 unstable = []
 
 [workspace]

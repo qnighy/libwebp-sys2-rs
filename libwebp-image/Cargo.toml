@@ -8,5 +8,8 @@ libwebp = { path = "..", default-features = false }
 image = "0.22"
 
 [features]
-default = ["libwebp-0.5"]
+default = []
 "libwebp-0.5" = ["libwebp/0.5"]
+"libwebp-0.6" = ["libwebp/0.6", "libwebp-0.5"]
+"libwebp-1.1" = ["libwebp/1.1", "libwebp-0.6"]
+"libwebp-bundled" = ["libwebp/bundled", "libwebp-1.1"]
