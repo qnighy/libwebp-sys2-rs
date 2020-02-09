@@ -5,7 +5,9 @@ pub use self::VP8StatusCode::*;
 pub use self::WEBP_CSP_MODE::*;
 
 cfg_if! {
-    if #[cfg(feature = "0.5")] {
+    if #[cfg(feature = "1.1")] {
+        pub const WEBP_DECODER_ABI_VERSION: c_int = 0x0209;
+    } else if #[cfg(feature = "0.5")] {
         pub const WEBP_DECODER_ABI_VERSION: c_int = 0x0208;
     } else {
         pub const WEBP_DECODER_ABI_VERSION: c_int = 0x0203;
@@ -245,6 +247,8 @@ extern "C" {
         stride: *mut c_int,
         uv_stride: *mut c_int,
     ) -> *mut u8;
+    #[cfg(feature = "1.1")]
+    pub fn WebPMalloc(size: usize);
     #[cfg(feature = "0.5")]
     pub fn WebPFree(ptr: *mut c_void);
     pub fn WebPDecodeRGBAInto(

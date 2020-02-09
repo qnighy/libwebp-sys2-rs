@@ -11,7 +11,8 @@ libc = "0.2.43"
 default = ["bundled"]
 "0.5" = []
 "0.6" = ["0.5"]
-"bundled" = ["cc", "0.6"]
+"1.1" = ["0.6"]
+"bundled" = ["cc", "1.1"]
 
 [build-dependencies]
 cc = { version = "1.0.25", optional = true }
