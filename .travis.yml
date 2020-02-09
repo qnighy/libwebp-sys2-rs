@@ -3,8 +3,7 @@ dist: bionic
 
 install:
   # libwebp-dev: for libwebp
-  # llvm-4.0-dev libclang-4.0-dev clang-4.0: for bindgen
-- sudo apt-get install -y curl gcc pkg-config libssl-dev libwebp-dev llvm-4.0-dev libclang-4.0-dev clang-4.0
+- sudo apt-get install -y gcc libwebp-dev
 - rustup component add rustfmt clippy
 script:
 - cargo build --all --verbose
