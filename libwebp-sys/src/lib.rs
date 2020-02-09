@@ -1,8 +1,6 @@
 #[macro_use]
 extern crate cfg_if;
 
-extern crate libc;
-
 pub use crate::decode::*;
 pub use crate::demux::*;
 pub use crate::encode::*;
