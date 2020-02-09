@@ -3,6 +3,9 @@ extern crate cc;
 
 #[cfg(feature = "bundled")]
 fn main() {
+    if cfg!(test) {
+        return;
+    }
     cc::Build::new()
         .file("c_src/src/dec/alpha_dec.c")
         .file("c_src/src/dec/buffer_dec.c")

@@ -198,7 +198,7 @@ pub struct WebPDecoderConfig {
     pub options: WebPDecoderOptions,
 }
 
-#[link(name = "webp")]
+#[cfg_attr(not(test), link(name = "webp"))]
 extern "C" {
     pub fn WebPGetDecoderVersion() -> c_int;
     pub fn WebPGetInfo(

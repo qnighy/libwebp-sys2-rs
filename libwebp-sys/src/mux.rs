@@ -87,7 +87,7 @@ pub struct WebPAnimEncoderOptions {
     pub padding: [u32; 4],
 }
 
-#[link(name = "webp")]
+#[cfg_attr(not(test), link(name = "webp"))]
 extern "C" {
     pub fn WebPGetMuxVersion() -> c_int;
     pub fn WebPNewInternal(_: c_int) -> *mut WebPMux;
