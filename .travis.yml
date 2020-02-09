@@ -8,4 +8,5 @@ install:
 script:
 - cargo build --all --verbose
 - cargo test --all --verbose
+- cargo test --all --verbose --features bundled
 - cargo fmt --all -- --check
