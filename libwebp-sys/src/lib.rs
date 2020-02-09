@@ -3,11 +3,11 @@ extern crate cfg_if;
 
 extern crate libc;
 
-pub use decode::*;
-pub use demux::*;
-pub use encode::*;
-pub use mux::*;
-pub use mux_types::*;
+pub use crate::decode::*;
+pub use crate::demux::*;
+pub use crate::encode::*;
+pub use crate::mux::*;
+pub use crate::mux_types::*;
 
 mod decode;
 mod demux;
