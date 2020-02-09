@@ -1,7 +1,5 @@
 #![cfg_attr(feature = "unstable", feature(dropck_eyepatch))]
 
-use libwebp_sys;
-
 use std::fmt;
 use std::marker::PhantomData;
 use std::mem;
