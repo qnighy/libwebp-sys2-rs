@@ -2,8 +2,8 @@ use std::os::raw::*;
 use std::ptr;
 
 #[cfg(feature = "0.5")]
-use decode::*;
-use mux_types::*;
+use crate::decode::*;
+use crate::mux_types::*;
 
 cfg_if! {
     if #[cfg(feature = "0.5")] {

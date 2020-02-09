@@ -1,8 +1,8 @@
 use std::os::raw::*;
 
 #[cfg(feature = "0.5")]
-use encode::{WebPConfig, WebPPicture};
-use mux_types::*;
+use crate::encode::{WebPConfig, WebPPicture};
+use crate::mux_types::*;
 
 cfg_if! {
     if #[cfg(feature = "0.6")] {

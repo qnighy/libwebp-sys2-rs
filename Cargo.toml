@@ -2,6 +2,7 @@
 name = "libwebp"
 version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
+edition = "2018"
 
 [dependencies]
 libwebp-sys = { path = "libwebp-sys", default-features = false }

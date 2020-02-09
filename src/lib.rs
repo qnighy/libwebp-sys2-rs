@@ -1,7 +1,5 @@
 #![cfg_attr(feature = "unstable", feature(dropck_eyepatch))]
 
-extern crate libwebp_sys;
-
 use std::fmt;
 use std::marker::PhantomData;
 use std::mem;
@@ -61,7 +59,7 @@ unsafe fn WebPFree(ptr: *mut c_void) {
 }
 
 impl<T: fmt::Debug + ?Sized> fmt::Debug for WebpBox<T> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Debug::fmt(self as &T, f)
     }
 }
@@ -238,7 +236,7 @@ impl Drop for WebpYuvBox {
 }
 
 impl fmt::Debug for WebpYuvBox {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("WebpYuvBox")
             .field("y", &self.y())
             .field("u", &self.u())

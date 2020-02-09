@@ -1,6 +1,3 @@
-extern crate image;
-extern crate libwebp;
-
 use std::io::{self, Read, Write};
 use std::ops::Deref;
 
