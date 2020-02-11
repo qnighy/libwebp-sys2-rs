@@ -247,10 +247,6 @@ extern "C" {
         stride: *mut c_int,
         uv_stride: *mut c_int,
     ) -> *mut u8;
-    #[cfg(feature = "1.1")]
-    pub fn WebPMalloc(size: usize);
-    #[cfg(feature = "0.5")]
-    pub fn WebPFree(ptr: *mut c_void);
     pub fn WebPDecodeRGBAInto(
         data: *const u8,
         data_size: usize,

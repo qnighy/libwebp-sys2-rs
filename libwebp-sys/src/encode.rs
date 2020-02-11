@@ -252,8 +252,6 @@ extern "C" {
         stride: c_int,
         output: *mut *mut u8,
     ) -> usize;
-    // #[cfg(feature = "0.5")]
-    // pub fn WebPFree(ptr: *mut c_void);  // see decode.rs
     fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int) -> c_int;
     #[cfg(feature = "0.5")]
     pub fn WebPConfigLosslessPreset(config: *mut WebPConfig, level: c_int) -> c_int;
