@@ -1,7 +1,6 @@
 use std::mem;
 use std::os::raw::*;
 
-use libc::c_void as libc_void;
 use libc::{free, malloc, memcpy, memset};
 
 pub use self::WebPFeatureFlags::*;
@@ -45,7 +44,7 @@ pub struct WebPData {
 #[allow(non_snake_case)]
 pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
-        memset(webp_data as *mut libc_void, 0, mem::size_of::<WebPData>());
+        memset(webp_data as *mut c_void, 0, mem::size_of::<WebPData>());
     }
 }
 
@@ -54,7 +53,7 @@ pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
 #[allow(non_snake_case)]
 pub unsafe extern "C" fn WebPDataClear(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
-        free((*webp_data).bytes as *mut libc_void);
+        free((*webp_data).bytes as *mut c_void);
         WebPDataInit(webp_data);
     }
 }
@@ -73,8 +72,8 @@ pub unsafe extern "C" fn WebPDataCopy(src: *const WebPData, dst: *mut WebPData) 
             return 0;
         }
         memcpy(
-            (*dst).bytes as *mut libc_void,
-            (*src).bytes as *const libc_void,
+            (*dst).bytes as *mut c_void,
+            (*src).bytes as *const c_void,
             (*src).size,
         );
         (*dst).size = (*src).size;
