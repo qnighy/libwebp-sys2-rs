@@ -1,8 +1,12 @@
 use std::mem;
 use std::os::raw::*;
 
-use libc::c_void as libc_void;
-use libc::{free, malloc, memcpy, memset};
+use libc::{memcpy, memset};
+
+#[cfg(feature = "1.1")]
+use crate::{WebPFree, WebPMalloc};
+#[cfg(not(feature = "1.1"))]
+use libc::{free as WebPFree, malloc as WebPMalloc};
 
 pub use self::WebPFeatureFlags::*;
 pub use self::WebPMuxAnimBlend::*;
@@ -45,7 +49,7 @@ pub struct WebPData {
 #[allow(non_snake_case)]
 pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
-        memset(webp_data as *mut libc_void, 0, mem::size_of::<WebPData>());
+        memset(webp_data as *mut c_void, 0, mem::size_of::<WebPData>());
     }
 }
 
@@ -54,7 +58,7 @@ pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
 #[allow(non_snake_case)]
 pub unsafe extern "C" fn WebPDataClear(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
-        free((*webp_data).bytes as *mut libc_void);
+        WebPFree((*webp_data).bytes as *mut c_void);
         WebPDataInit(webp_data);
     }
 }
@@ -68,13 +72,13 @@ pub unsafe extern "C" fn WebPDataCopy(src: *const WebPData, dst: *mut WebPData) 
     }
     WebPDataInit(dst);
     if !(*src).bytes.is_null() && (*src).size != 0 {
-        (*dst).bytes = malloc((*src).size) as *mut u8;
+        (*dst).bytes = WebPMalloc((*src).size) as *mut u8;
         if (*dst).bytes.is_null() {
             return 0;
         }
         memcpy(
-            (*dst).bytes as *mut libc_void,
-            (*src).bytes as *const libc_void,
+            (*dst).bytes as *mut c_void,
+            (*src).bytes as *const c_void,
             (*src).size,
         );
         (*dst).size = (*src).size;
