@@ -1,5 +1,5 @@
 #[allow(non_snake_case)]
-pub fn WEBP_ABI_IS_INCOMPATIBLE(a: u16, b: u16) -> bool {
+pub const fn WEBP_ABI_IS_INCOMPATIBLE(a: u16, b: u16) -> bool {
     (a >> 8) != (b >> 8)
 }
 
