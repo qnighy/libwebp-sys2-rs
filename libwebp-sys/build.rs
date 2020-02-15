@@ -115,14 +115,24 @@ fn main() {
         .file("c_src/src/utils/bit_writer_utils.c")
         .file("c_src/src/utils/huffman_encode_utils.c")
         .file("c_src/src/utils/quant_levels_utils.c")
-        .file("c_src/src/mux/anim_encode.c")
-        .file("c_src/src/mux/muxedit.c")
-        .file("c_src/src/mux/muxinternal.c")
-        .file("c_src/src/mux/muxread.c")
-        .file("c_src/src/demux/anim_decode.c")
-        .file("c_src/src/demux/demux.c")
         .include("c_src")
         .compile("webp");
+    if cfg!(feature = "demux") {
+        cc::Build::new()
+            .file("c_src/src/demux/anim_decode.c")
+            .file("c_src/src/demux/demux.c")
+            .include("c_src")
+            .compile("webpdemux");
+    }
+    if cfg!(feature = "mux") {
+        cc::Build::new()
+            .file("c_src/src/mux/anim_encode.c")
+            .file("c_src/src/mux/muxedit.c")
+            .file("c_src/src/mux/muxinternal.c")
+            .file("c_src/src/mux/muxread.c")
+            .include("c_src")
+            .compile("webpmux");
+    }
 }
 
 #[cfg(not(feature = "bundled"))]
