@@ -99,7 +99,7 @@ pub struct WebPAnimInfo {
 #[cfg_attr(not(feature = "bundled"), link(name = "webpdemux", kind = "dylib"))]
 extern "C" {
     pub fn WebPGetDemuxVersion() -> c_int;
-    fn WebPDemuxInternal(
+    pub fn WebPDemuxInternal(
         _: *const WebPData,
         _: c_int,
         _: *mut WebPDemuxState,
@@ -127,9 +127,9 @@ extern "C" {
     pub fn WebPDemuxPrevChunk(iter: *mut WebPChunkIterator) -> c_int;
     pub fn WebPDemuxReleaseChunkIterator(iter: *mut WebPChunkIterator);
     #[cfg(feature = "0.5")]
-    fn WebPAnimDecoderOptionsInitInternal(_: *mut WebPAnimDecoderOptions, _: c_int) -> c_int;
+    pub fn WebPAnimDecoderOptionsInitInternal(_: *mut WebPAnimDecoderOptions, _: c_int) -> c_int;
     #[cfg(feature = "0.5")]
-    fn WebPAnimDecoderNewInternal(
+    pub fn WebPAnimDecoderNewInternal(
         _: *const WebPData,
         _: *const WebPAnimDecoderOptions,
         _: c_int,

@@ -252,7 +252,8 @@ extern "C" {
         stride: c_int,
         output: *mut *mut u8,
     ) -> usize;
-    fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int) -> c_int;
+    pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
+        -> c_int;
     #[cfg(feature = "0.5")]
     pub fn WebPConfigLosslessPreset(config: *mut WebPConfig, level: c_int) -> c_int;
     pub fn WebPValidateConfig(config: *const WebPConfig) -> c_int;
@@ -261,7 +262,7 @@ extern "C" {
     pub fn WebPMemoryWriterClear(writer: *mut WebPMemoryWriter);
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
         -> c_int;
-    fn WebPPictureInitInternal(_: *mut WebPPicture, _: c_int) -> c_int;
+    pub fn WebPPictureInitInternal(_: *mut WebPPicture, _: c_int) -> c_int;
     pub fn WebPPictureAlloc(picture: *mut WebPPicture) -> c_int;
     pub fn WebPPictureFree(picture: *mut WebPPicture);
     pub fn WebPPictureCopy(src: *const WebPPicture, dst: *mut WebPPicture) -> c_int;

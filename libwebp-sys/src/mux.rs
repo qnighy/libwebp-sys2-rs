@@ -144,9 +144,9 @@ extern "C" {
     ) -> WebPMuxError;
     pub fn WebPMuxAssemble(mux: *mut WebPMux, assembled_data: *mut WebPData) -> WebPMuxError;
     #[cfg(feature = "0.5")]
-    fn WebPAnimEncoderOptionsInitInternal(_: *mut WebPAnimEncoderOptions, _: c_int) -> c_int;
+    pub fn WebPAnimEncoderOptionsInitInternal(_: *mut WebPAnimEncoderOptions, _: c_int) -> c_int;
     #[cfg(feature = "0.5")]
-    fn WebPAnimEncoderNewInternal(
+    pub fn WebPAnimEncoderNewInternal(
         _: c_int,
         _: c_int,
         _: *const WebPAnimEncoderOptions,
