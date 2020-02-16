@@ -1,15 +1,41 @@
 language: rust
 dist: bionic
 
+matrix:
+  include:
+  - rust: stable
+    env: WEBP_VERSION=0.4.4
+  - rust: stable
+    env: WEBP_VERSION=0.5.2
+  - rust: stable
+    env: WEBP_VERSION=1.0.3
+  - rust: stable
+    env: WEBP_VERSION=1.1.0
+
 install:
-  # libwebp-dev: for libwebp
-- sudo apt-get install -y gcc libwebp-dev
 - rustup component add rustfmt clippy
+- >
+  wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-$WEBP_VERSION.tar.gz &&
+  tar zxf libwebp-$WEBP_VERSION.tar.gz &&
+  cd libwebp-$WEBP_VERSION &&
+  ./configure --enable-libwebpmux --enable-libwebpdemux && make && sudo make install
+- export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 script:
-- cargo build --all --verbose
-- cargo test --all --verbose
-- cargo test --all --verbose --features "0.5"
-- cargo test --all --verbose --features "0.6"
-- cargo test --all --verbose --features "1.1"
-- cargo test --all --verbose --features bundled
+- cargo test --all
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5,demux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6,demux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1,demux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1,mux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1,demux,mux"; fi
+- if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled; fi
+- if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled,demux; fi
+- if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled,mux; fi
+- if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled,demux,mux; fi
 - cargo fmt --all -- --check
