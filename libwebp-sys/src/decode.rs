@@ -63,11 +63,13 @@ pub const MODE_LAST: c_int = WEBP_CSP_MODE::MODE_LAST;
 // Some useful macros:
 
 #[allow(non_snake_case)]
+#[inline]
 pub extern "C" fn WebPIsPremultipliedMode(mode: WEBP_CSP_MODE) -> c_int {
     (mode == MODE_rgbA || mode == MODE_bgrA || mode == MODE_Argb || mode == MODE_rgbA_4444) as c_int
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub extern "C" fn WebPIsAlphaMode(mode: WEBP_CSP_MODE) -> c_int {
     (mode == MODE_RGBA
         || mode == MODE_BGRA
@@ -78,6 +80,7 @@ pub extern "C" fn WebPIsAlphaMode(mode: WEBP_CSP_MODE) -> c_int {
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub extern "C" fn WebPIsRGBMode(mode: WEBP_CSP_MODE) -> c_int {
     (mode < MODE_YUV) as c_int
 }
@@ -176,6 +179,7 @@ pub enum VP8StatusCode {
 /// Deprecated alpha-less version of WebPIDecGetYUVA(): it will ignore the
 /// alpha information (if present). Kept for backward compatibility.
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPIDecGetYUV(
     idec: *const WebPIDecoder,
     last_y: *mut c_int,
@@ -599,6 +603,7 @@ extern "C" {
 /// Initialize the structure as empty. Must be called before any other use.
 /// Returns false in case of version mismatch
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPInitDecBuffer(buffer: *mut WebPDecBuffer) -> c_int {
     WebPInitDecBufferInternal(buffer, WEBP_DECODER_ABI_VERSION)
 }
@@ -615,6 +620,7 @@ pub unsafe extern "C" fn WebPInitDecBuffer(buffer: *mut WebPDecBuffer) -> c_int 
 /// ALPH + VP8 <-- Not a valid WebP format: only allowed for internal purpose.
 /// VP8(L)     <-- Not a valid WebP format: only allowed for internal purpose.
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPGetFeatures(
     data: *const u8,
     data_size: usize,
@@ -627,6 +633,7 @@ pub unsafe extern "C" fn WebPGetFeatures(
 /// called first, unless WebPGetFeatures() is to be called.
 /// Returns false in case of mismatched version.
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPInitDecoderConfig(config: *mut WebPDecoderConfig) -> c_int {
     WebPInitDecoderConfigInternal(config, WEBP_DECODER_ABI_VERSION)
 }

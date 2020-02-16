@@ -3,6 +3,7 @@ use std::os::raw::*;
 
 /// Macro to check ABI compatibility (same major revision number)
 #[allow(non_snake_case)]
+#[inline]
 pub const fn WEBP_ABI_IS_INCOMPATIBLE(a: u16, b: u16) -> bool {
     (a >> 8) != (b >> 8)
 }

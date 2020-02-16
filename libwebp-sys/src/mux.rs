@@ -168,11 +168,13 @@ extern "C" {
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPMuxNew() -> *mut WebPMux {
     WebPNewInternal(WEBP_MUX_ABI_VERSION)
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPMuxCreate(
     bitstream: *const WebPData,
     copy_data: c_int,
@@ -182,6 +184,7 @@ pub unsafe extern "C" fn WebPMuxCreate(
 
 #[cfg(feature = "0.5")]
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
     enc_options: *mut WebPAnimEncoderOptions,
 ) -> c_int {
@@ -190,6 +193,7 @@ pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
 
 #[cfg(feature = "0.5")]
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPAnimEncoderNew(
     width: c_int,
     height: c_int,

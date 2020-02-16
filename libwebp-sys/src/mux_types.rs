@@ -47,6 +47,7 @@ pub struct WebPData {
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
         memset(webp_data as *mut c_void, 0, mem::size_of::<WebPData>());
@@ -56,6 +57,7 @@ pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
 // Clears the contents of the 'webp_data' object by calling free(). Does not
 // deallocate the object itself.
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPDataClear(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
         WebPFree((*webp_data).bytes as *mut c_void);
@@ -66,6 +68,7 @@ pub unsafe extern "C" fn WebPDataClear(webp_data: *mut WebPData) {
 // Allocates necessary storage for 'dst' and copies the contents of 'src'.
 // Returns true on success.
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPDataCopy(src: *const WebPData, dst: *mut WebPData) -> c_int {
     if src.is_null() || dst.is_null() {
         return 0;

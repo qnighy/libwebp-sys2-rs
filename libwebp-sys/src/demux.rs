@@ -153,11 +153,13 @@ extern "C" {
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPDemux(data: *const WebPData) -> *mut WebPDemuxer {
     WebPDemuxInternal(data, 0, ptr::null_mut(), WEBP_DEMUX_ABI_VERSION)
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPDemuxPartial(
     data: *const WebPData,
     state: *mut WebPDemuxState,
@@ -167,6 +169,7 @@ pub unsafe extern "C" fn WebPDemuxPartial(
 
 #[cfg(feature = "0.5")]
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPAnimDecoderOptionsInit(
     dec_options: *mut WebPAnimDecoderOptions,
 ) -> c_int {
@@ -175,6 +178,7 @@ pub unsafe extern "C" fn WebPAnimDecoderOptionsInit(
 
 #[cfg(feature = "0.5")]
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPAnimDecoderNew(
     webp_data: *const WebPData,
     dec_options: *const WebPAnimDecoderOptions,

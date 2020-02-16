@@ -347,6 +347,7 @@ extern "C" {
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
     WebPConfigInitInternal(
         config,
@@ -357,6 +358,7 @@ pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPConfigPreset(
     config: *mut WebPConfig,
     preset: WebPPreset,
@@ -366,6 +368,7 @@ pub unsafe extern "C" fn WebPConfigPreset(
 }
 
 #[allow(non_snake_case)]
+#[inline]
 pub unsafe extern "C" fn WebPPictureInit(picture: *mut WebPPicture) -> c_int {
     WebPPictureInitInternal(picture, WEBP_ENCODER_ABI_VERSION)
 }
