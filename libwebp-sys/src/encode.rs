@@ -189,7 +189,7 @@ pub struct WebPPicture {
     pad7: [*mut c_void; 2],
 }
 
-#[cfg_attr(not(test), link(name = "webp"))]
+#[cfg_attr(not(feature = "bundled"), link(name = "webp", kind = "dylib"))]
 extern "C" {
     pub fn WebPGetEncoderVersion() -> c_int;
     pub fn WebPEncodeRGB(

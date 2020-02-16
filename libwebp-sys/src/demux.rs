@@ -96,7 +96,7 @@ pub struct WebPAnimInfo {
     pub pad: [u32; 4],
 }
 
-#[cfg_attr(not(test), link(name = "webpdemux"))]
+#[cfg_attr(not(feature = "bundled"), link(name = "webpdemux", kind = "dylib"))]
 extern "C" {
     pub fn WebPGetDemuxVersion() -> c_int;
     fn WebPDemuxInternal(

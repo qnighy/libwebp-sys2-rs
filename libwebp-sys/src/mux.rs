@@ -87,7 +87,7 @@ pub struct WebPAnimEncoderOptions {
     pub padding: [u32; 4],
 }
 
-#[cfg_attr(not(test), link(name = "webpmux"))]
+#[cfg_attr(not(feature = "bundled"), link(name = "webpmux", kind = "dylib"))]
 extern "C" {
     pub fn WebPGetMuxVersion() -> c_int;
     pub fn WebPNewInternal(_: c_int) -> *mut WebPMux;

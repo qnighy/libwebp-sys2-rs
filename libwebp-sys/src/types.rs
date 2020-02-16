@@ -7,7 +7,7 @@ pub const fn WEBP_ABI_IS_INCOMPATIBLE(a: u16, b: u16) -> bool {
     (a >> 8) != (b >> 8)
 }
 
-#[cfg_attr(not(test), link(name = "webp"))]
+#[cfg_attr(not(feature = "bundled"), link(name = "webp", kind = "dylib"))]
 extern "C" {
     /// Allocates `size` bytes of memory. Returns NULL upon error. Memory
     /// must be deallocated by calling `WebPFree()`. This function is made available
