@@ -369,3 +369,20 @@ pub unsafe extern "C" fn WebPConfigPreset(
 pub unsafe extern "C" fn WebPPictureInit(picture: *mut WebPPicture) -> c_int {
     WebPPictureInitInternal(picture, WEBP_ENCODER_ABI_VERSION)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use std::mem;
+
+    #[test]
+    fn test_new_and_delete() {
+        unsafe {
+            let mut buf = mem::zeroed();
+            WebPMemoryWriterInit(&mut buf);
+            #[cfg(feature = "0.5")]
+            WebPMemoryWriterClear(&mut buf);
+        }
+    }
+}

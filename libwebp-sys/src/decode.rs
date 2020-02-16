@@ -630,3 +630,23 @@ pub unsafe extern "C" fn WebPGetFeatures(
 pub unsafe extern "C" fn WebPInitDecoderConfig(config: *mut WebPDecoderConfig) -> c_int {
     WebPInitDecoderConfigInternal(config, WEBP_DECODER_ABI_VERSION)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use std::mem;
+
+    #[test]
+    fn test_new_and_delete() {
+        unsafe {
+            let mut buf = mem::zeroed();
+            WebPInitDecBuffer(&mut buf);
+            buf.colorspace = MODE_RGB;
+            buf.is_external_memory = 0;
+            let idec = WebPINewDecoder(&mut buf);
+            assert!(!idec.is_null());
+            WebPIDelete(idec);
+        }
+    }
+}

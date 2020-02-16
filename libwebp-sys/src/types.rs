@@ -18,3 +18,18 @@ extern "C" {
     #[cfg(feature = "0.5")]
     pub fn WebPFree(ptr: *mut c_void);
 }
+
+#[cfg(all(test, feature = "1.1"))]
+mod tests {
+    use super::*;
+
+    #[cfg(feature = "1.1")]
+    #[test]
+    fn test_malloc() {
+        unsafe {
+            let ptr = WebPMalloc(12);
+            assert!(!ptr.is_null());
+            WebPFree(ptr);
+        }
+    }
+}
