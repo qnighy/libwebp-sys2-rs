@@ -5,7 +5,6 @@ pub use crate::decode::*;
 #[cfg(feature = "demux")]
 pub use crate::demux::*;
 pub use crate::encode::*;
-pub use crate::format_constants::*;
 #[cfg(feature = "mux")]
 pub use crate::mux::*;
 #[cfg(any(feature = "mux", feature = "demux"))]
@@ -16,7 +15,6 @@ mod decode;
 #[cfg(feature = "demux")]
 mod demux;
 mod encode;
-mod format_constants;
 #[cfg(feature = "mux")]
 mod mux;
 #[cfg(any(feature = "mux", feature = "demux"))]
