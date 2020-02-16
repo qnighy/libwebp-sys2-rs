@@ -38,4 +38,5 @@ script:
 - if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled,demux; fi
 - if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled,mux; fi
 - if [[ $WEBP_VERSION = 1.1.0 ]]; then cargo test --all --features bundled,demux,mux; fi
+- cargo doc --all --features __doc_cfg
 - cargo fmt --all -- --check

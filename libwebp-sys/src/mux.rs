@@ -4,21 +4,26 @@ use std::os::raw::*;
 use crate::encode::{WebPConfig, WebPPicture};
 use crate::mux_types::*;
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_ABI_VERSION: c_int = WEBP_MUX_ABI_VERSION_INTERNAL;
+
 cfg_if! {
     if #[cfg(feature = "0.6")] {
-        pub const WEBP_MUX_ABI_VERSION: c_int = 0x0108;
+        const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0108;
     } else if #[cfg(feature = "0.5")] {
-        pub const WEBP_MUX_ABI_VERSION: c_int = 0x0106;
+        const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0106;
     } else {
-        pub const WEBP_MUX_ABI_VERSION: c_int = 0x0101;
+        const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0101;
     }
 }
 // extern {
 //     type WebPMux;
 // }
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]
 pub struct WebPMux(c_void);
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_camel_case_types)]
 #[repr(C)]
 pub enum WebPMuxError {
@@ -30,6 +35,7 @@ pub enum WebPMuxError {
     WEBP_MUX_NOT_ENOUGH_DATA = -4,
 }
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_camel_case_types)]
 #[repr(C)]
 pub enum WebPChunkId {
@@ -49,6 +55,7 @@ pub enum WebPChunkId {
     WEBP_CHUNK_NIL,
 }
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]
 pub struct WebPMuxFrameInfo {
     pub bitstream: WebPData,
@@ -61,6 +68,7 @@ pub struct WebPMuxFrameInfo {
     pub pad: [u32; 1],
 }
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]
 pub struct WebPMuxAnimParams {
     pub bgcolor: u32,
@@ -72,10 +80,12 @@ pub struct WebPMuxAnimParams {
 //     pub type WebPAnimEncoder;
 // }
 #[cfg(feature = "0.5")]
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
 #[repr(C)]
 pub struct WebPAnimEncoder(c_void);
 
 #[cfg(feature = "0.5")]
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
 #[repr(C)]
 pub struct WebPAnimEncoderOptions {
     pub anim_params: WebPMuxAnimParams,
@@ -89,63 +99,82 @@ pub struct WebPAnimEncoderOptions {
 
 #[cfg_attr(not(feature = "bundled"), link(name = "webpmux", kind = "dylib"))]
 extern "C" {
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPGetMuxVersion() -> c_int;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPNewInternal(_: c_int) -> *mut WebPMux;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxDelete(mux: *mut WebPMux);
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxCreateInternal(_: *const WebPData, _: c_int, _: c_int) -> *mut WebPMux;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxSetChunk(
         mux: *mut WebPMux,
         fourcc: *const c_char,
         chunk_data: *const WebPData,
         copy_data: c_int,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxGetChunk(
         mux: *const WebPMux,
         fourcc: *const c_char,
         chunk_data: *mut WebPData,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxDeleteChunk(mux: *mut WebPMux, fourcc: *const c_char) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxSetImage(
         mux: *mut WebPMux,
         bitstream: *const WebPData,
         copy_data: c_int,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxPushFrame(
         mux: *mut WebPMux,
         frame: *const WebPMuxFrameInfo,
         copy_data: c_int,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxGetFrame(
         mux: *const WebPMux,
         nth: u32,
         frame: *mut WebPMuxFrameInfo,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxDeleteFrame(mux: *mut WebPMux, nth: u32) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxSetAnimationParams(
         mux: *mut WebPMux,
         params: *const WebPMuxAnimParams,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxGetAnimationParams(
         mux: *const WebPMux,
         params: *mut WebPMuxAnimParams,
     ) -> WebPMuxError;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPMuxSetCanvasSize(mux: *mut WebPMux, width: c_int, height: c_int) -> WebPMuxError;
     pub fn WebPMuxGetCanvasSize(
         mux: *const WebPMux,
         width: *mut c_int,
         height: *mut c_int,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxGetFeatures(mux: *const WebPMux, flags: *mut u32) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxNumChunks(
         mux: *const WebPMux,
         id: WebPChunkId,
         num_elements: *mut c_int,
     ) -> WebPMuxError;
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxAssemble(mux: *mut WebPMux, assembled_data: *mut WebPData) -> WebPMuxError;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPAnimEncoderOptionsInitInternal(_: *mut WebPAnimEncoderOptions, _: c_int) -> c_int;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPAnimEncoderNewInternal(
         _: c_int,
         _: c_int,
@@ -153,6 +182,7 @@ extern "C" {
         _: c_int,
     ) -> *mut WebPAnimEncoder;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPAnimEncoderAdd(
         enc: *mut WebPAnimEncoder,
         frame: *mut WebPPicture,
@@ -160,19 +190,24 @@ extern "C" {
         config: *const WebPConfig,
     ) -> c_int;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPAnimEncoderAssemble(enc: *mut WebPAnimEncoder, webp_data: *mut WebPData) -> c_int;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPAnimEncoderGetError(enc: *mut WebPAnimEncoder) -> *const c_char;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
     pub fn WebPAnimEncoderDelete(enc: *mut WebPAnimEncoder);
 }
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_snake_case)]
 #[inline]
 pub unsafe extern "C" fn WebPMuxNew() -> *mut WebPMux {
     WebPNewInternal(WEBP_MUX_ABI_VERSION)
 }
 
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_snake_case)]
 #[inline]
 pub unsafe extern "C" fn WebPMuxCreate(
@@ -183,6 +218,7 @@ pub unsafe extern "C" fn WebPMuxCreate(
 }
 
 #[cfg(feature = "0.5")]
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
 #[allow(non_snake_case)]
 #[inline]
 pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
@@ -192,6 +228,7 @@ pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
 }
 
 #[cfg(feature = "0.5")]
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
 #[allow(non_snake_case)]
 #[inline]
 pub unsafe extern "C" fn WebPAnimEncoderNew(

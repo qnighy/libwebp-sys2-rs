@@ -1,3 +1,5 @@
+#![cfg_attr(feature = "__doc_cfg", feature(doc_cfg))]
+
 #[macro_use]
 extern crate cfg_if;
 

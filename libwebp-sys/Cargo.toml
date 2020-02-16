@@ -16,6 +16,7 @@ mux = []
 "0.6" = ["0.5"]
 "1.1" = ["0.6"]
 "bundled" = ["cc", "1.1"]
+__doc_cfg = ["1.1", "demux", "mux"]
 
 [build-dependencies]
 cc = { version = "1.0.25", optional = true }

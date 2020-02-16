@@ -14,9 +14,11 @@ extern "C" {
     /// must be deallocated by calling `WebPFree()`. This function is made available
     /// by the core `libwebp` library.
     #[cfg(feature = "1.1")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1.1")))]
     pub fn WebPMalloc(size: usize) -> *mut c_void;
     /// Releases memory returned by the `WebPDecode*()` functions (from `decode.h`).
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub fn WebPFree(ptr: *mut c_void);
 }
 

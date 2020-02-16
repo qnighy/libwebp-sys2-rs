@@ -59,12 +59,16 @@ pub struct WebPConfig {
     pub thread_level: c_int,
     pub low_memory: c_int,
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub near_lossless: c_int,
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub exact: c_int,
     #[cfg(feature = "0.6")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.6")))]
     pub use_delta_palette: c_int,
     #[cfg(feature = "0.6")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.6")))]
     pub use_sharp_yuv: c_int,
     #[cfg(not(feature = "0.5"))]
     pub pad: [u32; 5],
@@ -105,8 +109,10 @@ pub struct WebPAuxStats {
     pub palette_size: c_int,
     pub lossless_size: c_int,
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub lossless_hdr_size: c_int,
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub lossless_data_size: c_int,
     #[cfg(not(feature = "0.5"))]
     pub pad: [u32; 4],
@@ -255,10 +261,12 @@ extern "C" {
     pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
         -> c_int;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub fn WebPConfigLosslessPreset(config: *mut WebPConfig, level: c_int) -> c_int;
     pub fn WebPValidateConfig(config: *const WebPConfig) -> c_int;
     pub fn WebPMemoryWriterInit(writer: *mut WebPMemoryWriter);
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub fn WebPMemoryWriterClear(writer: *mut WebPMemoryWriter);
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
         -> c_int;
@@ -267,6 +275,7 @@ extern "C" {
     pub fn WebPPictureFree(picture: *mut WebPPicture);
     pub fn WebPPictureCopy(src: *const WebPPicture, dst: *mut WebPPicture) -> c_int;
     #[cfg(feature = "0.6")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.6")))]
     pub fn WebPPlaneDistortion(
         src: *const u8,
         src_stride: usize,
@@ -339,6 +348,7 @@ extern "C" {
         dithering: c_float,
     ) -> c_int;
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub fn WebPPictureSmartARGBToYUVA(picture: *mut WebPPicture) -> c_int;
     pub fn WebPPictureYUVAToARGB(picture: *mut WebPPicture) -> c_int;
     pub fn WebPCleanupTransparentArea(picture: *mut WebPPicture);

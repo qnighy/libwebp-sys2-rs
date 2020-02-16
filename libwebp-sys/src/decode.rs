@@ -266,9 +266,11 @@ pub struct WebPDecoderOptions {
     pub dithering_strength: c_int,
     /// flip output vertically
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub flip: c_int,
     /// alpha dithering strength in [0..100]
     #[cfg(feature = "0.5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub alpha_dithering_strength: c_int,
     /// Unused for now. forced rotation (to be applied _last_)
     #[cfg(not(feature = "0.5"))]
