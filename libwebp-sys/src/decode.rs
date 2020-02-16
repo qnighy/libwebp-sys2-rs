@@ -145,7 +145,7 @@ pub struct WebPDecBuffer {
     /// read/write will be avoided.
     pub is_external_memory: c_int,
     /// Nameless union of buffer parameters.
-    pub u: WebPDecBufferUnion,
+    pub u: __WebPDecBufferUnion,
     /// padding for later use
     pub pad: [u32; 4],
     /// Internally allocated memory (only when
@@ -156,7 +156,7 @@ pub struct WebPDecBuffer {
 
 #[allow(non_snake_case)]
 #[repr(C)]
-pub union WebPDecBufferUnion {
+pub union __WebPDecBufferUnion {
     pub RGBA: WebPRGBABuffer,
     pub YUVA: WebPYUVABuffer,
 }
