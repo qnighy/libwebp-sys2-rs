@@ -197,3 +197,17 @@ pub unsafe extern "C" fn WebPAnimEncoderNew(
 ) -> *mut WebPAnimEncoder {
     WebPAnimEncoderNewInternal(width, height, enc_options, WEBP_MUX_ABI_VERSION)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new_and_delete() {
+        unsafe {
+            let ptr = WebPMuxNew();
+            assert!(!ptr.is_null());
+            WebPMuxDelete(ptr);
+        }
+    }
+}
