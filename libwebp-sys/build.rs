@@ -1,10 +1,86 @@
-#[cfg(feature = "bundled")]
-extern crate cc;
+// Based on https://github.com/rust-lang/libz-sys/blob/1.0.25/build.rs
 
-#[cfg(feature = "bundled")]
+use std::env;
+use std::process::Command;
+
 fn main() {
-    if cfg!(test) {
+    println!("cargo:rerun-if-env-changed=LIBWEBP_SYS_STATIC");
+    println!("cargo:rerun-if-changed=build.rs");
+    let host = env::var("HOST").unwrap();
+    let target = env::var("TARGET").unwrap();
+    let host_and_target_contain = |s| host.contains(s) && target.contains(s);
+
+    // Don't run pkg-config if we're linking statically (we'll build below) and
+    // also don't run pkg-config on macOS/FreeBSD/DragonFly. That'll end up printing
+    // `-L /usr/lib` which wreaks havoc with linking to an OpenSSL in /usr/local/lib
+    // (Homebrew, Ports, etc.)
+    let want_static =
+        cfg!(feature = "static") || env::var("LIBWEBP_SYS_STATIC").unwrap_or(String::new()) == "1";
+    if !want_static &&
+       !target.contains("msvc") && // pkg-config just never works here
+       !(host_and_target_contain("apple") ||
+         host_and_target_contain("freebsd") ||
+         host_and_target_contain("dragonfly"))
+    {
+        let mut config = pkg_config::Config::new();
+        config.cargo_metadata(true);
+        if config.probe("libwebp").is_ok() {
+            if cfg!(feature = "demux") {
+                config.probe("libwebpdemux").unwrap();
+            }
+            if cfg!(feature = "mux") {
+                config.probe("libwebpmux").unwrap();
+            }
+            return;
+        }
+    }
+
+    if target.contains("msvc") {
+        if try_vcpkg() {
+            return;
+        }
+    }
+
+    // Whitelist a bunch of situations where we build unconditionally.
+    //
+    // MSVC basically never has it preinstalled, MinGW picks up a bunch of weird
+    // paths we don't like, `want_static` may force us, cross compiling almost
+    // never has a prebuilt version, and musl is almost always static.
+    if target.contains("msvc")
+        || target.contains("pc-windows-gnu")
+        || want_static
+        || target != host
+        || target.contains("musl")
+    {
+        return build_libwebp();
+    }
+
+    // If we've gotten this far we're probably a pretty standard platform.
+    // Almost all platforms here ship libz by default, but some don't have
+    // pkg-config files that we would find above.
+    //
+    // In any case test if zlib is actually installed and if so we link to it,
+    // otherwise continue below to build things.
+    if libwebp_installed() {
+        println!("cargo:rustc-link-lib=webp");
+        if cfg!(feature = "demux") {
+            println!("cargo:rustc-link-lib=webpdemux");
+        }
+        if cfg!(feature = "mux") {
+            println!("cargo:rustc-link-lib=webpmux");
+        }
         return;
+    }
+
+    build_libwebp()
+}
+
+fn build_libwebp() {
+    // For testing purpose
+    if let Ok(value) = std::env::var("__LIBWEBP_SYS_FORBID_BUILD") {
+        if value == "1" {
+            panic!("__LIBWEBP_SYS_FORBID_BUILD is set to 1");
+        }
     }
     cc::Build::new()
         .file("c_src/src/dec/alpha_dec.c")
@@ -135,5 +211,41 @@ fn main() {
     }
 }
 
-#[cfg(not(feature = "bundled"))]
-fn main() {}
+#[cfg(not(target_env = "msvc"))]
+fn try_vcpkg() -> bool {
+    false
+}
+
+#[cfg(target_env = "msvc")]
+fn try_vcpkg() -> bool {
+    // see if there is a vcpkg tree with libwebp installed
+    match vcpkg::Config::new()
+        .emit_includes(true)
+        .lib_name("libwebp")
+        .probe("libwebp")
+    {
+        Ok(_) => true,
+        Err(e) => {
+            println!("note, vcpkg did not find libwebp: {}", e);
+            false
+        }
+    }
+}
+
+fn libwebp_installed() -> bool {
+    let compiler = cc::Build::new().get_compiler();
+    let mut cmd = Command::new(compiler.path());
+    cmd.arg("src/smoke.c")
+        .arg("-o")
+        .arg("/dev/null")
+        .arg("-lwebp");
+
+    println!("running {:?}", cmd);
+    if let Ok(status) = cmd.status() {
+        if status.success() {
+            return true;
+        }
+    }
+
+    false
+}

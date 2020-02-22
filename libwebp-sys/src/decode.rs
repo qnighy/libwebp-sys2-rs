@@ -293,7 +293,6 @@ pub struct WebPDecoderConfig {
     pub options: WebPDecoderOptions,
 }
 
-#[cfg_attr(not(feature = "bundled"), link(name = "webp", kind = "dylib"))]
 extern "C" {
     /// Return the decoder's version number, packed in hexadecimal using 8bits for
     /// each of major/minor/revision. E.g: v2.5.7 is 0x020507.

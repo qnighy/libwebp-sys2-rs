@@ -97,7 +97,6 @@ pub struct WebPAnimEncoderOptions {
     pub padding: [u32; 4],
 }
 
-#[cfg_attr(not(feature = "bundled"), link(name = "webpmux", kind = "dylib"))]
 extern "C" {
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPGetMuxVersion() -> c_int;
