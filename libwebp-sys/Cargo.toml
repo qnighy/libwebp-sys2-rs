@@ -2,6 +2,8 @@
 name = "libwebp-sys"
 version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
+links = "webp"
+build = "build.rs"
 edition = "2018"
 
 [dependencies]
