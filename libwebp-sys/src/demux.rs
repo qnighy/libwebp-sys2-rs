@@ -15,9 +15,14 @@ cfg_if! {
         const WEBP_DEMUX_ABI_VERSION_INTERNAL: c_int = 0x0101;
     }
 }
-// extern {
-//     type WebPDemuxer;
-// }
+
+#[cfg(feature = "extern-types")]
+extern "C" {
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
+    pub type WebPDemuxer;
+}
+
+#[cfg(not(feature = "extern-types"))]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[repr(C)]
 pub struct WebPDemuxer(c_void);
@@ -77,11 +82,16 @@ pub struct WebPChunkIterator {
     private_: *mut c_void,
 }
 
-// extern {
-//     #[cfg(feature = "0.5")]
-//     pub type WebPAnimDecoder;
-// }
-#[cfg(feature = "0.5")]
+#[cfg(all(feature = "0.5", feature = "extern-types"))]
+extern "C" {
+    #[cfg_attr(
+        feature = "__doc_cfg",
+        doc(cfg(all(feature = "demux", feature = "0.5")))
+    )]
+    pub type WebPAnimDecoder;
+}
+
+#[cfg(all(feature = "0.5", not(feature = "extern-types")))]
 #[cfg_attr(
     feature = "__doc_cfg",
     doc(cfg(all(feature = "demux", feature = "0.5")))

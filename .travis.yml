@@ -17,6 +17,8 @@ matrix:
     env: WEBP_VERSION=1.1.0 WEBP_BUNDLED=true
   - rust: nightly
     env: WEBP_VERSION=1.1.0
+  - rust: nightly
+    env: WEBP_VERSION=1.1.0 COMMON_FEATURES=extern-types,
 
 install:
 - if [[ $TRAVIS_RUST_VERSION = stable ]]; then rustup component add rustfmt clippy; fi
@@ -36,25 +38,25 @@ install:
 - export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 - export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 script:
-- cargo test --all
-- cargo test --all --features "demux"
-- cargo test --all --features "mux"
-- cargo test --all --features "demux,mux"
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5"; fi
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5,demux"; fi
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5,mux"; fi
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "0.5,demux,mux"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6,demux"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6,mux"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "0.6,demux,mux"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1,demux"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1,mux"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "1.1,demux,mux"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "1.1,static"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "1.1,static,demux"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "1.1,static,mux"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "1.1,static,demux,mux"; fi
-- if [[ $TRAVIS_RUST_VERSION = nightly ]]; then cargo doc --all --features __doc_cfg; fi
+- cargo test --all --features "${COMMON_FEATURES}"
+- cargo test --all --features "${COMMON_FEATURES}demux,"
+- cargo test --all --features "${COMMON_FEATURES}mux"
+- cargo test --all --features "${COMMON_FEATURES}demux,mux"
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5,demux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6,demux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,demux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,mux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,demux,mux"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static,demux"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static,mux"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static,demux,mux"; fi
+- if [[ $TRAVIS_RUST_VERSION = nightly ]]; then cargo doc --all --features "${COMMON_FEATURES}__doc_cfg"; fi
 - if [[ $TRAVIS_RUST_VERSION = stable ]]; then cargo fmt --all -- --check; fi

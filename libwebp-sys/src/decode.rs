@@ -15,9 +15,12 @@ cfg_if! {
     }
 }
 
-// extern {
-//     type WebPIDecoder;
-// }
+#[cfg(feature = "extern-types")]
+extern "C" {
+    pub type WebPIDecoder;
+}
+
+#[cfg(not(feature = "extern-types"))]
 #[repr(C)]
 pub struct WebPIDecoder(c_void);
 

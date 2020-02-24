@@ -15,6 +15,7 @@ mux = ["libwebp-sys/mux"]
 "0.6" = ["libwebp-sys/0.6", "0.5"]
 "1.1" = ["libwebp-sys/1.1", "0.6"]
 static = ["libwebp-sys/static"]
+extern-types = ["libwebp-sys/extern-types"]
 __doc_cfg = ["libwebp-sys/__doc_cfg", "1.1", "demux", "mux"]
 unstable = []
 

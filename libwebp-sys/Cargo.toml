@@ -18,6 +18,7 @@ mux = []
 "0.6" = ["0.5"]
 "1.1" = ["0.6"]
 static = []
+extern-types = []
 __doc_cfg = ["1.1", "demux", "mux"]
 
 [build-dependencies]

@@ -16,9 +16,14 @@ cfg_if! {
         const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0101;
     }
 }
-// extern {
-//     type WebPMux;
-// }
+
+#[cfg(feature = "extern-types")]
+extern "C" {
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+    pub type WebPMux;
+}
+
+#[cfg(not(feature = "extern-types"))]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]
 pub struct WebPMux(c_void);
@@ -75,11 +80,13 @@ pub struct WebPMuxAnimParams {
     pub loop_count: c_int,
 }
 
-// extern {
-//     #[cfg(feature = "0.5")]
-//     pub type WebPAnimEncoder;
-// }
-#[cfg(feature = "0.5")]
+#[cfg(all(feature = "0.5", feature = "extern-types"))]
+extern "C" {
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
+    pub type WebPAnimEncoder;
+}
+
+#[cfg(all(feature = "0.5", not(feature = "extern-types")))]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
 #[repr(C)]
 pub struct WebPAnimEncoder(c_void);
