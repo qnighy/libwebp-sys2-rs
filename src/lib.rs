@@ -3,11 +3,13 @@ use std::ptr;
 use std::slice;
 
 use crate::boxed::{WebpBox, WebpYuvBox};
+use crate::error::WebPSimpleError;
 
 pub mod boxed;
+pub mod error;
 
 #[inline]
-unsafe fn wrap_bytes<F>(ptr: *mut u8, get_len: F) -> Result<WebpBox<[u8]>, WebPError>
+unsafe fn wrap_bytes<F>(ptr: *mut u8, get_len: F) -> Result<WebpBox<[u8]>, WebPSimpleError>
 where
     F: FnOnce() -> usize,
 {
@@ -15,7 +17,7 @@ where
         let len = get_len();
         Ok(WebpBox::from_raw(slice::from_raw_parts_mut(ptr, len)))
     } else {
-        Err(WebPError::Other)
+        Err(WebPSimpleError)
     }
 }
 
@@ -26,24 +28,12 @@ pub fn WebPGetDecoderVersion() -> u32 {
     (unsafe { libwebp_sys::WebPGetDecoderVersion() }) as u32
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum WebPError {
-    OutOfMemory,
-    InvalidParam,
-    BitstreamError,
-    UnsupportedFeature,
-    Suspended,
-    UserAbort,
-    NotEnoughData,
-    Other,
-}
-
 /// Retrieve basic header information: width, height.
 /// This function will also validate the header, returning true on success,
 /// false otherwise. '*width' and '*height' are only valid on successful return.
 /// Pointers 'width' and 'height' can be passed NULL if deemed irrelevant.
 #[allow(non_snake_case)]
-pub fn WebPGetInfo(data: &[u8]) -> Result<(u32, u32), WebPError> {
+pub fn WebPGetInfo(data: &[u8]) -> Result<(u32, u32), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let result =
@@ -51,7 +41,7 @@ pub fn WebPGetInfo(data: &[u8]) -> Result<(u32, u32), WebPError> {
     if result != 0 {
         Ok((width as u32, height as u32))
     } else {
-        Err(WebPError::Other)
+        Err(WebPSimpleError)
     }
 }
 
@@ -61,7 +51,7 @@ pub fn WebPGetInfo(data: &[u8]) -> Result<(u32, u32), WebPError> {
 /// The returned pointer should be deleted calling WebPFree().
 /// Returns NULL in case of error.
 #[allow(non_snake_case)]
-pub fn WebPDecodeRGBA(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError> {
+pub fn WebPDecodeRGBA(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let result =
@@ -72,7 +62,7 @@ pub fn WebPDecodeRGBA(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPErro
 
 /// Same as WebPDecodeRGBA, but returning A, R, G, B, A, R, G, B... ordered data.
 #[allow(non_snake_case)]
-pub fn WebPDecodeARGB(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError> {
+pub fn WebPDecodeARGB(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let result =
@@ -83,7 +73,7 @@ pub fn WebPDecodeARGB(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPErro
 
 /// Same as WebPDecodeRGBA, but returning B, G, R, A, B, G, R, A... ordered data.
 #[allow(non_snake_case)]
-pub fn WebPDecodeBGRA(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError> {
+pub fn WebPDecodeBGRA(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let result =
@@ -95,7 +85,7 @@ pub fn WebPDecodeBGRA(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPErro
 /// Same as WebPDecodeRGBA, but returning R, G, B, R, G, B... ordered data.
 /// If the bitstream contains transparency, it is ignored.
 #[allow(non_snake_case)]
-pub fn WebPDecodeRGB(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError> {
+pub fn WebPDecodeRGB(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let result =
@@ -106,7 +96,7 @@ pub fn WebPDecodeRGB(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError
 
 /// Same as WebPDecodeRGB, but returning B, G, R, B, G, R... ordered data.
 #[allow(non_snake_case)]
-pub fn WebPDecodeBGR(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError> {
+pub fn WebPDecodeBGR(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let result =
@@ -125,7 +115,7 @@ pub fn WebPDecodeBGR(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError
 /// Return NULL in case of error.
 /// (*) Also named Y'CbCr. See: http://en.wikipedia.org/wiki/YCbCr
 #[allow(non_snake_case)]
-pub fn WebPDecodeYUV(data: &[u8]) -> Result<(u32, u32, u32, u32, WebpYuvBox), WebPError> {
+pub fn WebPDecodeYUV(data: &[u8]) -> Result<(u32, u32, u32, u32, WebpYuvBox), WebPSimpleError> {
     let mut width: c_int = 0;
     let mut height: c_int = 0;
     let mut u: *mut u8 = ptr::null_mut();
@@ -162,7 +152,7 @@ pub fn WebPDecodeYUV(data: &[u8]) -> Result<(u32, u32, u32, u32, WebpYuvBox), We
             buf,
         ))
     } else {
-        Err(WebPError::Other)
+        Err(WebPSimpleError)
     }
 }
 
@@ -212,7 +202,7 @@ macro_rules! wrap_encoder {
             height: u32,
             stride: u32,
             quality_factor: f32,
-        ) -> Result<WebpBox<[u8]>, WebPError> {
+        ) -> Result<WebpBox<[u8]>, WebPSimpleError> {
             encode_size_check(rgb.len(), width, height, stride, $pixelwidth);
             let mut output: *mut u8 = ptr::null_mut();
             let result = unsafe {
@@ -228,7 +218,7 @@ macro_rules! wrap_encoder {
             if result != 0 {
                 unsafe { wrap_bytes(output, || result) }
             } else {
-                Err(WebPError::Other)
+                Err(WebPSimpleError)
             }
         }
     };
@@ -247,7 +237,7 @@ macro_rules! wrap_lossless_encoder {
             width: u32,
             height: u32,
             stride: u32,
-        ) -> Result<WebpBox<[u8]>, WebPError> {
+        ) -> Result<WebpBox<[u8]>, WebPSimpleError> {
             encode_size_check(rgb.len(), width, height, stride, $pixelwidth);
             let mut output: *mut u8 = ptr::null_mut();
             let result = unsafe {
@@ -262,7 +252,7 @@ macro_rules! wrap_lossless_encoder {
             if result != 0 {
                 unsafe { wrap_bytes(output, || result) }
             } else {
-                Err(WebPError::Other)
+                Err(WebPSimpleError)
             }
         }
     };
