@@ -134,6 +134,7 @@ extern "C" {
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
     pub fn WebPGetDemuxVersion() -> c_int;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
+    #[doc(hidden)]
     pub fn WebPDemuxInternal(
         _: *const WebPData,
         _: c_int,
@@ -180,12 +181,14 @@ extern "C" {
         feature = "__doc_cfg",
         doc(cfg(all(feature = "demux", feature = "0.5")))
     )]
+    #[doc(hidden)]
     pub fn WebPAnimDecoderOptionsInitInternal(_: *mut WebPAnimDecoderOptions, _: c_int) -> c_int;
     #[cfg(feature = "0.5")]
     #[cfg_attr(
         feature = "__doc_cfg",
         doc(cfg(all(feature = "demux", feature = "0.5")))
     )]
+    #[doc(hidden)]
     pub fn WebPAnimDecoderNewInternal(
         _: *const WebPData,
         _: *const WebPAnimDecoderOptions,

@@ -251,6 +251,7 @@ extern "C" {
         stride: c_int,
         output: *mut *mut u8,
     ) -> usize;
+    #[doc(hidden)]
     pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
         -> c_int;
     #[cfg(feature = "0.5")]
@@ -263,6 +264,7 @@ extern "C" {
     pub fn WebPMemoryWriterClear(writer: *mut WebPMemoryWriter);
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
         -> c_int;
+    #[doc(hidden)]
     pub fn WebPPictureInitInternal(_: *mut WebPPicture, _: c_int) -> c_int;
     pub fn WebPPictureAlloc(picture: *mut WebPPicture) -> c_int;
     pub fn WebPPictureFree(picture: *mut WebPPicture);

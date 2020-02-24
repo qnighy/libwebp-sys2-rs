@@ -115,10 +115,12 @@ extern "C" {
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPGetMuxVersion() -> c_int;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+    #[doc(hidden)]
     pub fn WebPNewInternal(_: c_int) -> *mut WebPMux;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxDelete(mux: *mut WebPMux);
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+    #[doc(hidden)]
     pub fn WebPMuxCreateInternal(_: *const WebPData, _: c_int, _: c_int) -> *mut WebPMux;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxSetChunk(
@@ -185,9 +187,11 @@ extern "C" {
     pub fn WebPMuxAssemble(mux: *mut WebPMux, assembled_data: *mut WebPData) -> WebPMuxError;
     #[cfg(feature = "0.5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
+    #[doc(hidden)]
     pub fn WebPAnimEncoderOptionsInitInternal(_: *mut WebPAnimEncoderOptions, _: c_int) -> c_int;
     #[cfg(feature = "0.5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
+    #[doc(hidden)]
     pub fn WebPAnimEncoderNewInternal(
         _: c_int,
         _: c_int,

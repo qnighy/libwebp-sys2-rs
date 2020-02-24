@@ -444,6 +444,7 @@ extern "C" {
         v_stride: c_int,
     ) -> *mut u8;
     /// Internal, version-checked, entry point
+    #[doc(hidden)]
     pub fn WebPInitDecBufferInternal(_: *mut WebPDecBuffer, _: c_int) -> c_int;
     /// Free any memory associated with the buffer. Must always be called last.
     /// Note: doesn't free the 'buffer' structure itself.
@@ -573,6 +574,7 @@ extern "C" {
         height: *mut c_int,
     ) -> *const WebPDecBuffer;
     /// Internal, version-checked, entry point
+    #[doc(hidden)]
     pub fn WebPGetFeaturesInternal(
         _: *const u8,
         _: usize,
@@ -580,6 +582,7 @@ extern "C" {
         _: c_int,
     ) -> VP8StatusCode;
     /// Internal, version-checked, entry point
+    #[doc(hidden)]
     pub fn WebPInitDecoderConfigInternal(_: *mut WebPDecoderConfig, _: c_int) -> c_int;
     /// Instantiate a new incremental decoder object with the requested
     /// configuration. The bitstream can be passed using 'data' and 'data_size'
