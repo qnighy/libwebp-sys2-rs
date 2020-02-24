@@ -180,9 +180,13 @@ pub struct WebPPicture {
     pub pad4: *mut u8,
     pub pad5: *mut u8,
     pub pad6: [u32; 8],
-    memory_: *mut c_void,
-    memory_argb_: *mut c_void,
-    pad7: [*mut c_void; 2],
+    // PRIVATE FIELDS
+    #[doc(hidden)]
+    pub memory_: *mut c_void,
+    #[doc(hidden)]
+    pub memory_argb_: *mut c_void,
+    #[doc(hidden)]
+    pub pad7: [*mut c_void; 2],
 }
 
 extern "C" {

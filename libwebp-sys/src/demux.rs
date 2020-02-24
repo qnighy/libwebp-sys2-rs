@@ -68,7 +68,8 @@ pub struct WebPIterator {
     pub has_alpha: c_int,
     pub blend_method: WebPMuxAnimBlend,
     pub pad: [u32; 2],
-    private_: *mut c_void,
+    #[doc(hidden)]
+    pub private_: *mut c_void,
 }
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
@@ -79,7 +80,8 @@ pub struct WebPChunkIterator {
     pub num_chunks: c_int,
     pub chunk: WebPData,
     pub pad: [u32; 6],
-    private_: *mut c_void,
+    #[doc(hidden)]
+    pub private_: *mut c_void,
 }
 
 #[cfg(all(feature = "0.5", feature = "extern-types"))]
