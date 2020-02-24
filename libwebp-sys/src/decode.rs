@@ -225,12 +225,15 @@ pub struct WebPBitstreamFeatures {
     /// Unused for now. if true, using incremental decoding is not
     /// recommended.
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub no_incremental_decoding: c_int,
     /// Unused for now. TODO(later)
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub rotate: c_int,
     /// Unused for now. should be 0 for now. TODO(later)
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub uv_sampling: c_int,
     /// padding for later use
     #[cfg(not(feature = "0.5"))]
@@ -282,9 +285,11 @@ pub struct WebPDecoderOptions {
     pub alpha_dithering_strength: c_int,
     /// Unused for now. forced rotation (to be applied _last_)
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub force_rotation: c_int,
     /// Unused for now. if true, discard enhancement layer
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub no_enhancement: c_int,
     /// padding for later use
     #[doc(hidden)]

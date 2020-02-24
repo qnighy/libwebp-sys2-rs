@@ -54,8 +54,10 @@ pub struct WebPIterator {
     pub frame_num: c_int,
     pub num_frames: c_int,
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub fragment_num: c_int,
     #[cfg(not(feature = "0.5"))]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub num_fragments: c_int,
     pub x_offset: c_int,
     pub y_offset: c_int,
@@ -164,6 +166,7 @@ extern "C" {
         feature = "__doc_cfg",
         doc(cfg(all(feature = "demux", feature = "0.5")))
     )]
+    #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub fn WebPDemuxSelectFragment(iter: *mut WebPIterator, fragment_num: c_int) -> c_int;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
     pub fn WebPDemuxReleaseIterator(iter: *mut WebPIterator);

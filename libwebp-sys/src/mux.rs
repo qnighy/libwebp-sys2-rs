@@ -54,6 +54,7 @@ pub const WEBP_CHUNK_ICCP: WebPChunkId = 1;
 pub const WEBP_CHUNK_ANIM: WebPChunkId = 2;
 pub const WEBP_CHUNK_ANMF: WebPChunkId = 3;
 #[cfg(not(feature = "0.6"))]
+#[deprecated(note = "Removed as of libwebp 0.6.0")]
 pub const WEBP_CHUNK_FRGM: WebPChunkId = 4;
 #[cfg(feature = "0.6")]
 pub const WEBP_CHUNK_DEPRECATED: WebPChunkId = 4;

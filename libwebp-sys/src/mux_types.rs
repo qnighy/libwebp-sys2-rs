@@ -12,6 +12,7 @@ use libc::{free as WebPFree, malloc as WebPMalloc};
 pub type WebPFeatureFlags = u32;
 
 #[cfg(not(feature = "0.6.0"))]
+#[deprecated(note = "Removed as of libwebp 0.6.0")]
 pub const FRAGMENTS_FLAG: WebPFeatureFlags = 0x00000001;
 pub const ANIMATION_FLAG: WebPFeatureFlags = 0x00000002;
 pub const XMP_FLAG: WebPFeatureFlags = 0x00000004;
