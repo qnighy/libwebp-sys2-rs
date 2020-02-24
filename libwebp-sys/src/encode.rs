@@ -23,6 +23,7 @@ pub const WEBP_HINT_LAST: WebPImageHint = 4;
 
 #[allow(non_snake_case)]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPConfig {
     pub lossless: c_int,
     pub quality: c_float,
@@ -79,6 +80,7 @@ pub const WEBP_PRESET_TEXT: WebPPreset = 5;
 
 #[allow(non_snake_case)]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPAuxStats {
     pub coded_size: c_int,
     pub PSNR: [c_float; 5],
@@ -138,6 +140,7 @@ pub const VP8_ENC_ERROR_USER_ABORT: WebPEncodingError = 10;
 pub const VP8_ENC_ERROR_LAST: WebPEncodingError = 11;
 
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPMemoryWriter {
     pub mem: *mut u8,
     pub size: usize,
@@ -148,6 +151,7 @@ pub struct WebPMemoryWriter {
 pub const WEBP_MAX_DIMENSION: c_int = 16383;
 
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPPicture {
     pub use_argb: c_int,
     pub colorspace: WebPEncCSP,

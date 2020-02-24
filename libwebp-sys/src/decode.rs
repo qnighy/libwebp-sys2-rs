@@ -87,7 +87,7 @@ pub extern "C" fn WebPIsRGBMode(mode: WEBP_CSP_MODE) -> c_int {
 
 /// view as RGBA
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPRGBABuffer {
     /// pointer to RGBA samples
     pub rgba: *mut u8,
@@ -99,7 +99,7 @@ pub struct WebPRGBABuffer {
 
 /// view as YUVA
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPYUVABuffer {
     /// pointer to luma samples
     pub y: *mut u8,
@@ -129,6 +129,7 @@ pub struct WebPYUVABuffer {
 
 /// Output buffer
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPDecBuffer {
     /// Colorspace.
     pub colorspace: WEBP_CSP_MODE,
@@ -153,9 +154,16 @@ pub struct WebPDecBuffer {
 
 #[allow(non_snake_case)]
 #[repr(C)]
+#[derive(Clone, Copy)]
 pub union __WebPDecBufferUnion {
     pub RGBA: WebPRGBABuffer,
     pub YUVA: WebPYUVABuffer,
+}
+
+impl std::fmt::Debug for __WebPDecBufferUnion {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        f.write_str("<union>")
+    }
 }
 
 /// Enumeration of the status codes
@@ -201,6 +209,7 @@ pub unsafe extern "C" fn WebPIDecGetYUV(
 
 /// Features gathered from the bitstream
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPBitstreamFeatures {
     /// Width in pixels, as read from the bitstream.
     pub width: c_int,
@@ -232,6 +241,7 @@ pub struct WebPBitstreamFeatures {
 
 /// Decoding options
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPDecoderOptions {
     /// if true, skip the in-loop filtering
     pub bypass_filtering: c_int,
@@ -279,6 +289,7 @@ pub struct WebPDecoderOptions {
 
 /// Main object storing the configuration for advanced decoding.
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPDecoderConfig {
     /// Immutable bitstream features (optional)
     pub input: WebPBitstreamFeatures,

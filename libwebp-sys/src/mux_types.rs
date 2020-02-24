@@ -34,6 +34,7 @@ pub const WEBP_MUX_BLEND: WebPMuxAnimBlend = 0;
 pub const WEBP_MUX_NO_BLEND: WebPMuxAnimBlend = 1;
 
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPData {
     pub bytes: *const u8,
     pub size: usize,

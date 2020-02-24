@@ -49,6 +49,7 @@ pub const WEBP_FF_FRAME_COUNT: WebPFormatFeature = 5;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPIterator {
     pub frame_num: c_int,
     pub num_frames: c_int,
@@ -72,6 +73,7 @@ pub struct WebPIterator {
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPChunkIterator {
     pub chunk_num: c_int,
     pub num_chunks: c_int,
@@ -103,6 +105,7 @@ pub struct WebPAnimDecoder(c_void);
     doc(cfg(all(feature = "demux", feature = "0.5")))
 )]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPAnimDecoderOptions {
     pub color_mode: WEBP_CSP_MODE,
     pub use_threads: c_int,
@@ -115,6 +118,7 @@ pub struct WebPAnimDecoderOptions {
     doc(cfg(all(feature = "demux", feature = "0.5")))
 )]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPAnimInfo {
     pub canvas_width: u32,
     pub canvas_height: u32,

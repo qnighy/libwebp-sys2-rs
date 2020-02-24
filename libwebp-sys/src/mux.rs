@@ -66,6 +66,7 @@ pub const WEBP_CHUNK_NIL: WebPChunkId = 10;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPMuxFrameInfo {
     pub bitstream: WebPData,
     pub x_offset: c_int,
@@ -79,6 +80,7 @@ pub struct WebPMuxFrameInfo {
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPMuxAnimParams {
     pub bgcolor: u32,
     pub loop_count: c_int,
@@ -98,6 +100,7 @@ pub struct WebPAnimEncoder(c_void);
 #[cfg(feature = "0.5")]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0.5"))))]
 #[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct WebPAnimEncoderOptions {
     pub anim_params: WebPMuxAnimParams,
     pub minimize_size: c_int,
