@@ -1,7 +1,7 @@
 use std::fmt;
 use std::marker::PhantomData;
 use std::mem;
-use std::ops::{Deref, DerefMut, Drop};
+use std::ops::{Deref, DerefMut};
 use std::os::raw::*;
 use std::ptr::{self, NonNull};
 use std::slice;
