@@ -1,5 +1,3 @@
-#![cfg_attr(feature = "unstable", feature(dropck_eyepatch))]
-
 use std::fmt;
 use std::marker::PhantomData;
 use std::mem;
@@ -28,16 +26,6 @@ impl<T: ?Sized> DerefMut for WebpBox<T> {
     }
 }
 
-#[cfg(feature = "unstable")]
-unsafe impl<#[may_dangle] T: ?Sized> Drop for WebpBox<T> {
-    fn drop(&mut self) {
-        unsafe {
-            WebPFree(self.ptr.as_ptr() as *mut c_void);
-        }
-    }
-}
-
-#[cfg(not(feature = "unstable"))]
 impl<T: ?Sized> Drop for WebpBox<T> {
     fn drop(&mut self) {
         unsafe {
