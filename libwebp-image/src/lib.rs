@@ -6,7 +6,7 @@ use image::{
     Bgr, Bgra, ColorType, DynamicImage, ImageBuffer, ImageDecoder, ImageError, ImageResult, Rgb,
     RgbImage, Rgba, RgbaImage,
 };
-use libwebp::WebpBox;
+use libwebp::boxed::WebpBox;
 
 #[derive(Debug)]
 pub struct WebpReader<R: Read> {

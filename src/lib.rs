@@ -1,54 +1,10 @@
-use std::fmt;
-use std::marker::PhantomData;
-use std::mem;
-use std::ops::{Deref, DerefMut};
 use std::os::raw::*;
-use std::ptr::{self, NonNull};
+use std::ptr;
 use std::slice;
 
-pub struct WebpBox<T: ?Sized> {
-    ptr: NonNull<T>,
-    _marker: PhantomData<T>,
-}
+use crate::boxed::{WebpBox, WebpYuvBox};
 
-impl<T: ?Sized> Deref for WebpBox<T> {
-    type Target = T;
-    fn deref(&self) -> &Self::Target {
-        unsafe { self.ptr.as_ref() }
-    }
-}
-
-impl<T: ?Sized> DerefMut for WebpBox<T> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        unsafe { self.ptr.as_mut() }
-    }
-}
-
-impl<T: ?Sized> Drop for WebpBox<T> {
-    fn drop(&mut self) {
-        unsafe {
-            WebPFree(self.ptr.as_ptr() as *mut c_void);
-        }
-    }
-}
-
-#[cfg(feature = "0.5")]
-use libwebp_sys::WebPFree;
-
-#[cfg(not(feature = "0.5"))]
-#[allow(non_snake_case)]
-unsafe fn WebPFree(ptr: *mut c_void) {
-    extern "C" {
-        fn free(ptr: *mut c_void);
-    }
-    free(ptr);
-}
-
-impl<T: fmt::Debug + ?Sized> fmt::Debug for WebpBox<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(self as &T, f)
-    }
-}
+pub mod boxed;
 
 #[inline]
 unsafe fn wrap_bytes<F>(ptr: *mut u8, get_len: F) -> Result<WebpBox<[u8]>, WebPError>
@@ -57,10 +13,7 @@ where
 {
     if !ptr.is_null() {
         let len = get_len();
-        Ok(WebpBox {
-            ptr: NonNull::new_unchecked(slice::from_raw_parts_mut(ptr, len)),
-            _marker: PhantomData,
-        })
+        Ok(WebpBox::from_raw(slice::from_raw_parts_mut(ptr, len)))
     } else {
         Err(WebPError::Other)
     }
@@ -162,75 +115,6 @@ pub fn WebPDecodeBGR(data: &[u8]) -> Result<(u32, u32, WebpBox<[u8]>), WebPError
     Ok((width as u32, height as u32, buf))
 }
 
-pub struct WebpYuvBox {
-    y: NonNull<[u8]>,
-    u: NonNull<[u8]>,
-    v: NonNull<[u8]>,
-}
-
-impl WebpYuvBox {
-    pub fn y(&self) -> &[u8] {
-        unsafe { self.y.as_ref() }
-    }
-    pub fn y_mut(&mut self) -> &mut [u8] {
-        unsafe { self.y.as_mut() }
-    }
-
-    pub fn u(&self) -> &[u8] {
-        unsafe { self.u.as_ref() }
-    }
-    pub fn u_mut(&mut self) -> &mut [u8] {
-        unsafe { self.u.as_mut() }
-    }
-
-    pub fn v(&self) -> &[u8] {
-        unsafe { self.v.as_ref() }
-    }
-    pub fn v_mut(&mut self) -> &mut [u8] {
-        unsafe { self.v.as_mut() }
-    }
-
-    pub fn yuv(&self) -> (&[u8], &[u8], &[u8]) {
-        let y = unsafe { self.y.as_ref() };
-        let u = unsafe { self.u.as_ref() };
-        let v = unsafe { self.v.as_ref() };
-        (y, u, v)
-    }
-    pub fn yuv_mut(&mut self) -> (&mut [u8], &mut [u8], &mut [u8]) {
-        let y = unsafe { self.y.as_mut() };
-        let u = unsafe { self.u.as_mut() };
-        let v = unsafe { self.v.as_mut() };
-        (y, u, v)
-    }
-
-    pub fn into_y(self) -> WebpBox<[u8]> {
-        let y = self.y;
-        mem::forget(self);
-        WebpBox {
-            ptr: y,
-            _marker: PhantomData,
-        }
-    }
-}
-
-impl Drop for WebpYuvBox {
-    fn drop(&mut self) {
-        unsafe {
-            WebPFree(self.y.as_ptr() as *mut c_void);
-        }
-    }
-}
-
-impl fmt::Debug for WebpYuvBox {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("WebpYuvBox")
-            .field("y", &self.y())
-            .field("u", &self.u())
-            .field("v", &self.v())
-            .finish()
-    }
-}
-
 /// Decode WebP images pointed to by 'data' to Y'UV format(*). The pointer
 /// returned is the Y samples buffer. Upon return, *u and *v will point to
 /// the U and V chroma data. These U and V buffers need NOT be passed to
@@ -264,11 +148,11 @@ pub fn WebPDecodeYUV(data: &[u8]) -> Result<(u32, u32, u32, u32, WebpYuvBox), We
         let y_len = height as usize * stride as usize;
         let uv_len = (height as usize + 1) / 2 * uv_stride as usize;
         let buf = unsafe {
-            WebpYuvBox {
-                y: NonNull::new_unchecked(slice::from_raw_parts_mut(result, y_len)),
-                u: NonNull::new_unchecked(slice::from_raw_parts_mut(u, uv_len)),
-                v: NonNull::new_unchecked(slice::from_raw_parts_mut(v, uv_len)),
-            }
+            WebpYuvBox::from_raw_yuv(
+                slice::from_raw_parts_mut(result, y_len),
+                slice::from_raw_parts_mut(u, uv_len),
+                slice::from_raw_parts_mut(v, uv_len),
+            )
         };
         Ok((
             width as u32,
