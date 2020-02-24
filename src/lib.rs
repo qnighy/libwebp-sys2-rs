@@ -6,8 +6,6 @@ use std::os::raw::*;
 use std::ptr::{self, NonNull};
 use std::slice;
 
-pub use libwebp_sys::VP8StatusCode;
-
 pub struct WebpBox<T: ?Sized> {
     ptr: NonNull<T>,
     _marker: PhantomData<T>,

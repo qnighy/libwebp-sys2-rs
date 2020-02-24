@@ -30,35 +30,39 @@ pub struct WebPMux(c_void);
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPMuxError {
-    WEBP_MUX_OK = 1,
-    WEBP_MUX_NOT_FOUND = 0,
-    WEBP_MUX_INVALID_ARGUMENT = -1,
-    WEBP_MUX_BAD_DATA = -2,
-    WEBP_MUX_MEMORY_ERROR = -3,
-    WEBP_MUX_NOT_ENOUGH_DATA = -4,
-}
+pub type WebPMuxError = i32;
+
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_OK: WebPMuxError = 1;
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_NOT_FOUND: WebPMuxError = 0;
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_INVALID_ARGUMENT: WebPMuxError = -1;
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_BAD_DATA: WebPMuxError = -2;
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_MEMORY_ERROR: WebPMuxError = -3;
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
+pub const WEBP_MUX_NOT_ENOUGH_DATA: WebPMuxError = -4;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPChunkId {
-    WEBP_CHUNK_VP8X,
-    WEBP_CHUNK_ICCP,
-    WEBP_CHUNK_ANIM,
-    WEBP_CHUNK_ANMF,
-    #[cfg(not(feature = "0.6"))]
-    WEBP_CHUNK_FRGM,
-    #[cfg(feature = "0.6")]
-    WEBP_CHUNK_DEPRECATED,
-    WEBP_CHUNK_ALPHA,
-    WEBP_CHUNK_IMAGE,
-    WEBP_CHUNK_EXIF,
-    WEBP_CHUNK_XMP,
-    WEBP_CHUNK_UNKNOWN,
-    WEBP_CHUNK_NIL,
-}
+pub type WebPChunkId = u32;
+
+pub const WEBP_CHUNK_VP8X: WebPChunkId = 0;
+pub const WEBP_CHUNK_ICCP: WebPChunkId = 1;
+pub const WEBP_CHUNK_ANIM: WebPChunkId = 2;
+pub const WEBP_CHUNK_ANMF: WebPChunkId = 3;
+#[cfg(not(feature = "0.6"))]
+pub const WEBP_CHUNK_FRGM: WebPChunkId = 4;
+#[cfg(feature = "0.6")]
+pub const WEBP_CHUNK_DEPRECATED: WebPChunkId = 4;
+pub const WEBP_CHUNK_ALPHA: WebPChunkId = 5;
+pub const WEBP_CHUNK_IMAGE: WebPChunkId = 6;
+pub const WEBP_CHUNK_EXIF: WebPChunkId = 7;
+pub const WEBP_CHUNK_XMP: WebPChunkId = 8;
+pub const WEBP_CHUNK_UNKNOWN: WebPChunkId = 9;
+pub const WEBP_CHUNK_NIL: WebPChunkId = 10;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[repr(C)]

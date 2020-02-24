@@ -8,37 +8,30 @@ use crate::{WebPFree, WebPMalloc};
 #[cfg(not(feature = "1.1"))]
 use libc::{free as WebPFree, malloc as WebPMalloc};
 
-pub use self::WebPFeatureFlags::*;
-pub use self::WebPMuxAnimBlend::*;
-pub use self::WebPMuxAnimDispose::*;
+#[allow(non_camel_case_types)]
+pub type WebPFeatureFlags = u32;
+
+#[cfg(not(feature = "0.6.0"))]
+pub const FRAGMENTS_FLAG: WebPFeatureFlags = 0x00000001;
+pub const ANIMATION_FLAG: WebPFeatureFlags = 0x00000002;
+pub const XMP_FLAG: WebPFeatureFlags = 0x00000004;
+pub const EXIF_FLAG: WebPFeatureFlags = 0x00000008;
+pub const ALPHA_FLAG: WebPFeatureFlags = 0x00000010;
+pub const ICCP_FLAG: WebPFeatureFlags = 0x00000020;
+#[cfg(feature = "0.6.0")]
+pub const ALL_VALID_FLAGS: WebPFeatureFlags = 0x0000003E;
 
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPFeatureFlags {
-    #[cfg(not(feature = "0.6.0"))]
-    FRAGMENTS_FLAG = 0x00000001,
-    ANIMATION_FLAG = 0x00000002,
-    XMP_FLAG = 0x00000004,
-    EXIF_FLAG = 0x00000008,
-    ALPHA_FLAG = 0x00000010,
-    ICCP_FLAG = 0x00000020,
-    #[cfg(feature = "0.6.0")]
-    ALL_VALID_FLAGS = 0x0000003E,
-}
+pub type WebPMuxAnimDispose = u32;
+
+pub const WEBP_MUX_DISPOSE_NONE: WebPMuxAnimDispose = 0;
+pub const WEBP_MUX_DISPOSE_BACKGROUND: WebPMuxAnimDispose = 1;
 
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPMuxAnimDispose {
-    WEBP_MUX_DISPOSE_NONE = 0,
-    WEBP_MUX_DISPOSE_BACKGROUND = 1,
-}
+pub type WebPMuxAnimBlend = u32;
 
-#[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPMuxAnimBlend {
-    WEBP_MUX_BLEND = 0,
-    WEBP_MUX_NO_BLEND = 1,
-}
+pub const WEBP_MUX_BLEND: WebPMuxAnimBlend = 0;
+pub const WEBP_MUX_NO_BLEND: WebPMuxAnimBlend = 1;
 
 #[repr(C)]
 pub struct WebPData {

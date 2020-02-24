@@ -1,9 +1,6 @@
 use std::os::raw::*;
 use std::ptr;
 
-pub use self::VP8StatusCode::*;
-pub use self::WEBP_CSP_MODE::*;
-
 // MAJOR(8b) + MINOR(8b)
 cfg_if! {
     if #[cfg(feature = "1.1")] {
@@ -37,31 +34,28 @@ pub struct WebPIDecoder(c_void);
 // RGB-565: [g2 g1 g0 b4 b3 b2 b1 b0], [r4 r3 r2 r1 r0 g5 g4 g3], ...
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-#[repr(C)]
-pub enum WEBP_CSP_MODE {
-    MODE_RGB = 0,
-    MODE_RGBA = 1,
-    MODE_BGR = 2,
-    MODE_BGRA = 3,
-    MODE_ARGB = 4,
-    MODE_RGBA_4444 = 5,
-    MODE_RGB_565 = 6,
-    // RGB-premultiplied transparent modes (alpha value is preserved)
-    MODE_rgbA = 7,
-    MODE_bgrA = 8,
-    MODE_Argb = 9,
-    MODE_rgbA_4444 = 10,
-    // YUV modes must come after RGB ones.
-    MODE_YUV = 11,
-    MODE_YUVA = 12,
-}
+pub type WEBP_CSP_MODE = u32;
 
-impl WEBP_CSP_MODE {
-    pub const MODE_LAST: c_int = 13;
-}
-
-pub const MODE_LAST: c_int = WEBP_CSP_MODE::MODE_LAST;
+pub const MODE_RGB: WEBP_CSP_MODE = 0;
+pub const MODE_RGBA: WEBP_CSP_MODE = 1;
+pub const MODE_BGR: WEBP_CSP_MODE = 2;
+pub const MODE_BGRA: WEBP_CSP_MODE = 3;
+pub const MODE_ARGB: WEBP_CSP_MODE = 4;
+pub const MODE_RGBA_4444: WEBP_CSP_MODE = 5;
+pub const MODE_RGB_565: WEBP_CSP_MODE = 6;
+// RGB-premultiplied transparent modes (alpha value is preserved)
+#[allow(non_upper_case_globals)]
+pub const MODE_rgbA: WEBP_CSP_MODE = 7;
+#[allow(non_upper_case_globals)]
+pub const MODE_bgrA: WEBP_CSP_MODE = 8;
+#[allow(non_upper_case_globals)]
+pub const MODE_Argb: WEBP_CSP_MODE = 9;
+#[allow(non_upper_case_globals)]
+pub const MODE_rgbA_4444: WEBP_CSP_MODE = 10;
+// YUV modes must come after RGB ones.
+pub const MODE_YUV: WEBP_CSP_MODE = 11;
+pub const MODE_YUVA: WEBP_CSP_MODE = 12;
+pub const MODE_LAST: WEBP_CSP_MODE = 13;
 
 // Some useful macros:
 
@@ -166,18 +160,16 @@ pub union __WebPDecBufferUnion {
 
 /// Enumeration of the status codes
 #[allow(non_camel_case_types)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-#[repr(C)]
-pub enum VP8StatusCode {
-    VP8_STATUS_OK = 0,
-    VP8_STATUS_OUT_OF_MEMORY = 1,
-    VP8_STATUS_INVALID_PARAM = 2,
-    VP8_STATUS_BITSTREAM_ERROR = 3,
-    VP8_STATUS_UNSUPPORTED_FEATURE = 4,
-    VP8_STATUS_SUSPENDED = 5,
-    VP8_STATUS_USER_ABORT = 6,
-    VP8_STATUS_NOT_ENOUGH_DATA = 7,
-}
+pub type VP8StatusCode = u32;
+
+pub const VP8_STATUS_OK: VP8StatusCode = 0;
+pub const VP8_STATUS_OUT_OF_MEMORY: VP8StatusCode = 1;
+pub const VP8_STATUS_INVALID_PARAM: VP8StatusCode = 2;
+pub const VP8_STATUS_BITSTREAM_ERROR: VP8StatusCode = 3;
+pub const VP8_STATUS_UNSUPPORTED_FEATURE: VP8StatusCode = 4;
+pub const VP8_STATUS_SUSPENDED: VP8StatusCode = 5;
+pub const VP8_STATUS_USER_ABORT: VP8StatusCode = 6;
+pub const VP8_STATUS_NOT_ENOUGH_DATA: VP8StatusCode = 7;
 
 /// Deprecated alpha-less version of WebPIDecGetYUVA(): it will ignore the
 /// alpha information (if present). Kept for backward compatibility.

@@ -29,25 +29,23 @@ pub struct WebPDemuxer(c_void);
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPDemuxState {
-    WEBP_DEMUX_PARSE_ERROR = -1,
-    WEBP_DEMUX_PARSING_HEADER = 0,
-    WEBP_DEMUX_PARSED_HEADER = 1,
-    WEBP_DEMUX_DONE = 2,
-}
+pub type WebPDemuxState = i32;
+
+pub const WEBP_DEMUX_PARSE_ERROR: WebPDemuxState = -1;
+pub const WEBP_DEMUX_PARSING_HEADER: WebPDemuxState = 0;
+pub const WEBP_DEMUX_PARSED_HEADER: WebPDemuxState = 1;
+pub const WEBP_DEMUX_DONE: WebPDemuxState = 2;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPFormatFeature {
-    WEBP_FF_FORMAT_FLAGS = 0,
-    WEBP_FF_CANVAS_WIDTH = 1,
-    WEBP_FF_CANVAS_HEIGHT = 2,
-    WEBP_FF_LOOP_COUNT = 3,
-    WEBP_FF_BACKGROUND_COLOR = 4,
-    WEBP_FF_FRAME_COUNT = 5,
-}
+pub type WebPFormatFeature = u32;
+
+pub const WEBP_FF_FORMAT_FLAGS: WebPFormatFeature = 0;
+pub const WEBP_FF_CANVAS_WIDTH: WebPFormatFeature = 1;
+pub const WEBP_FF_CANVAS_HEIGHT: WebPFormatFeature = 2;
+pub const WEBP_FF_LOOP_COUNT: WebPFormatFeature = 3;
+pub const WEBP_FF_BACKGROUND_COLOR: WebPFormatFeature = 4;
+pub const WEBP_FF_FRAME_COUNT: WebPFormatFeature = 5;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[repr(C)]

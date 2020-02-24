@@ -1,10 +1,5 @@
 use std::os::raw::*;
 
-pub use self::WebPEncCSP::*;
-pub use self::WebPEncodingError::*;
-pub use self::WebPImageHint::*;
-pub use self::WebPPreset::*;
-
 cfg_if! {
     if #[cfg(feature = "1.1")] {
         pub const WEBP_ENCODER_ABI_VERSION: c_int = 0x020F;
@@ -18,19 +13,13 @@ cfg_if! {
 }
 
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPImageHint {
-    WEBP_HINT_DEFAULT = 0,
-    WEBP_HINT_PICTURE = 1,
-    WEBP_HINT_PHOTO = 2,
-    WEBP_HINT_GRAPH = 3,
-}
+pub type WebPImageHint = u32;
 
-impl WebPImageHint {
-    pub const WEBP_HINT_LAST: c_int = 4;
-}
-
-pub const WEBP_HINT_LAST: c_int = WebPImageHint::WEBP_HINT_LAST;
+pub const WEBP_HINT_DEFAULT: WebPImageHint = 0;
+pub const WEBP_HINT_PICTURE: WebPImageHint = 1;
+pub const WEBP_HINT_PHOTO: WebPImageHint = 2;
+pub const WEBP_HINT_GRAPH: WebPImageHint = 3;
+pub const WEBP_HINT_LAST: WebPImageHint = 4;
 
 #[allow(non_snake_case)]
 #[repr(C)]
@@ -79,15 +68,14 @@ pub struct WebPConfig {
 }
 
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPPreset {
-    WEBP_PRESET_DEFAULT = 0,
-    WEBP_PRESET_PICTURE = 1,
-    WEBP_PRESET_PHOTO = 2,
-    WEBP_PRESET_DRAWING = 3,
-    WEBP_PRESET_ICON = 4,
-    WEBP_PRESET_TEXT = 5,
-}
+pub type WebPPreset = u32;
+
+pub const WEBP_PRESET_DEFAULT: WebPPreset = 0;
+pub const WEBP_PRESET_PICTURE: WebPPreset = 1;
+pub const WEBP_PRESET_PHOTO: WebPPreset = 2;
+pub const WEBP_PRESET_DRAWING: WebPPreset = 3;
+pub const WEBP_PRESET_ICON: WebPPreset = 4;
+pub const WEBP_PRESET_TEXT: WebPPreset = 5;
 
 #[allow(non_snake_case)]
 #[repr(C)]
@@ -125,31 +113,29 @@ pub type WebPWriterFunction = Option<extern "C" fn(*const u8, usize, *const WebP
 pub type WebPProgressHook = Option<extern "C" fn(c_int, *const WebPPicture) -> c_int>;
 
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPEncCSP {
-    WEBP_YUV420 = 0,
-    WEBP_YUV420A = 4,
-}
+pub type WebPEncCSP = u32;
 
-pub const WEBP_CSP_UV_MASK: c_int = 3;
-pub const WEBP_CSP_ALPHA_BIT: c_int = 4;
+pub const WEBP_YUV420: WebPEncCSP = 0;
+pub const WEBP_YUV420A: WebPEncCSP = 4;
+
+pub const WEBP_CSP_UV_MASK: WebPEncCSP = 3;
+pub const WEBP_CSP_ALPHA_BIT: WebPEncCSP = 4;
 
 #[allow(non_camel_case_types)]
-#[repr(C)]
-pub enum WebPEncodingError {
-    VP8_ENC_OK = 0,
-    VP8_ENC_ERROR_OUT_OF_MEMORY = 1,
-    VP8_ENC_ERROR_BITSTREAM_OUT_OF_MEMORY = 2,
-    VP8_ENC_ERROR_NULL_PARAMETER = 3,
-    VP8_ENC_ERROR_INVALID_CONFIGURATION = 4,
-    VP8_ENC_ERROR_BAD_DIMENSION = 5,
-    VP8_ENC_ERROR_PARTITION0_OVERFLOW = 6,
-    VP8_ENC_ERROR_PARTITION_OVERFLOW = 7,
-    VP8_ENC_ERROR_BAD_WRITE = 8,
-    VP8_ENC_ERROR_FILE_TOO_BIG = 9,
-    VP8_ENC_ERROR_USER_ABORT = 10,
-    VP8_ENC_ERROR_LAST = 11,
-}
+pub type WebPEncodingError = u32;
+
+pub const VP8_ENC_OK: WebPEncodingError = 0;
+pub const VP8_ENC_ERROR_OUT_OF_MEMORY: WebPEncodingError = 1;
+pub const VP8_ENC_ERROR_BITSTREAM_OUT_OF_MEMORY: WebPEncodingError = 2;
+pub const VP8_ENC_ERROR_NULL_PARAMETER: WebPEncodingError = 3;
+pub const VP8_ENC_ERROR_INVALID_CONFIGURATION: WebPEncodingError = 4;
+pub const VP8_ENC_ERROR_BAD_DIMENSION: WebPEncodingError = 5;
+pub const VP8_ENC_ERROR_PARTITION0_OVERFLOW: WebPEncodingError = 6;
+pub const VP8_ENC_ERROR_PARTITION_OVERFLOW: WebPEncodingError = 7;
+pub const VP8_ENC_ERROR_BAD_WRITE: WebPEncodingError = 8;
+pub const VP8_ENC_ERROR_FILE_TOO_BIG: WebPEncodingError = 9;
+pub const VP8_ENC_ERROR_USER_ABORT: WebPEncodingError = 10;
+pub const VP8_ENC_ERROR_LAST: WebPEncodingError = 11;
 
 #[repr(C)]
 pub struct WebPMemoryWriter {
