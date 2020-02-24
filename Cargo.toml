@@ -17,7 +17,6 @@ mux = ["libwebp-sys/mux"]
 static = ["libwebp-sys/static"]
 extern-types = ["libwebp-sys/extern-types"]
 __doc_cfg = ["libwebp-sys/__doc_cfg", "1.1", "demux", "mux"]
-unstable = []
 
 [workspace]
 members = [
