@@ -149,6 +149,7 @@ pub struct WebPDecBuffer {
     /// Internally allocated memory (only when
     /// is_external_memory is 0). Should not be used
     /// externally, but accessed via the buffer union.
+    #[doc(hidden)]
     pub private_memory: *mut u8,
 }
 
@@ -233,9 +234,11 @@ pub struct WebPBitstreamFeatures {
     pub uv_sampling: c_int,
     /// padding for later use
     #[cfg(not(feature = "0.5"))]
+    #[doc(hidden)]
     pub pad: [u32; 2],
     /// padding for later use
     #[cfg(feature = "0.5")]
+    #[doc(hidden)]
     pub pad: [u32; 5],
 }
 
@@ -284,6 +287,7 @@ pub struct WebPDecoderOptions {
     #[cfg(not(feature = "0.5"))]
     pub no_enhancement: c_int,
     /// padding for later use
+    #[doc(hidden)]
     pub pad: [u32; 5],
 }
 

@@ -75,6 +75,7 @@ pub struct WebPMuxFrameInfo {
     pub id: WebPChunkId,
     pub dispose_method: WebPMuxAnimDispose,
     pub blend_method: WebPMuxAnimBlend,
+    #[doc(hidden)]
     pub pad: [u32; 1],
 }
 
@@ -108,6 +109,7 @@ pub struct WebPAnimEncoderOptions {
     pub kmax: c_int,
     pub allow_mixed: c_int,
     pub verbose: c_int,
+    #[doc(hidden)]
     pub padding: [u32; 4],
 }
 

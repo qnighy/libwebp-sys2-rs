@@ -67,6 +67,7 @@ pub struct WebPIterator {
     pub fragment: WebPData,
     pub has_alpha: c_int,
     pub blend_method: WebPMuxAnimBlend,
+    #[doc(hidden)]
     pub pad: [u32; 2],
     #[doc(hidden)]
     pub private_: *mut c_void,
@@ -79,6 +80,7 @@ pub struct WebPChunkIterator {
     pub chunk_num: c_int,
     pub num_chunks: c_int,
     pub chunk: WebPData,
+    #[doc(hidden)]
     pub pad: [u32; 6],
     #[doc(hidden)]
     pub private_: *mut c_void,
@@ -111,6 +113,7 @@ pub struct WebPAnimDecoder(c_void);
 pub struct WebPAnimDecoderOptions {
     pub color_mode: WEBP_CSP_MODE,
     pub use_threads: c_int,
+    #[doc(hidden)]
     pub padding: [u32; 7],
 }
 
@@ -127,6 +130,7 @@ pub struct WebPAnimInfo {
     pub loop_count: u32,
     pub bgcolor: u32,
     pub frame_count: u32,
+    #[doc(hidden)]
     pub pad: [u32; 4],
 }
 

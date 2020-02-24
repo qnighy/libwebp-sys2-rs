@@ -61,10 +61,13 @@ pub struct WebPConfig {
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.6")))]
     pub use_sharp_yuv: c_int,
     #[cfg(not(feature = "0.5"))]
+    #[doc(hidden)]
     pub pad: [u32; 5],
     #[cfg(all(feature = "0.5", not(feature = "0.6")))]
+    #[doc(hidden)]
     pub pad: [u32; 3],
     #[cfg(feature = "0.6")]
+    #[doc(hidden)]
     pub pad: [u32; 2],
 }
 
@@ -105,8 +108,10 @@ pub struct WebPAuxStats {
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
     pub lossless_data_size: c_int,
     #[cfg(not(feature = "0.5"))]
+    #[doc(hidden)]
     pub pad: [u32; 4],
     #[cfg(feature = "0.5")]
+    #[doc(hidden)]
     pub pad: [u32; 2],
 }
 
@@ -145,6 +150,7 @@ pub struct WebPMemoryWriter {
     pub mem: *mut u8,
     pub size: usize,
     pub max_size: usize,
+    #[doc(hidden)]
     pub pad: [u32; 1],
 }
 
@@ -164,9 +170,11 @@ pub struct WebPPicture {
     pub uv_stride: c_int,
     pub a: *mut u8,
     pub a_stride: c_int,
+    #[doc(hidden)]
     pub pad1: [u32; 2],
     pub argb: *mut u32,
     pub argb_stride: c_int,
+    #[doc(hidden)]
     pub pad2: [u32; 3],
     pub writer: WebPWriterFunction,
     pub custom_ptr: *mut c_void,
@@ -176,9 +184,13 @@ pub struct WebPPicture {
     pub error_code: WebPEncodingError,
     pub progress_hook: WebPProgressHook,
     pub user_data: *mut c_void,
+    #[doc(hidden)]
     pub pad3: [u32; 3],
+    #[doc(hidden)]
     pub pad4: *mut u8,
+    #[doc(hidden)]
     pub pad5: *mut u8,
+    #[doc(hidden)]
     pub pad6: [u32; 8],
     // PRIVATE FIELDS
     #[doc(hidden)]
