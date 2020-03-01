@@ -4,6 +4,19 @@ version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 edition = "2018"
 
+description = "A binding to libwebp"
+homepage = "https://github.com/qnighy/libwebp-rs"
+repository = "https://github.com/qnighy/libwebp-rs"
+readme = "README.md"
+keywords = ["webp", "image"]
+categories = ["api-bindings", "multimedia", "multimedia::images"]
+license = "BSD-3-Clause"
+
+[badges]
+travis-ci = { repository = "qnighy/libwebp-rs", branch = "master" }
+is-it-maintained-issue-resolution = { repository = "qnighy/libwebp-rs" }
+is-it-maintained-open-issues = { repository = "qnighy/libwebp-rs" }
+
 [dependencies]
 libwebp-sys2 = { path = "libwebp-sys", default-features = false }
 
