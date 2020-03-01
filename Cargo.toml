@@ -5,18 +5,18 @@ authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-libwebp-sys = { path = "libwebp-sys", default-features = false }
+libwebp-sys2 = { path = "libwebp-sys", default-features = false }
 
 [features]
 default = []
-demux = ["libwebp-sys/demux"]
-mux = ["libwebp-sys/mux"]
-"0.5" = ["libwebp-sys/0.5"]
-"0.6" = ["libwebp-sys/0.6", "0.5"]
-"1.1" = ["libwebp-sys/1.1", "0.6"]
-static = ["libwebp-sys/static"]
-extern-types = ["libwebp-sys/extern-types"]
-__doc_cfg = ["libwebp-sys/__doc_cfg", "1.1", "demux", "mux"]
+demux = ["libwebp-sys2/demux"]
+mux = ["libwebp-sys2/mux"]
+"0.5" = ["libwebp-sys2/0.5"]
+"0.6" = ["libwebp-sys2/0.6", "0.5"]
+"1.1" = ["libwebp-sys2/1.1", "0.6"]
+static = ["libwebp-sys2/static"]
+extern-types = ["libwebp-sys2/extern-types"]
+__doc_cfg = ["libwebp-sys2/__doc_cfg", "1.1", "demux", "mux"]
 
 [workspace]
 members = [

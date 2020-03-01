@@ -1,10 +1,13 @@
 [package]
-name = "libwebp-sys"
+name = "libwebp-sys2"
 version = "0.1.0"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 links = "webp"
 build = "build.rs"
 edition = "2018"
+
+[lib]
+name = "libwebp_sys"
 
 [dependencies]
 cfg-if = "0.1.6"
