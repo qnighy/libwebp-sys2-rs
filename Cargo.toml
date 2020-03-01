@@ -15,9 +15,9 @@ categories = ["external-ffi-bindings", "multimedia", "multimedia::images"]
 license = "BSD-3-Clause"
 
 [badges]
-travis-ci = { repository = "qnighy/libwebp-rs", branch = "master" }
-is-it-maintained-issue-resolution = { repository = "qnighy/libwebp-rs" }
-is-it-maintained-open-issues = { repository = "qnighy/libwebp-rs" }
+travis-ci = { repository = "qnighy/libwebp-sys2-rs", branch = "master" }
+is-it-maintained-issue-resolution = { repository = "qnighy/libwebp-sys2-rs" }
+is-it-maintained-open-issues = { repository = "qnighy/libwebp-sys2-rs" }
 
 [lib]
 name = "libwebp_sys"
