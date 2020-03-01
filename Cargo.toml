@@ -34,7 +34,6 @@ __doc_cfg = ["libwebp-sys2/__doc_cfg", "1.1", "demux", "mux"]
 [workspace]
 members = [
   "libwebp-sys",
-  "libwebp-image",
 ]
 
 [patch.crates-io]
