@@ -3,15 +3,15 @@ use std::os::raw::*;
 
 use libc::{memcpy, memset};
 
-#[cfg(feature = "1.1")]
+#[cfg(feature = "1_1")]
 use crate::{WebPFree, WebPMalloc};
-#[cfg(not(feature = "1.1"))]
+#[cfg(not(feature = "1_1"))]
 use libc::{free as WebPFree, malloc as WebPMalloc};
 
 #[allow(non_camel_case_types)]
 pub type WebPFeatureFlags = u32;
 
-#[cfg(not(feature = "0.6"))]
+#[cfg(not(feature = "0_6"))]
 #[deprecated(note = "Removed as of libwebp 0.6.0")]
 pub const FRAGMENTS_FLAG: WebPFeatureFlags = 0x00000001;
 pub const ANIMATION_FLAG: WebPFeatureFlags = 0x00000002;
@@ -19,7 +19,7 @@ pub const XMP_FLAG: WebPFeatureFlags = 0x00000004;
 pub const EXIF_FLAG: WebPFeatureFlags = 0x00000008;
 pub const ALPHA_FLAG: WebPFeatureFlags = 0x00000010;
 pub const ICCP_FLAG: WebPFeatureFlags = 0x00000020;
-#[cfg(feature = "0.6")]
+#[cfg(feature = "0_6")]
 pub const ALL_VALID_FLAGS: WebPFeatureFlags = 0x0000003E;
 
 #[allow(non_camel_case_types)]

@@ -3,9 +3,9 @@ use std::ptr;
 
 // MAJOR(8b) + MINOR(8b)
 cfg_if! {
-    if #[cfg(feature = "1.1")] {
+    if #[cfg(feature = "1_1")] {
         pub const WEBP_DECODER_ABI_VERSION: c_int = 0x0209;
-    } else if #[cfg(feature = "0.5")] {
+    } else if #[cfg(feature = "0_5")] {
         pub const WEBP_DECODER_ABI_VERSION: c_int = 0x0208;
     } else {
         pub const WEBP_DECODER_ABI_VERSION: c_int = 0x0203;
@@ -224,23 +224,23 @@ pub struct WebPBitstreamFeatures {
     pub format: c_int,
     /// Unused for now. if true, using incremental decoding is not
     /// recommended.
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub no_incremental_decoding: c_int,
     /// Unused for now. TODO(later)
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub rotate: c_int,
     /// Unused for now. should be 0 for now. TODO(later)
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub uv_sampling: c_int,
     /// padding for later use
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[doc(hidden)]
     pub pad: [u32; 2],
     /// padding for later use
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[doc(hidden)]
     pub pad: [u32; 5],
 }
@@ -276,19 +276,19 @@ pub struct WebPDecoderOptions {
     /// dithering strength (0=Off, 100=full)
     pub dithering_strength: c_int,
     /// flip output vertically
-    #[cfg(feature = "0.5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
+    #[cfg(feature = "0_5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub flip: c_int,
     /// alpha dithering strength in [0..100]
-    #[cfg(feature = "0.5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0.5")))]
+    #[cfg(feature = "0_5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub alpha_dithering_strength: c_int,
     /// Unused for now. forced rotation (to be applied _last_)
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub force_rotation: c_int,
     /// Unused for now. if true, discard enhancement layer
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub no_enhancement: c_int,
     /// padding for later use

@@ -1,7 +1,7 @@
 use std::os::raw::*;
 use std::ptr;
 
-#[cfg(feature = "0.5")]
+#[cfg(feature = "0_5")]
 use crate::decode::*;
 use crate::mux_types::*;
 
@@ -9,7 +9,7 @@ use crate::mux_types::*;
 pub const WEBP_DEMUX_ABI_VERSION: c_int = WEBP_DEMUX_ABI_VERSION_INTERNAL;
 
 cfg_if! {
-    if #[cfg(feature = "0.5")] {
+    if #[cfg(feature = "0_5")] {
         const WEBP_DEMUX_ABI_VERSION_INTERNAL: c_int = 0x0107;
     } else {
         const WEBP_DEMUX_ABI_VERSION_INTERNAL: c_int = 0x0101;
@@ -53,10 +53,10 @@ pub const WEBP_FF_FRAME_COUNT: WebPFormatFeature = 5;
 pub struct WebPIterator {
     pub frame_num: c_int,
     pub num_frames: c_int,
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub fragment_num: c_int,
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub num_fragments: c_int,
     pub x_offset: c_int,
@@ -88,27 +88,27 @@ pub struct WebPChunkIterator {
     pub private_: *mut c_void,
 }
 
-#[cfg(all(feature = "0.5", feature = "extern-types"))]
+#[cfg(all(feature = "0_5", feature = "extern-types"))]
 extern "C" {
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub type WebPAnimDecoder;
 }
 
-#[cfg(all(feature = "0.5", not(feature = "extern-types")))]
+#[cfg(all(feature = "0_5", not(feature = "extern-types")))]
 #[cfg_attr(
     feature = "__doc_cfg",
-    doc(cfg(all(feature = "demux", feature = "0.5")))
+    doc(cfg(all(feature = "demux", feature = "0_5")))
 )]
 #[repr(C)]
 pub struct WebPAnimDecoder(c_void);
 
-#[cfg(feature = "0.5")]
+#[cfg(feature = "0_5")]
 #[cfg_attr(
     feature = "__doc_cfg",
-    doc(cfg(all(feature = "demux", feature = "0.5")))
+    doc(cfg(all(feature = "demux", feature = "0_5")))
 )]
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -119,10 +119,10 @@ pub struct WebPAnimDecoderOptions {
     pub padding: [u32; 7],
 }
 
-#[cfg(feature = "0.5")]
+#[cfg(feature = "0_5")]
 #[cfg_attr(
     feature = "__doc_cfg",
-    doc(cfg(all(feature = "demux", feature = "0.5")))
+    doc(cfg(all(feature = "demux", feature = "0_5")))
 )]
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -161,10 +161,10 @@ extern "C" {
     pub fn WebPDemuxNextFrame(iter: *mut WebPIterator) -> c_int;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
     pub fn WebPDemuxPrevFrame(iter: *mut WebPIterator) -> c_int;
-    #[cfg(not(feature = "0.5"))]
+    #[cfg(not(feature = "0_5"))]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     #[deprecated(note = "Removed as of libwebp 0.5.0")]
     pub fn WebPDemuxSelectFragment(iter: *mut WebPIterator, fragment_num: c_int) -> c_int;
@@ -183,17 +183,17 @@ extern "C" {
     pub fn WebPDemuxPrevChunk(iter: *mut WebPChunkIterator) -> c_int;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
     pub fn WebPDemuxReleaseChunkIterator(iter: *mut WebPChunkIterator);
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     #[doc(hidden)]
     pub fn WebPAnimDecoderOptionsInitInternal(_: *mut WebPAnimDecoderOptions, _: c_int) -> c_int;
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     #[doc(hidden)]
     pub fn WebPAnimDecoderNewInternal(
@@ -201,44 +201,44 @@ extern "C" {
         _: *const WebPAnimDecoderOptions,
         _: c_int,
     ) -> *mut WebPAnimDecoder;
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub fn WebPAnimDecoderGetInfo(dec: *const WebPAnimDecoder, info: *mut WebPAnimInfo) -> c_int;
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub fn WebPAnimDecoderGetNext(
         dec: *mut WebPAnimDecoder,
         buf: *mut *mut u8,
         timestamp: *mut c_int,
     ) -> c_int;
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub fn WebPAnimDecoderHasMoreFrames(dec: *const WebPAnimDecoder) -> c_int;
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub fn WebPAnimDecoderReset(dec: *mut WebPAnimDecoder);
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub fn WebPAnimDecoderGetDemuxer(dec: *const WebPAnimDecoder) -> *const WebPDemuxer;
-    #[cfg(feature = "0.5")]
+    #[cfg(feature = "0_5")]
     #[cfg_attr(
         feature = "__doc_cfg",
-        doc(cfg(all(feature = "demux", feature = "0.5")))
+        doc(cfg(all(feature = "demux", feature = "0_5")))
     )]
     pub fn WebPAnimDecoderDelete(dec: *mut WebPAnimDecoder);
 }
@@ -260,10 +260,10 @@ pub unsafe extern "C" fn WebPDemuxPartial(
     WebPDemuxInternal(data, 1, state, WEBP_DEMUX_ABI_VERSION)
 }
 
-#[cfg(feature = "0.5")]
+#[cfg(feature = "0_5")]
 #[cfg_attr(
     feature = "__doc_cfg",
-    doc(cfg(all(feature = "demux", feature = "0.5")))
+    doc(cfg(all(feature = "demux", feature = "0_5")))
 )]
 #[allow(non_snake_case)]
 #[inline]
@@ -273,10 +273,10 @@ pub unsafe extern "C" fn WebPAnimDecoderOptionsInit(
     WebPAnimDecoderOptionsInitInternal(dec_options, WEBP_DEMUX_ABI_VERSION)
 }
 
-#[cfg(feature = "0.5")]
+#[cfg(feature = "0_5")]
 #[cfg_attr(
     feature = "__doc_cfg",
-    doc(cfg(all(feature = "demux", feature = "0.5")))
+    doc(cfg(all(feature = "demux", feature = "0_5")))
 )]
 #[allow(non_snake_case)]
 #[inline]

@@ -46,21 +46,21 @@ script:
 - cargo test --all --features "${COMMON_FEATURES}demux,"
 - cargo test --all --features "${COMMON_FEATURES}mux"
 - cargo test --all --features "${COMMON_FEATURES}demux,mux"
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5"; fi
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5,demux"; fi
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5,mux"; fi
-- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0.5,demux,mux"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6,demux"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6,mux"; fi
-- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0.6,demux,mux"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,demux"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,mux"; fi
-- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,demux,mux"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static,demux"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static,mux"; fi
-- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1.1,static,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0_5"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0_5,demux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0_5,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.5 ]]; then cargo test --all --features "${COMMON_FEATURES}0_5,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0_6"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0_6,demux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0_6,mux"; fi
+- if [[ ! $WEBP_VERSION < 0.6 ]]; then cargo test --all --features "${COMMON_FEATURES}0_6,demux,mux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1_1"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,demux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,mux"; fi
+- if [[ ! $WEBP_VERSION < 1.1 ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,demux,mux"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,static"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,static,demux"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,static,mux"; fi
+- if [[ $WEBP_BUNDLED = true ]]; then cargo test --all --features "${COMMON_FEATURES}1_1,static,demux,mux"; fi
 - if [[ $TRAVIS_RUST_VERSION = nightly ]]; then cargo doc --all --features "${COMMON_FEATURES}__doc_cfg"; fi
 - if [[ $TRAVIS_RUST_VERSION = stable ]]; then cargo fmt --all -- --check; fi

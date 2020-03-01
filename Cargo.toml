@@ -24,12 +24,12 @@ libwebp-sys2 = "0.1.0"
 default = []
 demux = ["libwebp-sys2/demux"]
 mux = ["libwebp-sys2/mux"]
-"0.5" = ["libwebp-sys2/0.5"]
-"0.6" = ["libwebp-sys2/0.6", "0.5"]
-"1.1" = ["libwebp-sys2/1.1", "0.6"]
+"0_5" = ["libwebp-sys2/0_5"]
+"0_6" = ["libwebp-sys2/0_6", "0_5"]
+"1_1" = ["libwebp-sys2/1_1", "0_6"]
 static = ["libwebp-sys2/static"]
 extern-types = ["libwebp-sys2/extern-types"]
-__doc_cfg = ["libwebp-sys2/__doc_cfg", "1.1", "demux", "mux"]
+__doc_cfg = ["libwebp-sys2/__doc_cfg", "1_1", "demux", "mux"]
 
 [workspace]
 members = [
