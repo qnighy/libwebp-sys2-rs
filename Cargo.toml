@@ -7,8 +7,8 @@ build = "build.rs"
 edition = "2018"
 
 description = "A handwritten raw interface to libwebp"
-homepage = "https://github.com/qnighy/libwebp-rs"
-repository = "https://github.com/qnighy/libwebp-rs"
+homepage = "https://github.com/qnighy/libwebp-sys2-rs"
+repository = "https://github.com/qnighy/libwebp-sys2-rs"
 readme = "README.md"
 keywords = ["webp", "image"]
 categories = ["external-ffi-bindings", "multimedia", "multimedia::images"]
