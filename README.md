@@ -4,7 +4,7 @@ This is a binding to [the libwebp library](https://developers.google.com/speed/w
 
 ## Minimum Supported Rust Version (MSRV)
 
-Rust 1.34.0
+Rust 1.31.0
 
 ## Features
 
