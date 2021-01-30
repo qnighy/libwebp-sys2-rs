@@ -60,13 +60,19 @@ pub struct WebPConfig {
     #[cfg(feature = "0_6")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
     pub use_sharp_yuv: c_int,
+    #[cfg(feature = "1_2")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_2")))]
+    pub qmin: c_int,
+    #[cfg(feature = "1_2")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_2")))]
+    pub qmax: c_int,
     #[cfg(not(feature = "0_5"))]
     #[doc(hidden)]
     pub pad: [u32; 5],
     #[cfg(all(feature = "0_5", not(feature = "0_6")))]
     #[doc(hidden)]
     pub pad: [u32; 3],
-    #[cfg(feature = "0_6")]
+    #[cfg(all(feature = "0_6", not(feature = "1_2")))]
     #[doc(hidden)]
     pub pad: [u32; 2],
 }

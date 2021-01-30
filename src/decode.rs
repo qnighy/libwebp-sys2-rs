@@ -275,7 +275,7 @@ pub struct WebPDecoderOptions {
     pub use_threads: c_int,
     /// dithering strength (0=Off, 100=full)
     pub dithering_strength: c_int,
-    /// flip output vertically
+    /// if true, flip output vertically
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub flip: c_int,
