@@ -313,4 +313,53 @@ mod tests {
             WebPDemuxDelete(ptr);
         }
     }
+
+    #[test]
+    #[cfg(all(feature = "0_5", feature = "demux"))]
+    fn test_anim_decoder() {
+        use std::fs::File;
+        use std::io::prelude::*;
+        use std::mem;
+
+        unsafe {
+            let mut buf = Vec::new();
+            let len = File::open("./tests/animated.webp")
+                .unwrap()
+                .read_to_end(&mut buf)
+                .unwrap();
+            let mut options = mem::zeroed();
+            assert!(WebPAnimDecoderOptionsInit(&mut options) != 0);
+
+            let data = WebPData {
+                bytes: buf.as_ptr(),
+                size: len,
+            };
+            let decoder = WebPAnimDecoderNew(&data, &options);
+            assert!(!decoder.is_null());
+
+            let mut info = mem::zeroed();
+            assert!(WebPAnimDecoderGetInfo(decoder, &mut info) != 0);
+
+            assert_eq!(info.loop_count, 0);
+            assert_eq!(info.frame_count, 10);
+            assert_eq!(info.canvas_width, 400);
+            assert_eq!(info.canvas_height, 400);
+
+            assert!(WebPAnimDecoderHasMoreFrames(decoder) > 0);
+
+            let mut expected_timestamp = 40;
+
+            while WebPAnimDecoderHasMoreFrames(decoder) > 0 {
+                let mut buf = std::ptr::null_mut();
+                let buf_ptr: *mut *mut u8 = &mut buf;
+                let mut timestamp: i32 = 42;
+                assert!(WebPAnimDecoderGetNext(decoder, buf_ptr, &mut timestamp) > 0);
+
+                assert_eq!(timestamp, expected_timestamp);
+                expected_timestamp += 40;
+            }
+
+            WebPAnimDecoderDelete(decoder);
+        }
+    }
 }
