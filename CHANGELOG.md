@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Misc
+  - add AnimDecoder test https://github.com/qnighy/libwebp-sys2-rs/pull/3
+
 ## 0.1.2
 
 - Changed
