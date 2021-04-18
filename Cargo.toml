@@ -12,6 +12,7 @@ repository = "https://github.com/qnighy/libwebp-sys2-rs"
 readme = "README.md"
 keywords = ["webp", "image"]
 categories = ["external-ffi-bindings", "multimedia", "multimedia::images"]
+# Note, the vendored source (c_src) is also distributed under BSD-3-Clause with Google as its copyright holder.
 license = "BSD-3-Clause"
 
 [badges]
