@@ -2,6 +2,7 @@
 
 - Misc
   - add AnimDecoder test https://github.com/qnighy/libwebp-sys2-rs/pull/3
+  - Reference libwebp as a submodule instead of committed code https://github.com/qnighy/libwebp-sys2-rs/pull/5
 
 ## 0.1.2
 
