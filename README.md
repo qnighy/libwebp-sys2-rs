@@ -2,6 +2,8 @@
 
 This is a raw interface to [the libwebp library](https://developers.google.com/speed/webp/download).
 
+Bundled (`static`) version currently refers to libwebp v1.2.1
+
 ## Minimum Supported Rust Version (MSRV)
 
 Rust 1.31.0
