@@ -44,7 +44,7 @@ features = ["1_2", "demux", "mux", "__doc_cfg", "extern-types"]
 
 [build-dependencies]
 pkg-config = "0.3.17"
-cc = "1.0.50"
+cc = "1.0.71"
 
 [target.'cfg(target_env = "msvc")'.build-dependencies]
 vcpkg = "0.2.8"
