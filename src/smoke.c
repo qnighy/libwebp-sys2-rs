@@ -1,4 +1,4 @@
-#include "webp/decode.h"
+#include <stddef.h>
 #include <stdint.h>
 
 const uint8_t WEBP_IMAGE[] = {
@@ -11,6 +11,13 @@ const uint8_t WEBP_IMAGE[] = {
   0x24, 0x7B, 0xCB, 0xFF, 0x46, 0x05, 0xF9, 0xFF, 0xFD, 0x4D, 0xFE, 0x30,
   0xE5, 0x86, 0xAA, 0x07, 0x31, 0x23, 0x6F, 0x00, 0x00, 0x00
 };
+
+extern int WebPGetInfo(
+  const uint8_t *data,
+  size_t data_size,
+  int *width,
+  int *height
+);
 
 int main() {
   int width, height, result;
