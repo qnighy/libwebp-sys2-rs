@@ -1,4 +1,4 @@
-use libwebp_sys::{WebPMemoryWriterClear, WebPMemoryWriterInit};
+use libwebp_sys::WebPMemoryWriterInit;
 use std::mem;
 
 #[test]
@@ -7,6 +7,6 @@ fn test_new_and_delete() {
         let mut buf = mem::zeroed();
         WebPMemoryWriterInit(&mut buf);
         #[cfg(feature = "0_5")]
-        WebPMemoryWriterClear(&mut buf);
+        libwebp_sys::WebPMemoryWriterClear(&mut buf);
     }
 }
