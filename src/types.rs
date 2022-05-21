@@ -20,18 +20,3 @@ extern "C" {
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub fn WebPFree(ptr: *mut c_void);
 }
-
-#[cfg(all(test, feature = "1_1"))]
-mod tests {
-    use super::*;
-
-    #[cfg(feature = "1_1")]
-    #[test]
-    fn test_malloc() {
-        unsafe {
-            let ptr = WebPMalloc(12);
-            assert!(!ptr.is_null());
-            WebPFree(ptr);
-        }
-    }
-}
