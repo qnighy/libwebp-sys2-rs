@@ -1,5 +1,7 @@
-## Unreleased
+## 0.1.4
 
+- Fixed
+  - Build with bundled libwebp no longer fails without another libwebp installed https://github.com/qnighy/libwebp-sys2-rs/pull/11
 - Misc
   - Update cfg-if from 0.1.6 to 1.0.0
 
