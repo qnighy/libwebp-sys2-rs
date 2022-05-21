@@ -1,3 +1,8 @@
+## Unreleased
+
+- Misc
+  - Update cfg-if from 0.1.6 to 1.0.0
+
 ## 0.1.3
 
 - Changed
