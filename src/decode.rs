@@ -376,7 +376,7 @@ extern "C" {
     /// Upon return, the Y buffer has a stride returned as '*stride', while U and V
     /// have a common stride returned as '*uv_stride'.
     /// Return NULL in case of error.
-    /// (*) Also named Y'CbCr. See: http://en.wikipedia.org/wiki/YCbCr
+    /// (*) Also named Y'CbCr. See: https://en.wikipedia.org/wiki/YCbCr
     pub fn WebPDecodeYUV(
         data: *const u8,
         data_size: usize,
