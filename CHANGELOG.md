@@ -1,5 +1,7 @@
-## Unreleased
+## 0.1.3
 
+- Changed
+  - Update bundled libwebp from 1.2.0 to 1.2.2 https://github.com/qnighy/libwebp-sys2-rs/commit/dcd7f2a47e4cc6e073526848a75a8979295ed1cf
 - Misc
   - add AnimDecoder test https://github.com/qnighy/libwebp-sys2-rs/pull/3
   - Reference libwebp as a submodule instead of committed code https://github.com/qnighy/libwebp-sys2-rs/pull/5
