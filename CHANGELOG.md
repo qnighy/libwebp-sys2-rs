@@ -1,4 +1,4 @@
-## Unreleased
+## 0.1.6
 
 - Changed
   - Update bundled libwebp from 1.2.2 to 1.3.0 https://github.com/qnighy/libwebp-sys2-rs/pull/14
