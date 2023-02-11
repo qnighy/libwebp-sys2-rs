@@ -148,6 +148,7 @@ fn build_libwebp() {
         .file("c_src/src/dsp/ssim.c")
         .file("c_src/src/dsp/alpha_processing_sse41.c")
         .file("c_src/src/dsp/dec_sse41.c")
+        .file("c_src/src/dsp/lossless_sse41.c")
         .file("c_src/src/dsp/upsampling_sse41.c")
         .file("c_src/src/dsp/yuv_sse41.c")
         .file("c_src/src/dsp/alpha_processing_sse2.c")
