@@ -2,6 +2,8 @@
 
 - Changed
   - Update bundled libwebp from 1.2.2 to 1.3.0 https://github.com/qnighy/libwebp-sys2-rs/pull/14
+- Misc
+  - CI maintenance https://github.com/qnighy/libwebp-sys2-rs/pull/15
 
 ## 0.1.5
 
