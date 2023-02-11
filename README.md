@@ -13,6 +13,7 @@ Rust 1.31.0
 - `0_5` ... enables functions introduced in libwebp 0.5.0.
 - `0_6` ... enables functions introduced in libwebp 0.6.0.
 - `1_1` ... enables functions introduced in libwebp 1.1.0.
+- `1_2` ... enables functions introduced in libwebp 1.2.0.
 - `static` ... statically link against the bundled libwebp.
 - `extern-types` ... enables `#![feature(extern_types)]`.
 
