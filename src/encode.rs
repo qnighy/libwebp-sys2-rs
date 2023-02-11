@@ -323,7 +323,7 @@ extern "C" {
         dst: *mut WebPPicture,
     ) -> c_int;
     pub fn WebPPictureIsView(picture: *const WebPPicture) -> c_int;
-    pub fn WebPPictureRescale(pic: *mut WebPPicture, width: c_int, height: c_int) -> c_int;
+    pub fn WebPPictureRescale(picture: *mut WebPPicture, width: c_int, height: c_int) -> c_int;
     pub fn WebPPictureImportRGB(
         picture: *mut WebPPicture,
         rgb: *const u8,
@@ -366,7 +366,7 @@ extern "C" {
     pub fn WebPPictureYUVAToARGB(picture: *mut WebPPicture) -> c_int;
     pub fn WebPCleanupTransparentArea(picture: *mut WebPPicture);
     pub fn WebPPictureHasTransparency(picture: *const WebPPicture) -> c_int;
-    pub fn WebPBlendAlpha(pic: *mut WebPPicture, background_rgb: u32);
+    pub fn WebPBlendAlpha(picture: *mut WebPPicture, background_rgb: u32);
     pub fn WebPEncode(config: *const WebPConfig, picture: *mut WebPPicture) -> c_int;
 }
 
