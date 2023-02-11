@@ -1,3 +1,8 @@
+## 0.1.5
+
+- Fixed
+  - Fix build with SSE4.1 support https://github.com/qnighy/libwebp-sys2-rs/pull/13
+
 ## 0.1.4
 
 - Fixed
