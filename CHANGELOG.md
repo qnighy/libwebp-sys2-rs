@@ -1,3 +1,8 @@
+## 0.1.7
+
+- Fixed
+  - Fix regression introduced in 0.1.6. The build was failing if the bundled libwebp (1.3.0) is used and one of the encoding functions are used. https://github.com/qnighy/libwebp-sys2-rs/pull/17
+
 ## 0.1.6
 
 - Changed
