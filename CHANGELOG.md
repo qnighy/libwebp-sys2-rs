@@ -1,3 +1,8 @@
+## 0.1.8
+
+- Fixed
+  - Update bundled libwebp to incorporate the CVE-2023-4863 patch https://github.com/qnighy/libwebp-sys2-rs/pull/21
+
 ## 0.1.7
 
 - Fixed
