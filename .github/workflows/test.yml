@@ -21,7 +21,7 @@ jobs:
           webp: 1.2.0
           webp_from: bundled
           common_features: ""
-        - rust: 1.34.0
+        - rust: 1.31.0
           webp: 1.2.0
           webp_from: build
           common_features: ""
@@ -64,6 +64,9 @@ jobs:
     - name: Set __LIBWEBP_SYS_FORBID_BUILD
       run: echo __LIBWEBP_SYS_FORBID_BUILD=1 >> $GITHUB_ENV
       if: ${{ matrix.webp_from != 'bundled' }}
+    - name: Set up lockfile
+      run: cp Cargo.lock.msrv Cargo.lock
+      if: matrix.rust == '1.31.0'
     - name: Test 0.4
       run: |
         cargo test --all --features "${{ matrix.common_features }}"

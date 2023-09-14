@@ -1,3 +1,8 @@
+## Unreleased
+
+- Misc
+  - Check in lockfile https://github.com/qnighy/libwebp-sys2-rs/pull/22
+
 ## 0.1.8
 
 - Fixed
