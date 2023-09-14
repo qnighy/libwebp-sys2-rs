@@ -372,10 +372,11 @@ extern "C" {
     /// returned is the Y samples buffer. Upon return, *u and *v will point to
     /// the U and V chroma data. These U and V buffers need NOT be passed to
     /// WebPFree(), unlike the returned Y luma one. The dimension of the U and V
-    /// planes are both (*width + 1) / 2 and (*height + 1)/ 2.
+    /// planes are both (*width + 1) / 2 and (*height + 1) / 2.
     /// Upon return, the Y buffer has a stride returned as '*stride', while U and V
     /// have a common stride returned as '*uv_stride'.
-    /// Return NULL in case of error.
+    /// 'width' and 'height' may be NULL, the other pointers must not be.
+    /// Returns NULL in case of error.
     /// (*) Also named Y'CbCr. See: https://en.wikipedia.org/wiki/YCbCr
     pub fn WebPDecodeYUV(
         data: *const u8,
