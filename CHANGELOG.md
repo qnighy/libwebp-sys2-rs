@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Changed
+  - Update bundled libwebp from 1.3.0 (with CVE-2023-4863 patch) to 1.3.2, which officially ships with the vuln fix https://github.com/qnighy/libwebp-sys2-rs/pull/24
+    - See [libwebp's release](https://groups.google.com/a/webmproject.org/g/webp-discuss/c/YhVFA45DVfM/m/hS2jI_KFAwAJ)
 - Misc
   - Check in lockfile https://github.com/qnighy/libwebp-sys2-rs/pull/22
 
