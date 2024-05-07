@@ -97,6 +97,8 @@ pub struct WebPRGBABuffer {
     pub size: usize,
 }
 
+unsafe impl Send for WebPRGBABuffer {}
+
 /// view as YUVA
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -127,6 +129,8 @@ pub struct WebPYUVABuffer {
     pub a_size: usize,
 }
 
+unsafe impl Send for WebPYUVABuffer {}
+
 /// Output buffer
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -152,6 +156,8 @@ pub struct WebPDecBuffer {
     #[doc(hidden)]
     pub private_memory: *mut u8,
 }
+
+unsafe impl Send for WebPDecBuffer {}
 
 #[allow(non_snake_case)]
 #[repr(C)]

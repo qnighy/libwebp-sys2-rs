@@ -160,6 +160,8 @@ pub struct WebPMemoryWriter {
     pub pad: [u32; 1],
 }
 
+unsafe impl Send for WebPMemoryWriter {}
+
 pub const WEBP_MAX_DIMENSION: c_int = 16383;
 
 #[repr(C)]
@@ -206,6 +208,8 @@ pub struct WebPPicture {
     #[doc(hidden)]
     pub pad7: [*mut c_void; 2],
 }
+
+unsafe impl Send for WebPPicture {}
 
 extern "C" {
     pub fn WebPGetEncoderVersion() -> c_int;
