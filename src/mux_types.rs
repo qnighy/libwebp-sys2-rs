@@ -41,6 +41,8 @@ pub struct WebPData {
     pub size: usize,
 }
 
+unsafe impl Send for WebPData {}
+
 #[allow(non_snake_case)]
 #[inline]
 pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {

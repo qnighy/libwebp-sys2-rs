@@ -75,6 +75,8 @@ pub struct WebPIterator {
     pub private_: *mut c_void,
 }
 
+unsafe impl Send for WebPIterator {}
+
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -87,6 +89,8 @@ pub struct WebPChunkIterator {
     #[doc(hidden)]
     pub private_: *mut c_void,
 }
+
+unsafe impl Send for WebPChunkIterator {}
 
 #[cfg(all(feature = "0_5", feature = "extern-types"))]
 extern "C" {
