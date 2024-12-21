@@ -1,3 +1,9 @@
+## 0.1.10
+
+- Changed
+  - Add function definitions for v1.4.0 (feature `1_4`) and v1.5.0 (feature `1_5`) https://github.com/qnighy/libwebp-sys2-rs/pull/26
+  - Update bundled libwebp from v1.3.2 to v1.5.0 https://github.com/qnighy/libwebp-sys2-rs/pull/26
+
 ## 0.1.9
 
 - Changed
