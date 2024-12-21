@@ -1,3 +1,8 @@
+## Unreleased
+
+- Misc
+  - Streamline GitHub Actions workflow for 2024 https://github.com/qnighy/libwebp-sys2-rs/pull/27
+
 ## 0.1.10
 
 - Changed

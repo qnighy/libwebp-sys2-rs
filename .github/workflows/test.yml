@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     strategy:
       matrix:
@@ -14,7 +14,7 @@ jobs:
         common_features: [""]
         include:
         - rust: stable
-          webp: 0.6.1
+          webp: 1.3.2
           webp_from: distr
           common_features: ""
         - rust: stable
@@ -39,14 +39,15 @@ jobs:
           common_features: extern-types,
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
-    - name: Install toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: ${{ matrix.rust }}
-        override: true
+    - name: set up Rust
+      run: |
+        rustup set profile minimal
+        rustup install ${{ matrix.rust }}
+        rustup default ${{ matrix.rust }}
+        rustup component add rustfmt
     - name: Install libwebp
       run: sudo apt-get update && sudo apt-get install libwebp-dev -y;
       if: matrix.webp_from == 'distr'
