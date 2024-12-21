@@ -1,7 +1,9 @@
 use std::os::raw::*;
 
 cfg_if! {
-    if #[cfg(feature = "1_1")] {
+    if #[cfg(feature = "1_5")] {
+        pub const WEBP_ENCODER_ABI_VERSION: c_int = 0x0210;
+    } else if #[cfg(feature = "1_1")] {
         pub const WEBP_ENCODER_ABI_VERSION: c_int = 0x020F;
     } else if #[cfg(feature = "0_6")] {
         pub const WEBP_ENCODER_ABI_VERSION: c_int = 0x020E;
@@ -113,12 +115,18 @@ pub struct WebPAuxStats {
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub lossless_data_size: c_int,
+    #[cfg(feature = "1_5")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_5")))]
+    pub cross_color_transform_bits: c_int,
     #[cfg(not(feature = "0_5"))]
     #[doc(hidden)]
     pub pad: [u32; 4],
-    #[cfg(feature = "0_5")]
+    #[cfg(all(feature = "0_5", not(feature = "1_5")))]
     #[doc(hidden)]
     pub pad: [u32; 2],
+    #[cfg(feature = "1_5")]
+    #[doc(hidden)]
+    pub pad: [u32; 1],
 }
 
 pub type WebPWriterFunction = Option<extern "C" fn(*const u8, usize, *const WebPPicture) -> c_int>;
@@ -270,25 +278,33 @@ extern "C" {
         output: *mut *mut u8,
     ) -> usize;
     #[doc(hidden)]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
         -> c_int;
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPConfigLosslessPreset(config: *mut WebPConfig, level: c_int) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPValidateConfig(config: *const WebPConfig) -> c_int;
     pub fn WebPMemoryWriterInit(writer: *mut WebPMemoryWriter);
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub fn WebPMemoryWriterClear(writer: *mut WebPMemoryWriter);
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
         -> c_int;
     #[doc(hidden)]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureInitInternal(_: *mut WebPPicture, _: c_int) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureAlloc(picture: *mut WebPPicture) -> c_int;
     pub fn WebPPictureFree(picture: *mut WebPPicture);
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureCopy(src: *const WebPPicture, dst: *mut WebPPicture) -> c_int;
     #[cfg(feature = "0_6")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPlaneDistortion(
         src: *const u8,
         src_stride: usize,
@@ -301,12 +317,14 @@ extern "C" {
         distortion: *mut c_float,
         result: *mut c_float,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureDistortion(
         src: *const WebPPicture,
         ref_: *const WebPPicture,
         metric_type: c_int,
         result: *mut c_float,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureCrop(
         picture: *mut WebPPicture,
         left: c_int,
@@ -314,6 +332,7 @@ extern "C" {
         width: c_int,
         height: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureView(
         src: *const WebPPicture,
         left: c_int,
@@ -323,54 +342,71 @@ extern "C" {
         dst: *mut WebPPicture,
     ) -> c_int;
     pub fn WebPPictureIsView(picture: *const WebPPicture) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureRescale(picture: *mut WebPPicture, width: c_int, height: c_int) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureImportRGB(
         picture: *mut WebPPicture,
         rgb: *const u8,
         rgb_stride: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureImportRGBA(
         picture: *mut WebPPicture,
         rgba: *const u8,
         rgba_stride: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureImportRGBX(
         picture: *mut WebPPicture,
         rgbx: *const u8,
         rgbx_stride: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureImportBGR(
         picture: *mut WebPPicture,
         bgr: *const u8,
         bgr_stride: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureImportBGRA(
         picture: *mut WebPPicture,
         bgra: *const u8,
         bgra_stride: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureImportBGRX(
         picture: *mut WebPPicture,
         bgrx: *const u8,
         bgrx_stride: c_int,
     ) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureARGBToYUVA(picture: *mut WebPPicture, colorspace: WebPEncCSP) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureARGBToYUVADithered(
         picture: *mut WebPPicture,
         colorspace: WebPEncCSP,
         dithering: c_float,
     ) -> c_int;
+    #[cfg(feature = "0_6")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
+    #[cfg_attr(feature = "must-use", must_use)]
+    pub fn WebPPictureSharpARGBToYUVA(picture: *mut WebPPicture) -> c_int;
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureSmartARGBToYUVA(picture: *mut WebPPicture) -> c_int;
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureYUVAToARGB(picture: *mut WebPPicture) -> c_int;
     pub fn WebPCleanupTransparentArea(picture: *mut WebPPicture);
     pub fn WebPPictureHasTransparency(picture: *const WebPPicture) -> c_int;
     pub fn WebPBlendAlpha(picture: *mut WebPPicture, background_rgb: u32);
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPEncode(config: *const WebPConfig, picture: *mut WebPPicture) -> c_int;
 }
 
 #[allow(non_snake_case)]
+#[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
     WebPConfigInitInternal(
@@ -382,6 +418,7 @@ pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
 }
 
 #[allow(non_snake_case)]
+#[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPConfigPreset(
     config: *mut WebPConfig,
@@ -392,6 +429,7 @@ pub unsafe extern "C" fn WebPConfigPreset(
 }
 
 #[allow(non_snake_case)]
+#[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPPictureInit(picture: *mut WebPPicture) -> c_int {
     WebPPictureInitInternal(picture, WEBP_ENCODER_ABI_VERSION)

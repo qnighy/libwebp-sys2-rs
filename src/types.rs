@@ -14,6 +14,7 @@ extern "C" {
     /// by the core `libwebp` library.
     #[cfg(feature = "1_1")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_1")))]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPMalloc(size: usize) -> *mut c_void;
     /// Releases memory returned by the `WebPDecode*()` functions (from `decode.h`).
     #[cfg(feature = "0_5")]
