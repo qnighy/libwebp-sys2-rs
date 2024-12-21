@@ -209,6 +209,7 @@ fn build_libwebp() {
         .file("c_src/src/utils/color_cache_utils.c")
         .file("c_src/src/utils/filters_utils.c")
         .file("c_src/src/utils/huffman_utils.c")
+        .file("c_src/src/utils/palette.c")
         .file("c_src/src/utils/quant_levels_dec_utils.c")
         .file("c_src/src/utils/rescaler_utils.c")
         .file("c_src/src/utils/random_utils.c")

@@ -8,7 +8,9 @@ use crate::mux_types::*;
 pub const WEBP_MUX_ABI_VERSION: c_int = WEBP_MUX_ABI_VERSION_INTERNAL;
 
 cfg_if! {
-    if #[cfg(feature = "0_6")] {
+    if #[cfg(feature = "1_4")] {
+        const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0109;
+    } else if #[cfg(feature = "0_6")] {
         const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0108;
     } else if #[cfg(feature = "0_5")] {
         const WEBP_MUX_ABI_VERSION_INTERNAL: c_int = 0x0106;
@@ -30,6 +32,7 @@ pub struct WebPMux(c_void);
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_camel_case_types)]
+// #[cfg_attr(feature = "must-use", must_use)] // meaningless for type aliases
 pub type WebPMuxError = i32;
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
@@ -119,11 +122,13 @@ extern "C" {
     pub fn WebPGetMuxVersion() -> c_int;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     #[doc(hidden)]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPNewInternal(_: c_int) -> *mut WebPMux;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxDelete(mux: *mut WebPMux);
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     #[doc(hidden)]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPMuxCreateInternal(_: *const WebPData, _: c_int, _: c_int) -> *mut WebPMux;
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
     pub fn WebPMuxSetChunk(
@@ -203,6 +208,7 @@ extern "C" {
     ) -> *mut WebPAnimEncoder;
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0_5"))))]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPAnimEncoderAdd(
         enc: *mut WebPAnimEncoder,
         frame: *mut WebPPicture,
@@ -211,6 +217,7 @@ extern "C" {
     ) -> c_int;
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0_5"))))]
+    #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPAnimEncoderAssemble(enc: *mut WebPAnimEncoder, webp_data: *mut WebPData) -> c_int;
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0_5"))))]
@@ -218,10 +225,32 @@ extern "C" {
     #[cfg(feature = "0_5")]
     #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0_5"))))]
     pub fn WebPAnimEncoderDelete(enc: *mut WebPAnimEncoder);
+    #[cfg(feature = "1_4")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "1_4"))))]
+    pub fn WebPAnimEncoderSetChunk(
+        enc: *mut WebPAnimEncoder,
+        fourcc: *const c_char,
+        chunk_data: *const WebPData,
+        copy_data: c_int,
+    ) -> WebPMuxError;
+    #[cfg(feature = "1_4")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "1_4"))))]
+    pub fn WebPAnimEncoderGetChunk(
+        enc: *const WebPAnimEncoder,
+        fourcc: *const c_char,
+        chunk_data: *mut WebPData,
+    ) -> WebPMuxError;
+    #[cfg(feature = "1_4")]
+    #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "1_4"))))]
+    pub fn WebPAnimEncoderDeleteChunk(
+        enc: *mut WebPAnimEncoder,
+        fourcc: *const c_char,
+    ) -> WebPMuxError;
 }
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_snake_case)]
+#[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPMuxNew() -> *mut WebPMux {
     WebPNewInternal(WEBP_MUX_ABI_VERSION)
@@ -229,6 +258,7 @@ pub unsafe extern "C" fn WebPMuxNew() -> *mut WebPMux {
 
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
 #[allow(non_snake_case)]
+#[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPMuxCreate(
     bitstream: *const WebPData,
@@ -240,6 +270,7 @@ pub unsafe extern "C" fn WebPMuxCreate(
 #[cfg(feature = "0_5")]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(all(feature = "mux", feature = "0_5"))))]
 #[allow(non_snake_case)]
+#[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
     enc_options: *mut WebPAnimEncoderOptions,
