@@ -101,12 +101,26 @@ jobs:
         cargo test --all --features "${{ matrix.common_features }}1_2,mux"
         cargo test --all --features "${{ matrix.common_features }}1_2,demux,mux"
       if: matrix.webp >= '1.2'
+    - name: Test 1.4
+      run: |
+        cargo test --all --features "${{ matrix.common_features }}1_4"
+        cargo test --all --features "${{ matrix.common_features }}1_4,demux"
+        cargo test --all --features "${{ matrix.common_features }}1_4,mux"
+        cargo test --all --features "${{ matrix.common_features }}1_4,demux,mux"
+      if: matrix.webp >= '1.4'
+    - name: Test 1.5
+      run: |
+        cargo test --all --features "${{ matrix.common_features }}1_5"
+        cargo test --all --features "${{ matrix.common_features }}1_5,demux"
+        cargo test --all --features "${{ matrix.common_features }}1_5,mux"
+        cargo test --all --features "${{ matrix.common_features }}1_5,demux,mux"
+      if: matrix.webp >= '1.5'
     - name: Test static builds
       run: |
-        cargo test --all --features "${{ matrix.common_features }}1_2,static"
-        cargo test --all --features "${{ matrix.common_features }}1_2,static,demux"
-        cargo test --all --features "${{ matrix.common_features }}1_2,static,mux"
-        cargo test --all --features "${{ matrix.common_features }}1_2,static,demux,mux"
+        cargo test --all --features "${{ matrix.common_features }}1_5,static"
+        cargo test --all --features "${{ matrix.common_features }}1_5,static,demux"
+        cargo test --all --features "${{ matrix.common_features }}1_5,static,mux"
+        cargo test --all --features "${{ matrix.common_features }}1_5,static,demux,mux"
       if: matrix.webp_from == 'bundled'
     - name: Test __doc_cfg
       run: |
