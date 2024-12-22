@@ -13,11 +13,13 @@ cfg_if! {
 }
 
 #[cfg(feature = "extern-types")]
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(all())))]
 extern "C" {
     pub type WebPIDecoder;
 }
 
 #[cfg(not(feature = "extern-types"))]
+#[cfg_attr(feature = "__doc_cfg", doc(cfg(all())))]
 #[repr(C)]
 pub struct WebPIDecoder(c_void);
 
@@ -278,11 +280,9 @@ pub struct WebPDecoderOptions {
     pub dithering_strength: c_int,
     /// if true, flip output vertically
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub flip: c_int,
     /// alpha dithering strength in [0..100]
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub alpha_dithering_strength: c_int,
     /// Unused for now. forced rotation (to be applied _last_)
     #[cfg(not(feature = "0_5"))]
