@@ -2,6 +2,8 @@
 
 - Misc
   - Streamline GitHub Actions workflow for 2024 https://github.com/qnighy/libwebp-sys2-rs/pull/27
+  - Migrate to doc_auto_cfg https://github.com/qnighy/libwebp-sys2-rs/pull/28
+    - It is only relevant to the generated documentation when the nightly-only `__doc_cfg` feature is enabled.
 
 ## 0.1.10
 

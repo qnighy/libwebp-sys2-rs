@@ -51,22 +51,16 @@ pub struct WebPConfig {
     pub thread_level: c_int,
     pub low_memory: c_int,
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub near_lossless: c_int,
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub exact: c_int,
     #[cfg(feature = "0_6")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
     pub use_delta_palette: c_int,
     #[cfg(feature = "0_6")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
     pub use_sharp_yuv: c_int,
     #[cfg(feature = "1_2")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_2")))]
     pub qmin: c_int,
     #[cfg(feature = "1_2")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_2")))]
     pub qmax: c_int,
     #[cfg(not(feature = "0_5"))]
     #[doc(hidden)]
@@ -110,13 +104,10 @@ pub struct WebPAuxStats {
     pub palette_size: c_int,
     pub lossless_size: c_int,
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub lossless_hdr_size: c_int,
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub lossless_data_size: c_int,
     #[cfg(feature = "1_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "1_5")))]
     pub cross_color_transform_bits: c_int,
     #[cfg(not(feature = "0_5"))]
     #[doc(hidden)]
@@ -282,14 +273,12 @@ extern "C" {
     pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
         -> c_int;
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPConfigLosslessPreset(config: *mut WebPConfig, level: c_int) -> c_int;
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPValidateConfig(config: *const WebPConfig) -> c_int;
     pub fn WebPMemoryWriterInit(writer: *mut WebPMemoryWriter);
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     pub fn WebPMemoryWriterClear(writer: *mut WebPMemoryWriter);
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
@@ -303,7 +292,6 @@ extern "C" {
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureCopy(src: *const WebPPicture, dst: *mut WebPPicture) -> c_int;
     #[cfg(feature = "0_6")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPlaneDistortion(
         src: *const u8,
@@ -389,11 +377,9 @@ extern "C" {
         dithering: c_float,
     ) -> c_int;
     #[cfg(feature = "0_6")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_6")))]
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureSharpARGBToYUVA(picture: *mut WebPPicture) -> c_int;
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPPictureSmartARGBToYUVA(picture: *mut WebPPicture) -> c_int;
     #[cfg_attr(feature = "must-use", must_use)]
