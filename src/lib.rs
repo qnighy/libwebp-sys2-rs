@@ -4,6 +4,7 @@
 
 #[macro_use]
 extern crate cfg_if;
+extern crate libwebp_sys2_01;
 
 pub use crate::decode::*;
 #[cfg(feature = "demux")]
