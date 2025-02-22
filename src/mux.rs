@@ -20,7 +20,7 @@ cfg_if! {
 
 #[cfg(feature = "extern-types")]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "mux")))]
-extern "C" {
+unsafe extern "C" {
     pub type WebPMux;
 }
 
@@ -105,7 +105,7 @@ pub struct WebPAnimEncoderOptions {
     pub padding: [u32; 4],
 }
 
-extern "C" {
+unsafe extern "C" {
     pub fn WebPGetMuxVersion() -> c_int;
     #[doc(hidden)]
     #[cfg_attr(feature = "must-use", must_use)]
@@ -214,7 +214,7 @@ extern "C" {
 #[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPMuxNew() -> *mut WebPMux {
-    WebPNewInternal(WEBP_MUX_ABI_VERSION)
+    unsafe { WebPNewInternal(WEBP_MUX_ABI_VERSION) }
 }
 
 #[allow(non_snake_case)]
@@ -224,7 +224,7 @@ pub unsafe extern "C" fn WebPMuxCreate(
     bitstream: *const WebPData,
     copy_data: c_int,
 ) -> *mut WebPMux {
-    WebPMuxCreateInternal(bitstream, copy_data, WEBP_MUX_ABI_VERSION)
+    unsafe { WebPMuxCreateInternal(bitstream, copy_data, WEBP_MUX_ABI_VERSION) }
 }
 
 #[cfg(feature = "0_5")]
@@ -234,7 +234,7 @@ pub unsafe extern "C" fn WebPMuxCreate(
 pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
     enc_options: *mut WebPAnimEncoderOptions,
 ) -> c_int {
-    WebPAnimEncoderOptionsInitInternal(enc_options, WEBP_MUX_ABI_VERSION)
+    unsafe { WebPAnimEncoderOptionsInitInternal(enc_options, WEBP_MUX_ABI_VERSION) }
 }
 
 #[cfg(feature = "0_5")]
@@ -245,5 +245,5 @@ pub unsafe extern "C" fn WebPAnimEncoderNew(
     height: c_int,
     enc_options: *const WebPAnimEncoderOptions,
 ) -> *mut WebPAnimEncoder {
-    WebPAnimEncoderNewInternal(width, height, enc_options, WEBP_MUX_ABI_VERSION)
+    unsafe { WebPAnimEncoderNewInternal(width, height, enc_options, WEBP_MUX_ABI_VERSION) }
 }

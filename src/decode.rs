@@ -197,18 +197,20 @@ pub unsafe extern "C" fn WebPIDecGetYUV(
     stride: *mut c_int,
     uv_stride: *mut c_int,
 ) -> *mut u8 {
-    WebPIDecGetYUVA(
-        idec,
-        last_y,
-        u,
-        v,
-        ptr::null_mut(),
-        width,
-        height,
-        stride,
-        uv_stride,
-        ptr::null_mut(),
-    )
+    unsafe {
+        WebPIDecGetYUVA(
+            idec,
+            last_y,
+            u,
+            v,
+            ptr::null_mut(),
+            width,
+            height,
+            stride,
+            uv_stride,
+            ptr::null_mut(),
+        )
+    }
 }
 
 /// Features gathered from the bitstream
@@ -309,7 +311,7 @@ pub struct WebPDecoderConfig {
     pub options: WebPDecoderOptions,
 }
 
-extern "C" {
+unsafe extern "C" {
     /// Return the decoder's version number, packed in hexadecimal using 8bits for
     /// each of major/minor/revision. E.g: v2.5.7 is 0x020507.
     pub fn WebPGetDecoderVersion() -> c_int;
@@ -552,14 +554,14 @@ extern "C" {
     /// the image is successfully decoded. Returns VP8_STATUS_SUSPENDED when more
     /// data is expected. Returns error in other cases.
     pub fn WebPIAppend(idec: *mut WebPIDecoder, data: *const u8, data_size: usize)
-        -> VP8StatusCode;
+    -> VP8StatusCode;
     /// A variant of the above function to be used when data buffer contains
     /// partial data from the beginning. In this case data buffer is not copied
     /// to the internal memory.
     /// Note that the value of the 'data' pointer can change between calls to
     /// WebPIUpdate, for instance when the data buffer is resized to fit larger data.
     pub fn WebPIUpdate(idec: *mut WebPIDecoder, data: *const u8, data_size: usize)
-        -> VP8StatusCode;
+    -> VP8StatusCode;
     /// Returns the RGB/A image decoded so far. Returns NULL if output params
     /// are not initialized yet. The RGB/A output type corresponds to the colorspace
     /// specified during call to WebPINewDecoder() or WebPINewRGB().
@@ -650,7 +652,7 @@ extern "C" {
 #[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPInitDecBuffer(buffer: *mut WebPDecBuffer) -> c_int {
-    WebPInitDecBufferInternal(buffer, WEBP_DECODER_ABI_VERSION)
+    unsafe { WebPInitDecBufferInternal(buffer, WEBP_DECODER_ABI_VERSION) }
 }
 
 /// Retrieve features from the bitstream. The *features structure is filled
@@ -671,7 +673,7 @@ pub unsafe extern "C" fn WebPGetFeatures(
     data_size: usize,
     features: *mut WebPBitstreamFeatures,
 ) -> VP8StatusCode {
-    WebPGetFeaturesInternal(data, data_size, features, WEBP_DECODER_ABI_VERSION)
+    unsafe { WebPGetFeaturesInternal(data, data_size, features, WEBP_DECODER_ABI_VERSION) }
 }
 
 /// Initialize the configuration as empty. This function must always be
@@ -681,5 +683,5 @@ pub unsafe extern "C" fn WebPGetFeatures(
 #[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPInitDecoderConfig(config: *mut WebPDecoderConfig) -> c_int {
-    WebPInitDecoderConfigInternal(config, WEBP_DECODER_ABI_VERSION)
+    unsafe { WebPInitDecoderConfigInternal(config, WEBP_DECODER_ABI_VERSION) }
 }

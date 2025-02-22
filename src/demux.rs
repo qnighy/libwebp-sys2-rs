@@ -123,7 +123,7 @@ pub struct WebPAnimInfo {
     pub pad: [u32; 4],
 }
 
-extern "C" {
+unsafe extern "C" {
     pub fn WebPGetDemuxVersion() -> c_int;
     #[doc(hidden)]
     #[cfg_attr(feature = "must-use", must_use)]
@@ -199,7 +199,7 @@ extern "C" {
 #[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPDemux(data: *const WebPData) -> *mut WebPDemuxer {
-    WebPDemuxInternal(data, 0, ptr::null_mut(), WEBP_DEMUX_ABI_VERSION)
+    unsafe { WebPDemuxInternal(data, 0, ptr::null_mut(), WEBP_DEMUX_ABI_VERSION) }
 }
 
 #[allow(non_snake_case)]
@@ -209,7 +209,7 @@ pub unsafe extern "C" fn WebPDemuxPartial(
     data: *const WebPData,
     state: *mut WebPDemuxState,
 ) -> *mut WebPDemuxer {
-    WebPDemuxInternal(data, 1, state, WEBP_DEMUX_ABI_VERSION)
+    unsafe { WebPDemuxInternal(data, 1, state, WEBP_DEMUX_ABI_VERSION) }
 }
 
 #[cfg(feature = "0_5")]
@@ -219,7 +219,7 @@ pub unsafe extern "C" fn WebPDemuxPartial(
 pub unsafe extern "C" fn WebPAnimDecoderOptionsInit(
     dec_options: *mut WebPAnimDecoderOptions,
 ) -> c_int {
-    WebPAnimDecoderOptionsInitInternal(dec_options, WEBP_DEMUX_ABI_VERSION)
+    unsafe { WebPAnimDecoderOptionsInitInternal(dec_options, WEBP_DEMUX_ABI_VERSION) }
 }
 
 #[cfg(feature = "0_5")]
@@ -230,5 +230,5 @@ pub unsafe extern "C" fn WebPAnimDecoderNew(
     webp_data: *const WebPData,
     dec_options: *const WebPAnimDecoderOptions,
 ) -> *mut WebPAnimDecoder {
-    WebPAnimDecoderNewInternal(webp_data, dec_options, WEBP_DEMUX_ABI_VERSION)
+    unsafe { WebPAnimDecoderNewInternal(webp_data, dec_options, WEBP_DEMUX_ABI_VERSION) }
 }

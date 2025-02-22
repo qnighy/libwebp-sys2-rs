@@ -8,7 +8,7 @@ pub const fn WEBP_ABI_IS_INCOMPATIBLE(a: u16, b: u16) -> bool {
     (a >> 8) != (b >> 8)
 }
 
-extern "C" {
+unsafe extern "C" {
     /// Allocates `size` bytes of memory. Returns NULL upon error. Memory
     /// must be deallocated by calling `WebPFree()`. This function is made available
     /// by the core `libwebp` library.

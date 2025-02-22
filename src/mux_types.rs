@@ -45,7 +45,7 @@ pub struct WebPData {
 #[inline]
 pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
-        memset(webp_data as *mut c_void, 0, mem::size_of::<WebPData>());
+        unsafe { memset(webp_data as *mut c_void, 0, mem::size_of::<WebPData>()) };
     }
 }
 
@@ -55,8 +55,8 @@ pub unsafe extern "C" fn WebPDataInit(webp_data: *mut WebPData) {
 #[inline]
 pub unsafe extern "C" fn WebPDataClear(webp_data: *mut WebPData) {
     if !webp_data.is_null() {
-        WebPFree((*webp_data).bytes as *mut c_void);
-        WebPDataInit(webp_data);
+        unsafe { WebPFree((*webp_data).bytes as *mut c_void) };
+        unsafe { WebPDataInit(webp_data) };
     }
 }
 
@@ -69,18 +69,20 @@ pub unsafe extern "C" fn WebPDataCopy(src: *const WebPData, dst: *mut WebPData) 
     if src.is_null() || dst.is_null() {
         return 0;
     }
-    WebPDataInit(dst);
-    if !(*src).bytes.is_null() && (*src).size != 0 {
-        (*dst).bytes = WebPMalloc((*src).size) as *mut u8;
-        if (*dst).bytes.is_null() {
-            return 0;
+    unsafe {
+        WebPDataInit(dst);
+        if !(*src).bytes.is_null() && (*src).size != 0 {
+            (*dst).bytes = WebPMalloc((*src).size) as *mut u8;
+            if (*dst).bytes.is_null() {
+                return 0;
+            }
+            memcpy(
+                (*dst).bytes as *mut c_void,
+                (*src).bytes as *const c_void,
+                (*src).size,
+            );
+            (*dst).size = (*src).size;
         }
-        memcpy(
-            (*dst).bytes as *mut c_void,
-            (*src).bytes as *const c_void,
-            (*src).size,
-        );
-        (*dst).size = (*src).size;
     }
     return 1;
 }

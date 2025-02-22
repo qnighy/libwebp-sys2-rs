@@ -4,7 +4,7 @@ version = "0.1.11"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 links = "webp"
 build = "build.rs"
-edition = "2018"
+edition = "2024"
 
 description = "A handwritten raw interface to libwebp"
 homepage = "https://github.com/qnighy/libwebp-sys2-rs"
