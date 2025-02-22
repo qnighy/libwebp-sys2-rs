@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 0.2.0
+
 - Breaking changes
   - Migrate to Rust 2024 and raise MSRV to 1.85.0 https://github.com/qnighy/libwebp-sys2-rs/pull/30
   - Changed to crate features https://github.com/qnighy/libwebp-sys2-rs/pull/31
