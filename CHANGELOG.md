@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 0.1.11
+
 - Misc
   - Streamline GitHub Actions workflow for 2024 https://github.com/qnighy/libwebp-sys2-rs/pull/27
   - Migrate to doc_auto_cfg https://github.com/qnighy/libwebp-sys2-rs/pull/28
