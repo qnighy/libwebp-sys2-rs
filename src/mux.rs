@@ -82,7 +82,7 @@ pub struct WebPMuxAnimParams {
 
 #[cfg(all(feature = "0_5", feature = "extern-types"))]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "0_5")))]
-extern "C" {
+unsafe extern "C" {
     pub type WebPAnimEncoder;
 }
 

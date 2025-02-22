@@ -17,7 +17,7 @@ cfg_if! {
 
 #[cfg(feature = "extern-types")]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(feature = "demux")))]
-extern "C" {
+unsafe extern "C" {
     pub type WebPDemuxer;
 }
 
@@ -88,7 +88,7 @@ pub struct WebPChunkIterator {
     feature = "__doc_cfg",
     doc(cfg(all(feature = "demux", feature = "0_5")))
 )]
-extern "C" {
+unsafe extern "C" {
     pub type WebPAnimDecoder;
 }
 

@@ -14,7 +14,7 @@ cfg_if! {
 
 #[cfg(feature = "extern-types")]
 #[cfg_attr(feature = "__doc_cfg", doc(cfg(all())))]
-extern "C" {
+unsafe extern "C" {
     pub type WebPIDecoder;
 }
 
