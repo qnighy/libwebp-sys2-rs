@@ -2,8 +2,8 @@
 name = "libwebp-sys2"
 version = "0.1.11"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
-links = "webp"
-build = "build.rs"
+# links = "webp"
+# build = "build.rs"
 edition = "2024"
 rust-version = "1.85"
 
@@ -27,19 +27,21 @@ name = "libwebp_sys"
 [dependencies]
 cfg-if = "1.0.0"
 libc = "0.2.169"
+# Delegate linkage
+libwebp-sys2-01 = { version = "0.1.10", package = "libwebp-sys2" }
 
 [features]
 default = ["std", "1_2"]
 std = []
-demux = []
-mux = []
+demux = ["libwebp-sys2-01/demux"]
+mux = ["libwebp-sys2-01/mux"]
 "0_5" = []
 "0_6" = ["0_5"]
 "1_1" = ["0_6"]
 "1_2" = ["1_1"]
 "1_4" = ["1_2"]
 "1_5" = ["1_4"]
-static = []
+static = ["libwebp-sys2-01/static"]
 extern-types = []
 __doc_cfg = ["1_5", "demux", "mux"]
 

@@ -30,6 +30,20 @@ dependencies = [
  "cc",
  "cfg-if",
  "libc",
+ "libwebp-sys2 0.1.11 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pkg-config",
+ "vcpkg",
+]
+
+[[package]]
+name = "libwebp-sys2"
+version = "0.1.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4790186411a6843ecc0a141c8948c8e623a0bb5e886834b1b6c90f3dfa85bb99"
+dependencies = [
+ "cc",
+ "cfg-if",
+ "libc",
  "pkg-config",
  "vcpkg",
 ]
