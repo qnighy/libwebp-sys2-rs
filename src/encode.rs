@@ -507,7 +507,7 @@ unsafe extern "C" {
     ) -> usize;
     /// Internal, version-checked, entry point
     #[doc(hidden)]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
     -> c_int;
     /// Activate the lossless compression mode with the desired efficiency level
@@ -517,11 +517,11 @@ unsafe extern "C" {
     /// This function will overwrite several fields from config: `method`, `quality`
     /// and `lossless`. Returns false in case of parameter error.
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPConfigLosslessPreset(config: *mut WebPConfig, level: c_int) -> c_int;
     /// Returns true if `config` is non-NULL and all configuration parameters are
     /// within their valid ranges.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPValidateConfig(config: *const WebPConfig) -> c_int;
     /// The following must be called first before any use.
     pub fn WebPMemoryWriterInit(writer: *mut WebPMemoryWriter);
@@ -532,18 +532,18 @@ unsafe extern "C" {
     /// The custom writer to be used with WebPMemoryWriter as custom_ptr. Upon
     /// completion, writer.mem and writer.size will hold the coded data.
     /// writer.mem must be freed by calling WebPMemoryWriterClear.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
     -> c_int;
     /// Internal, version-checked, entry point
     #[doc(hidden)]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureInitInternal(_: *mut WebPPicture, _: c_int) -> c_int;
     /// Convenience allocation / deallocation based on picture->width/height:
     /// Allocate y/u/v buffers as per colorspace/width/height specification.
     /// Note! This function will free the previous buffer if needed.
     /// Returns false in case of memory error.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureAlloc(picture: *mut WebPPicture) -> c_int;
     /// Release the memory allocated by WebPPictureAlloc() or WebPPictureImport\*().
     /// Note that this function does _not_ free the memory used by the `picture`
@@ -555,7 +555,7 @@ unsafe extern "C" {
     /// will fully own the copied pixels (this is not a view). The `dst` picture need
     /// not be initialized as its content is overwritten.
     /// Returns false in case of memory allocation error.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureCopy(src: *const WebPPicture, dst: *mut WebPPicture) -> c_int;
     /// Compute the single distortion for packed planes of samples.
     /// `src` will be compared to `ref`, and the raw distortion stored into
@@ -565,7 +565,7 @@ unsafe extern "C" {
     /// `src/ref_stride` is the byte distance between rows.
     /// Returns false in case of error (bad parameter, memory allocation error, ...).
     #[cfg(feature = "0_6")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPlaneDistortion(
         src: *const u8,
         src_stride: usize,
@@ -583,7 +583,7 @@ unsafe extern "C" {
     /// always performed using ARGB samples. Hence if the input is YUV(A), the
     /// picture will be internally converted to ARGB (just for the measurement).
     /// Warning: this function is rather CPU-intensive.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureDistortion(
         src: *const WebPPicture,
         ref_: *const WebPPicture,
@@ -598,7 +598,7 @@ unsafe extern "C" {
     /// must be fully be comprised inside the `src` source picture. If the source
     /// picture uses the YUV420 colorspace, the top and left coordinates will be
     /// snapped to even values.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureCrop(
         picture: *mut WebPPicture,
         left: c_int,
@@ -617,7 +617,7 @@ unsafe extern "C" {
     /// with WebPPictureInit() if it is different from `src`, since its content will
     /// be overwritten.
     /// Returns false in case of invalid parameters.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureView(
         src: *const WebPPicture,
         left: c_int,
@@ -634,20 +634,20 @@ unsafe extern "C" {
     /// dimension will be calculated preserving the aspect ratio.
     /// No gamma correction is applied.
     /// Returns false in case of error (invalid parameter or insufficient memory).
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureRescale(picture: *mut WebPPicture, width: c_int, height: c_int) -> c_int;
     /// Colorspace conversion function to import RGB samples.
     /// Previous buffer will be free'd, if any.
     /// \*rgb buffer should have a size of at least height \* rgb_stride.
     /// Returns false in case of memory error.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureImportRGB(
         picture: *mut WebPPicture,
         rgb: *const u8,
         rgb_stride: c_int,
     ) -> c_int;
     /// Same as [WebPPictureImportRGB], but for RGBA buffer.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureImportRGBA(
         picture: *mut WebPPicture,
         rgba: *const u8,
@@ -656,28 +656,28 @@ unsafe extern "C" {
     /// Same as [WebPPictureImportRGB], but for RGBA buffer. Imports the RGB direct from the 32-bit format
     /// input buffer ignoring the alpha channel. Avoids needing to copy the data
     /// to a temporary 24-bit RGB buffer to import the RGB only.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureImportRGBX(
         picture: *mut WebPPicture,
         rgbx: *const u8,
         rgbx_stride: c_int,
     ) -> c_int;
     /// Variants of the above [WebPPictureImportRGB], but taking BGR(A|X) input.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureImportBGR(
         picture: *mut WebPPicture,
         bgr: *const u8,
         bgr_stride: c_int,
     ) -> c_int;
     /// Variants of the above [WebPPictureImportRGB], but taking BGR(A|X) input.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureImportBGRA(
         picture: *mut WebPPicture,
         bgra: *const u8,
         bgra_stride: c_int,
     ) -> c_int;
     /// Variants of the above [WebPPictureImportRGB], but taking BGR(A|X) input.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureImportBGRX(
         picture: *mut WebPPicture,
         bgrx: *const u8,
@@ -689,13 +689,13 @@ unsafe extern "C" {
     /// non-opaque transparent values is detected, and `colorspace` will be
     /// adjusted accordingly. Note that this method is lossy.
     /// Returns false in case of error.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureARGBToYUVA(picture: *mut WebPPicture, colorspace: WebPEncCSP) -> c_int;
     /// Same as WebPPictureARGBToYUVA(), but the conversion is done using
     /// pseudo-random dithering with a strength `dithering` between
     /// 0.0 (no dithering) and 1.0 (maximum dithering). This is useful
     /// for photographic picture.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureARGBToYUVADithered(
         picture: *mut WebPPicture,
         colorspace: WebPEncCSP,
@@ -707,11 +707,11 @@ unsafe extern "C" {
     /// and sharper YUV representation.
     /// Returns false in case of error.
     #[cfg(feature = "0_6")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureSharpARGBToYUVA(picture: *mut WebPPicture) -> c_int;
     /// kept for backward compatibility:
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureSmartARGBToYUVA(picture: *mut WebPPicture) -> c_int;
     /// Converts picture->yuv to picture->argb and sets picture->use_argb to true.
     /// The input format must be YUV_420 or YUV_420A. The conversion from YUV420 to
@@ -719,7 +719,7 @@ unsafe extern "C" {
     /// Note that the use of this colorspace is discouraged if one has access to the
     /// raw ARGB samples, since using YUV420 is comparatively lossy.
     /// Returns false in case of error.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPPictureYUVAToARGB(picture: *mut WebPPicture) -> c_int;
     /// Helper function: given a width x height plane of RGBA or YUV(A) samples
     /// clean-up or smoothen the YUV or RGB samples under fully transparent area,
@@ -743,7 +743,7 @@ unsafe extern "C" {
     /// the former for lossy encoding, and the latter for lossless encoding
     /// (when config.lossless is true). Automatic conversion from one format to
     /// another is provided but they both incur some loss.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPEncode(config: *const WebPConfig, picture: *mut WebPPicture) -> c_int;
 }
 
@@ -752,7 +752,7 @@ unsafe extern "C" {
 /// must have succeeded before using the `config` object.
 /// Note that the default values are lossless=0 and quality=75.
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
     unsafe {
@@ -770,7 +770,7 @@ pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
 /// This function can be called as a replacement to WebPConfigInit(). Will
 /// return false in case of error.
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPConfigPreset(
     config: *mut WebPConfig,
@@ -785,7 +785,7 @@ pub unsafe extern "C" fn WebPConfigPreset(
 /// `picture` object.
 /// Note that, by default, use_argb is false and colorspace is WEBP_YUV420.
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPPictureInit(picture: *mut WebPPicture) -> c_int {
     unsafe { WebPPictureInitInternal(picture, WEBP_ENCODER_ABI_VERSION) }

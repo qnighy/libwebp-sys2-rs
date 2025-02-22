@@ -13,7 +13,7 @@ unsafe extern "C" {
     /// must be deallocated by calling `WebPFree()`. This function is made available
     /// by the core `libwebp` library.
     #[cfg(feature = "1_1")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPMalloc(size: usize) -> *mut c_void;
     /// Releases memory returned by the `WebPDecode*()` functions (from `decode.h`).
     #[cfg(feature = "0_5")]

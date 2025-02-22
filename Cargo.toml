@@ -29,7 +29,8 @@ cfg-if = "1.0.0"
 libc = "0.2.169"
 
 [features]
-default = []
+default = ["std", "1_2"]
+std = []
 demux = []
 mux = []
 "0_5" = []
@@ -40,11 +41,10 @@ mux = []
 "1_5" = ["1_4"]
 static = []
 extern-types = []
-must-use = []
 __doc_cfg = ["1_5", "demux", "mux"]
 
 [package.metadata.docs.rs]
-features = ["1_5", "demux", "mux", "__doc_cfg", "extern-types", "must-use"]
+features = ["1_5", "demux", "mux", "__doc_cfg", "extern-types"]
 
 [build-dependencies]
 pkg-config = "0.3.31"

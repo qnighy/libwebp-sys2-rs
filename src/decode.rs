@@ -171,7 +171,7 @@ impl std::fmt::Debug for __WebPDecBufferUnion {
 
 /// Enumeration of the status codes
 #[allow(non_camel_case_types)]
-// #[cfg_attr(feature = "must-use", must_use)] // meaningless for type aliases
+// #[must_use] // meaningless for type aliases
 pub type VP8StatusCode = u32;
 
 pub const VP8_STATUS_OK: VP8StatusCode = 0;
@@ -325,7 +325,7 @@ unsafe extern "C" {
     /// RIFF + VP8X + (optional chunks) + VP8(L)
     /// ALPH + VP8 <-- Not a valid WebP format: only allowed for internal purpose.
     /// VP8(L)     <-- Not a valid WebP format: only allowed for internal purpose.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPGetInfo(
         data: *const u8,
         data_size: usize,
@@ -337,7 +337,7 @@ unsafe extern "C" {
     /// memory is R, G, B, A, R, G, B, A... in scan order (endian-independent).
     /// The returned pointer should be deleted calling WebPFree().
     /// Returns NULL in case of error.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeRGBA(
         data: *const u8,
         data_size: usize,
@@ -345,7 +345,7 @@ unsafe extern "C" {
         height: *mut c_int,
     ) -> *mut u8;
     /// Same as WebPDecodeRGBA, but returning A, R, G, B, A, R, G, B... ordered data.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeARGB(
         data: *const u8,
         data_size: usize,
@@ -353,7 +353,7 @@ unsafe extern "C" {
         height: *mut c_int,
     ) -> *mut u8;
     /// Same as WebPDecodeRGBA, but returning B, G, R, A, B, G, R, A... ordered data.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeBGRA(
         data: *const u8,
         data_size: usize,
@@ -362,7 +362,7 @@ unsafe extern "C" {
     ) -> *mut u8;
     /// Same as WebPDecodeRGBA, but returning R, G, B, R, G, B... ordered data.
     /// If the bitstream contains transparency, it is ignored.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeRGB(
         data: *const u8,
         data_size: usize,
@@ -370,7 +370,7 @@ unsafe extern "C" {
         height: *mut c_int,
     ) -> *mut u8;
     /// Same as WebPDecodeRGB, but returning B, G, R, B, G, R... ordered data.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeBGR(
         data: *const u8,
         data_size: usize,
@@ -387,7 +387,7 @@ unsafe extern "C" {
     /// 'width' and 'height' may be NULL, the other pointers must not be.
     /// Returns NULL in case of error.
     /// (*) Also named Y'CbCr. See: <https://en.wikipedia.org/wiki/YCbCr>
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeYUV(
         data: *const u8,
         data_size: usize,
@@ -406,7 +406,7 @@ unsafe extern "C" {
     // The parameter 'output_stride' specifies the distance (in bytes)
     // between scanlines. Hence, output_buffer_size is expected to be at least
     // output_stride x picture-height.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeRGBAInto(
         data: *const u8,
         data_size: usize,
@@ -414,7 +414,7 @@ unsafe extern "C" {
         output_buffer_size: usize,
         output_stride: c_int,
     ) -> *mut u8;
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeARGBInto(
         data: *const u8,
         data_size: usize,
@@ -422,7 +422,7 @@ unsafe extern "C" {
         output_buffer_size: usize,
         output_stride: c_int,
     ) -> *mut u8;
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeBGRAInto(
         data: *const u8,
         data_size: usize,
@@ -432,7 +432,7 @@ unsafe extern "C" {
     ) -> *mut u8;
     // RGB and BGR variants. Here too the transparency information, if present,
     // will be dropped and ignored.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeRGBInto(
         data: *const u8,
         data_size: usize,
@@ -440,7 +440,7 @@ unsafe extern "C" {
         output_buffer_size: usize,
         output_stride: c_int,
     ) -> *mut u8;
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeBGRInto(
         data: *const u8,
         data_size: usize,
@@ -455,7 +455,7 @@ unsafe extern "C" {
     /// 'u_size' and 'v_size' respectively.
     /// Pointer to the luma plane ('*luma') is returned or NULL if an error occurred
     /// during decoding (or because some buffers were found to be too small).
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPDecodeYUVInto(
         data: *const u8,
         data_size: usize,
@@ -471,7 +471,7 @@ unsafe extern "C" {
     ) -> *mut u8;
     /// Internal, version-checked, entry point
     #[doc(hidden)]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPInitDecBufferInternal(_: *mut WebPDecBuffer, _: c_int) -> c_int;
     /// Free any memory associated with the buffer. Must always be called last.
     /// Note: doesn't free the 'buffer' structure itself.
@@ -488,7 +488,7 @@ unsafe extern "C" {
     /// within valid bounds.
     /// All other fields of WebPDecBuffer MUST remain constant between calls.
     /// Returns NULL if the allocation failed.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPINewDecoder(output_buffer: *mut WebPDecBuffer) -> *mut WebPIDecoder;
     /// This function allocates and initializes an incremental-decoder object, which
     /// will output the RGB/A samples specified by 'csp' into a preallocated
@@ -500,7 +500,7 @@ unsafe extern "C" {
     /// colorspace 'csp' is taken into account for allocating this buffer. All other
     /// parameters are ignored.
     /// Returns NULL if the allocation failed, or if some parameters are invalid.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPINewRGB(
         csp: WEBP_CSP_MODE,
         output_buffer: *mut u8,
@@ -518,7 +518,7 @@ unsafe extern "C" {
     /// In this case, the output buffer will be automatically allocated (using
     /// MODE_YUVA) when decoding starts. All parameters are then ignored.
     /// Returns NULL if the allocation failed or if a parameter is invalid.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPINewYUVA(
         luma: *mut u8,
         luma_size: usize,
@@ -535,7 +535,7 @@ unsafe extern "C" {
     ) -> *mut WebPIDecoder;
     /// Deprecated version of the above, without the alpha plane.
     /// Kept for backward compatibility.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPINewYUV(
         luma: *mut u8,
         luma_size: usize,
@@ -569,7 +569,7 @@ unsafe extern "C" {
     /// (*last_y, *width etc.) can be NULL if corresponding information is not
     /// needed. The values in these pointers are only valid on successful (non-NULL)
     /// return.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPIDecGetRGB(
         idec: *const WebPIDecoder,
         last_y: *mut c_int,
@@ -580,7 +580,7 @@ unsafe extern "C" {
     /// Same as above function to get a YUVA image. Returns pointer to the luma
     /// plane or NULL in case of error. If there is no alpha information
     /// the alpha pointer '*a' will be returned NULL.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPIDecGetYUVA(
         idec: *const WebPIDecoder,
         last_y: *mut c_int,
@@ -599,7 +599,7 @@ unsafe extern "C" {
     /// Returns NULL in case the incremental decoder object is in an invalid state.
     /// Otherwise returns the pointer to the internal representation. This structure
     /// is read-only, tied to WebPIDecoder's lifespan and should not be modified.
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPIDecodedArea(
         idec: *const WebPIDecoder,
         left: *mut c_int,
@@ -617,7 +617,7 @@ unsafe extern "C" {
     ) -> VP8StatusCode;
     /// Internal, version-checked, entry point
     #[doc(hidden)]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPInitDecoderConfigInternal(_: *mut WebPDecoderConfig, _: c_int) -> c_int;
     /// Instantiate a new incremental decoder object with the requested
     /// configuration. The bitstream can be passed using 'data' and 'data_size'
@@ -630,7 +630,7 @@ unsafe extern "C" {
     /// The return WebPIDecoder object must always be deleted calling WebPIDelete().
     /// Returns NULL in case of error (and config->status will then reflect
     /// the error condition, if available).
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPIDecode(
         data: *const u8,
         data_size: usize,
@@ -649,7 +649,7 @@ unsafe extern "C" {
 /// Initialize the structure as empty. Must be called before any other use.
 /// Returns false in case of version mismatch
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPInitDecBuffer(buffer: *mut WebPDecBuffer) -> c_int {
     unsafe { WebPInitDecBufferInternal(buffer, WEBP_DECODER_ABI_VERSION) }
@@ -680,7 +680,7 @@ pub unsafe extern "C" fn WebPGetFeatures(
 /// called first, unless WebPGetFeatures() is to be called.
 /// Returns false in case of mismatched version.
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPInitDecoderConfig(config: *mut WebPDecoderConfig) -> c_int {
     unsafe { WebPInitDecoderConfigInternal(config, WEBP_DECODER_ABI_VERSION) }

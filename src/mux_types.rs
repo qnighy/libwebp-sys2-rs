@@ -63,7 +63,7 @@ pub unsafe extern "C" fn WebPDataClear(webp_data: *mut WebPData) {
 // Allocates necessary storage for 'dst' and copies the contents of 'src'.
 // Returns true on success.
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPDataCopy(src: *const WebPData, dst: *mut WebPData) -> c_int {
     if src.is_null() || dst.is_null() {
