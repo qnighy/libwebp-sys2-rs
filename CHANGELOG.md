@@ -2,6 +2,10 @@
 
 - Breaking changes
   - Migrate to Rust 2024 and raise MSRV to 1.85.0 https://github.com/qnighy/libwebp-sys2-rs/pull/30
+  - Changed to crate features https://github.com/qnighy/libwebp-sys2-rs/pull/31
+    - Add `std` default feature. This is currently required for the crate to be compiled.
+    - Make `1_2` default. If you need to support libwebp versions older than 1.2.0, you should opt out of it using default-features = false.
+    - Remove `must-use`. Now `#[must_use]` annotation is always added to the relevant definitions.
 
 ## 0.1.11
 

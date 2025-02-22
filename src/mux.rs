@@ -30,7 +30,7 @@ unsafe extern "C" {
 pub struct WebPMux(c_void);
 
 #[allow(non_camel_case_types)]
-// #[cfg_attr(feature = "must-use", must_use)] // meaningless for type aliases
+// #[must_use] // meaningless for type aliases
 pub type WebPMuxError = i32;
 
 pub const WEBP_MUX_OK: WebPMuxError = 1;
@@ -108,11 +108,11 @@ pub struct WebPAnimEncoderOptions {
 unsafe extern "C" {
     pub fn WebPGetMuxVersion() -> c_int;
     #[doc(hidden)]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPNewInternal(_: c_int) -> *mut WebPMux;
     pub fn WebPMuxDelete(mux: *mut WebPMux);
     #[doc(hidden)]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPMuxCreateInternal(_: *const WebPData, _: c_int, _: c_int) -> *mut WebPMux;
     pub fn WebPMuxSetChunk(
         mux: *mut WebPMux,
@@ -176,7 +176,7 @@ unsafe extern "C" {
         _: c_int,
     ) -> *mut WebPAnimEncoder;
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPAnimEncoderAdd(
         enc: *mut WebPAnimEncoder,
         frame: *mut WebPPicture,
@@ -184,7 +184,7 @@ unsafe extern "C" {
         config: *const WebPConfig,
     ) -> c_int;
     #[cfg(feature = "0_5")]
-    #[cfg_attr(feature = "must-use", must_use)]
+    #[must_use]
     pub fn WebPAnimEncoderAssemble(enc: *mut WebPAnimEncoder, webp_data: *mut WebPData) -> c_int;
     #[cfg(feature = "0_5")]
     pub fn WebPAnimEncoderGetError(enc: *mut WebPAnimEncoder) -> *const c_char;
@@ -211,14 +211,14 @@ unsafe extern "C" {
 }
 
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPMuxNew() -> *mut WebPMux {
     unsafe { WebPNewInternal(WEBP_MUX_ABI_VERSION) }
 }
 
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPMuxCreate(
     bitstream: *const WebPData,
@@ -229,7 +229,7 @@ pub unsafe extern "C" fn WebPMuxCreate(
 
 #[cfg(feature = "0_5")]
 #[allow(non_snake_case)]
-#[cfg_attr(feature = "must-use", must_use)]
+#[must_use]
 #[inline]
 pub unsafe extern "C" fn WebPAnimEncoderOptionsInit(
     enc_options: *mut WebPAnimEncoderOptions,
