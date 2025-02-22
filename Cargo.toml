@@ -1,6 +1,6 @@
 [package]
 name = "libwebp-sys2"
-version = "0.1.10"
+version = "0.1.11"
 authors = ["Masaki Hara <ackie.h.gmai@gmail.com>"]
 links = "webp"
 build = "build.rs"
