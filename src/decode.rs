@@ -384,7 +384,7 @@ extern "C" {
     /// have a common stride returned as '*uv_stride'.
     /// 'width' and 'height' may be NULL, the other pointers must not be.
     /// Returns NULL in case of error.
-    /// (*) Also named Y'CbCr. See: https://en.wikipedia.org/wiki/YCbCr
+    /// (*) Also named Y'CbCr. See: <https://en.wikipedia.org/wiki/YCbCr>
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPDecodeYUV(
         data: *const u8,
