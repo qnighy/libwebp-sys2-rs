@@ -6,6 +6,9 @@
     - Add `std` default feature. This is currently required for the crate to be compiled.
     - Make `1_2` default. If you need to support libwebp versions older than 1.2.0, you should opt out of it using default-features = false.
     - Remove `must-use`. Now `#[must_use]` annotation is always added to the relevant definitions.
+- Compatibility note
+  - 0.2.x and 0.1.x cannot coexist in the same build, except the exact 0.2.0, which delegates to 0.1.x using semver trick. Try the exact 0.2.0 version if you see the following error:
+    > the package `libwebp-sys2` links to the native library `webp`, but it conflicts with a previous package which links to `webp` as well:
 
 ## 0.1.11
 
