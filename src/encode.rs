@@ -389,7 +389,7 @@ pub struct WebPPicture {
     pub pad7: [*mut c_void; 2],
 }
 
-extern "C" {
+unsafe extern "C" {
     /// Return the encoder's version number, packed in hexadecimal using 8bits for
     /// each of major/minor/revision. E.g: v2.5.7 is 0x020507.
     pub fn WebPGetEncoderVersion() -> c_int;
@@ -509,7 +509,7 @@ extern "C" {
     #[doc(hidden)]
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPConfigInitInternal(_: *mut WebPConfig, _: WebPPreset, _: c_float, _: c_int)
-        -> c_int;
+    -> c_int;
     /// Activate the lossless compression mode with the desired efficiency level
     /// between 0 (fastest, lowest compression) and 9 (slower, best compression).
     /// A good default level is `6`, providing a fair tradeoff between compression
@@ -534,7 +534,7 @@ extern "C" {
     /// writer.mem must be freed by calling WebPMemoryWriterClear.
     #[cfg_attr(feature = "must-use", must_use)]
     pub fn WebPMemoryWrite(data: *const u8, data_size: usize, picture: *const WebPPicture)
-        -> c_int;
+    -> c_int;
     /// Internal, version-checked, entry point
     #[doc(hidden)]
     #[cfg_attr(feature = "must-use", must_use)]
@@ -755,12 +755,14 @@ extern "C" {
 #[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPConfigInit(config: *mut WebPConfig) -> c_int {
-    WebPConfigInitInternal(
-        config,
-        WEBP_PRESET_DEFAULT,
-        75_f32 as c_float,
-        WEBP_ENCODER_ABI_VERSION,
-    )
+    unsafe {
+        WebPConfigInitInternal(
+            config,
+            WEBP_PRESET_DEFAULT,
+            75_f32 as c_float,
+            WEBP_ENCODER_ABI_VERSION,
+        )
+    }
 }
 
 /// This function will initialize the configuration according to a predefined
@@ -775,7 +777,7 @@ pub unsafe extern "C" fn WebPConfigPreset(
     preset: WebPPreset,
     quality: c_float,
 ) -> c_int {
-    WebPConfigInitInternal(config, preset, quality, WEBP_ENCODER_ABI_VERSION)
+    unsafe { WebPConfigInitInternal(config, preset, quality, WEBP_ENCODER_ABI_VERSION) }
 }
 
 /// Should always be called, to initialize the structure. Returns false in case
@@ -786,5 +788,5 @@ pub unsafe extern "C" fn WebPConfigPreset(
 #[cfg_attr(feature = "must-use", must_use)]
 #[inline]
 pub unsafe extern "C" fn WebPPictureInit(picture: *mut WebPPicture) -> c_int {
-    WebPPictureInitInternal(picture, WEBP_ENCODER_ABI_VERSION)
+    unsafe { WebPPictureInitInternal(picture, WEBP_ENCODER_ABI_VERSION) }
 }

@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Breaking changes
+  - Migrate to Rust 2024 and raise MSRV to 1.85.0 https://github.com/qnighy/libwebp-sys2-rs/pull/30
+
 ## 0.1.11
 
 - Misc

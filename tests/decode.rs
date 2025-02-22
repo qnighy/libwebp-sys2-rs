@@ -1,4 +1,4 @@
-use libwebp_sys::{WebPIDelete, WebPINewDecoder, WebPInitDecBuffer, MODE_RGB};
+use libwebp_sys::{MODE_RGB, WebPIDelete, WebPINewDecoder, WebPInitDecBuffer};
 use std::mem;
 
 #[test]

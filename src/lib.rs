@@ -24,3 +24,8 @@ mod mux;
 #[cfg(any(feature = "mux", feature = "demux"))]
 mod mux_types;
 mod types;
+
+#[allow(unused)]
+fn ensure_rust_1_85() {
+    let _ = 0_u32.midpoint(2);
+}
